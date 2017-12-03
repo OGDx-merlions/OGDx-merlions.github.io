@@ -1,0 +1,133 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with
+    'gulp serve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+<link rel="import" href="css/og-slider-styles.html">
+
+<!--
+REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
+
+### Usage
+
+    <og-slider start="2" ranges="[[["January 2017", "February 2017", "March 2017"]]]" on-value-change="callbackFunction"></og-slider>
+
+@element og-slider
+@blurb This component is a wrapper of the px-slider which adds small functionality.
+@homepage index.html
+@demo index.html
+-->
+
+<dom-module id="og-slider">
+  <template>
+    <style include="og-slider-styles">
+      :host {
+        /* --px-slider-border-color: transparent;
+        --px-slider-background-color: transparent;
+
+        --px-slider-border-color--selected: transparent;
+        --px-slider-background-color--selected: transparent;
+        --px-slider-background-color--hover: transparent;
+        --px-slider-background-color--pressed: transparent;
+
+        --px-handle-stroke-color: #b2bec4;
+        --px-handle-stroke-color--hover: #3a4850;
+        --px-handle-stroke-color--active: #3a4850;
+
+        --px-handle-background-color: #b2bec4;
+        --px-handle-background-color--hover: #3a4850;
+        --px-handle-background-color--active: #3a4850; */
+      }
+      #og-slider-wrapper-container {
+        position: relative;
+        height: 6.25rem;
+      }
+      #labels {
+        position: absolute;
+        left: 15px; right: 0;
+        bottom: -.4rem;
+        color: #677e8c;
+        /* display: table; */
+        width: calc(100% - 30px);
+        height: 20px;
+      }
+      .label-item {
+        /* display: table-cell; */
+        position: relative;
+        /* text-align: center; */
+      }
+      .label-item p {
+        font-size: 0.75rem;
+        position: absolute;
+        bottom: -.3rem;
+        text-align: center;
+        left: -50px;
+        width: 100px;
+        margin: auto;
+      }
+      .label-item .bar {
+        position: absolute;
+        margin: auto;
+        /* left: 0; */
+        /* right: 0; */
+        height: 1.25rem;
+        bottom: 0.80rem;
+        width: 1px;
+        background: #677e8c;
+        /* bottom: -.3rem; */
+      }
+      #labels .label-item:first-child .bar,
+      #labels .label-item:nth-last-child(2) .bar {
+        height: 2.1875rem;
+      }
+      #labels .label-item:first-child {
+        /* left: -6px; */
+      }
+      #labels .label-item:nth-last-child(2) {
+        /* right: -6px; */
+      }
+      #slider-background {
+        display: none;
+        height: 9px;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+        position: absolute;
+        margin: 0 14px;
+        left: 0; right: 0; top: 33px;
+        z-index: 0;
+        border-radius: 8px;
+      }
+      #slider {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+      }
+    </style>
+    <div id="og-slider-wrapper-container">
+      <px-slider
+        id="slider"
+        value="{{start}}"
+        min="0"
+        max="{{max}}"
+        step="1"
+        scale="linear"
+        exponent="2"
+        min-label-position="bottom"
+        max-label-position="bottom"
+        on-value-changed="_changeSlider"
+        hide-inputs>
+        </px-slider>
+        <div id="slider-background"></div>
+        <div id="labels" class="flex flex--row flex--justify flex--top">
+          <template is="dom-repeat" items="{{ranges}}">
+            <div class="label-item">
+              <div hidden$="{{_isEmpty(item)}}" class="bar"></div>
+              <p>[[ item ]]</p>
+            </div>
+          </template>
+        </div>
+    </div>
+  </template>
+</dom-module>
+<script src="dist/og-slider.js"></script>

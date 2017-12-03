@@ -1,0 +1,201 @@
+{
+  "pages": [
+    {
+      "path": "elements",
+      "label": "Components",
+      "pages": [
+        {
+          "path": "og-gauge",
+          "label": "A Custom Gauge Widget created using D3 V4",
+          "module": "og-gauge-demo",
+          "entrypoint": "/bower_components/og-gauge/demo/og-gauge-demo.html",
+          "redirects": [
+            "/components/og-gauge",
+            "/modules/og-gauge",
+            "/elements/og-gauge"
+          ],
+          "keywords": [
+            "og-gauge",
+            "gauge"
+          ],
+          "tags": [
+            "mobile",
+            "gauge"
+          ],
+          "_route": "/elements/og-gauge",
+          "_keywords": "og-gauge gauge"
+        },
+        {
+          "path": "og-slider",
+          "label": "Slider update and customs from px-slider component",
+          "module": "og-slider-demo",
+          "entrypoint": "/bower_components/og-slider/demo/og-slider-demo.html",
+          "redirects": [
+            "/components/og-slider",
+            "/modules/og-slider",
+            "/elements/og-slider"
+          ],
+          "keywords": [
+            "og-slider",
+            "slider"
+          ],
+          "tags": [
+            "mobile",
+            "slider"
+          ],
+          "_route": "/elements/og-slider",
+          "_keywords": "og-slider slider"
+        },
+        {
+          "path": "Charts",
+          "label": "Charts",
+          "pages": [
+            {
+              "path": "og-production-chart",
+              "label": "Production Chart",
+              "module": "og-production-chart-demo",
+              "entrypoint": "/bower_components/og-production-chart/demo/og-production-chart-demo.html",
+              "redirects": [
+                "/components/og-production-chart",
+                "/modules/og-production-chart",
+                "/elements/og-production-chart"
+              ],
+              "keywords": [
+                "og-production-chart",
+                "production-chart"
+              ],
+              "tags": [
+                "production chart"
+              ],
+              "_route": "/elements/og-production-chart",
+              "_keywords": "og-production-chart production"
+            },
+            {
+              "path": "og-scatter-plot",
+              "label": "Scatter Plot",
+              "module": "og-scatter-plot-demo",
+              "entrypoint": "/bower_components/og-scatter-plot/demo/og-scatter-plot-demo.html",
+              "redirects": [
+                "/components/og-scatter-plot",
+                "/modules/og-scatter-plot",
+                "/elements/og-scatter-plot"
+              ],
+              "keywords": [
+                "og-scatter-plot",
+                "scatter plot"
+              ],
+              "_route": "/elements/og-scatter-plot",
+              "_keywords": "og-scatter-plot scatter plot"
+            }
+          ],
+          "_route": "/elements/og-scatter-plot"
+        }
+      ],
+      "_route": "/elements"
+    }
+  ],
+  "redirects": {
+    "/components/og-gauge": "/elements/og-gauge",
+    "/modules/og-gauge": "/elements/og-gauge",
+    "/components/og-slider": "/elements/og-slider",
+    "/modules/og-slider": "/elements/og-slider",
+    "/components/og-production-chart": "/elements/og-production-chart",
+    "/modules/og-production-chart": "/elements/og-production-chart",
+    "/components/og-scatter-plot": "/elements/og-scatter-plot",
+    "/modules/og-scatter-plot": "/elements/og-scatter-plot"
+  },
+  "routes": {
+    "/elements": {
+      "path": "elements",
+      "label": "Components",
+      "pages": [
+        {
+          "path": "og-gauge",
+          "label": "A Custom Gauge Widget created using D3 V4",
+          "module": "og-gauge-demo",
+          "entrypoint": "/bower_components/og-gauge/demo/og-gauge-demo.html",
+          "redirects": [
+            "/components/og-gauge",
+            "/modules/og-gauge",
+            "/elements/og-gauge"
+          ],
+          "keywords": [
+            "og-gauge",
+            "gauge"
+          ],
+          "tags": [
+            "mobile",
+            "gauge"
+          ],
+          "_route": "/elements/og-gauge",
+          "_keywords": "og-gauge gauge"
+        },
+        {
+          "path": "og-slider",
+          "label": "Slider update and customs from px-slider component",
+          "module": "og-slider-demo",
+          "entrypoint": "/bower_components/og-slider/demo/og-slider-demo.html",
+          "redirects": [
+            "/components/og-slider",
+            "/modules/og-slider",
+            "/elements/og-slider"
+          ],
+          "keywords": [
+            "og-slider",
+            "slider"
+          ],
+          "tags": [
+            "mobile",
+            "slider"
+          ],
+          "_route": "/elements/og-slider",
+          "_keywords": "og-slider slider"
+        },
+        {
+          "path": "Charts",
+          "label": "Charts",
+          "pages": [
+            {
+              "path": "og-production-chart",
+              "label": "Production Chart",
+              "module": "og-production-chart-demo",
+              "entrypoint": "/bower_components/og-production-chart/demo/og-production-chart-demo.html",
+              "redirects": [
+                "/components/og-production-chart",
+                "/modules/og-production-chart",
+                "/elements/og-production-chart"
+              ],
+              "keywords": [
+                "og-production-chart",
+                "production-chart"
+              ],
+              "tags": [
+                "production chart"
+              ],
+              "_route": "/elements/og-production-chart",
+              "_keywords": "og-production-chart production"
+            },
+            {
+              "path": "og-scatter-plot",
+              "label": "Scatter Plot",
+              "module": "og-scatter-plot-demo",
+              "entrypoint": "/bower_components/og-scatter-plot/demo/og-scatter-plot-demo.html",
+              "redirects": [
+                "/components/og-scatter-plot",
+                "/modules/og-scatter-plot",
+                "/elements/og-scatter-plot"
+              ],
+              "keywords": [
+                "og-scatter-plot",
+                "scatter plot"
+              ],
+              "_route": "/elements/og-scatter-plot",
+              "_keywords": "og-scatter-plot scatter plot"
+            }
+          ],
+          "_route": "/elements/og-scatter-plot"
+        }
+      ]
+    }
+  }
+}

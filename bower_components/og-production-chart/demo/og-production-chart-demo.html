@@ -1,0 +1,329 @@
+<!-- Common imports -->
+<link rel="import" href="../../polymer/polymer.html" />
+
+<!-- Common demo imports -->
+<link rel="import" href="../../px-demo/px-demo-header.html" />
+<link rel="import" href="../../px-demo/px-demo-api-viewer.html" />
+<link rel="import" href="../../px-demo/px-demo-footer.html" />
+<link rel="import" href="../../px-demo/px-demo-configs.html" />
+<link rel="import" href="../../px-demo/px-demo-props.html" />
+<link rel="import" href="../../px-demo/px-demo-interactive.html" />
+<link rel="import" href="../../px-demo/px-demo-component-snippet.html" />
+<link rel="import" href="../../px-demo/px-demo-code-editor.html" />
+
+<!-- Imports for this component -->
+<link rel="import" href="../../px-demo/css/px-demo-styles.html" />
+<link rel="import" href="../og-production-chart.html" />
+
+<!-- Demo DOM module -->
+<dom-module id="og-production-chart-demo">
+  <template>
+    <style include="px-demo-styles" is="custom-style"></style>
+
+    <!-- Header -->
+    <px-demo-header
+        module-name="og-production-chart"
+        description="The Production Chart used specifically for displaying LNG Trains">
+    </px-demo-header>
+
+    <!-- Interactive -->
+    <px-demo-interactive>
+      <!-- Configs -->
+      <px-demo-configs configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
+
+      <!-- Props -->
+      <px-demo-props props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
+
+      <!-- Component ---------------------------------------------------------->
+      <px-demo-component>
+        <og-production-chart
+          data="{{props.data.value}}" date-range="{{props.dateRange.value}}"
+          width="{{props.width.value}}" height="{{props.height.value}}"
+          legend-labels="{{props.legendLabels.value}}" labels="{{props.labels.value}}"
+          date-picker="{{props.datePicker.value}}"
+          chart-types="{{props.chartTypes.value}}" axis-configs="{{props.axisConfigs.value}}"
+          unit="{{props.unit.value}}" margin="{{props.margin.value}}">
+        </og-production-chart>
+      </px-demo-component>
+      <!-- END Component ------------------------------------------------------>
+
+      <px-demo-component-snippet
+          element-properties="{{props}}"
+          element-name="og-production-chart">
+      </px-demo-component-snippet>
+    </px-demo-interactive>
+
+    <!-- API Viewer -->
+    <px-demo-api-viewer source="og-production-chart"></px-demo-api-viewer>
+
+    <!-- Footer -->
+    <px-demo-footer></px-demo-footer>
+
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+    is: 'og-production-chart-demo',
+
+    properties: {
+
+      /**
+       * Note: The actual data/values for `props` are placed in `this.demoProps`
+       * to create a static reference that Polymer shouldn't overwrite.
+       *
+       * On object containing all the properties the user can configure for this
+       * demo. Usually a pretty similar copy of the component's `properties` block
+       * with some additional sugar added to describe what kind of input the
+       * user will be shown and how that input should be configured.
+       *
+       * Note that `value` for each property is the default that will be set
+       * unless a config from `configs` is applied by default.
+       *
+       * @example
+       *
+       * `demoProps` is an object containing multiple objects. Each sub-object has
+       * should have a key with the name of the configurable property, and a set
+       * of values that describe that property. At a high level, you might have:
+       *
+       * ```
+       *     {
+       *       preventRangeSelection: { ... },
+       *       displayMode: { ... },
+       *       blockDatesBefore: { ... }
+       *     }
+       * ```
+       *
+       * Each sub-object should contain information about the configurable property's
+       * `type` (a reference to the JavaScript literal), a default value, and a set
+       * of additional keys that describe the input it can be changed with.
+       * The following inputs types are currently available:
+       *
+       * - 'toggle' - A toggle switch input to set Boolean values
+       * - 'text' - A simple single-line text input to set String or stringified Array/Object values
+       * - 'dropdown' - A dropdown picker that can be used to select any kind of value from a list of available options
+       *
+       * Full examples for each input:
+       *
+       * ```
+       *     {
+       *       preventRangeSelection: {
+       *         type: Boolean,
+       *         value: false,
+       *         inputType: 'toggle'
+       *       },
+       *       displayMode: {
+       *         type: String,
+       *         value: 'day',
+       *         inputType: 'dropdown',
+       *         inputChoices: ['day', 'month', 'year']
+       *       },
+       *       blockDatesBefore: {
+       *         type: String,
+       *         value: '2016-10-10T00:00:00.000Z',
+       *         inputType: 'text',
+       *         inputPlaceholder: 'ISO 8601 String'
+       *       }
+       *     }
+       * ```
+       *
+       * By default, the configurable property names are converted from camelCase
+       * to Title Case and used as input labels (e.g. 'displayMode' -> 'Display Mode').
+       * Labels can be set manually through the key `inputLabel`:
+       *
+       * ```
+       *     {
+       *       preventRangeSelection: {
+       *         type: Boolean,
+       *         value: false,
+       *         inputType: 'toggle',
+       *         inputLabel: "Stop range selection"
+       *       }
+       *     }
+       * ```
+       *
+       * @property demoProps
+       * @type {Object}
+       */
+      props: {
+        type: Object,
+        value: function(){ return this.demoProps; }
+      },
+
+      /**
+       * An array of pre-configured `props` that can be used to provide the user
+       * with a set of common examples. These configs will be made available
+       * as a set of tabs the user can click that will automatically change
+       * the `props` to specific values.
+       *
+       * @example
+       *
+       * Each config is an object. Its keys should be the names of the configurable
+       * properties defined in your `demoProps` above. Each key's value should
+       * be the new prop value for the configuration. You can also include these
+       * optional keys:
+       *
+       * - `configName` - a String value that will be used for the title of the tab
+       * - `configReset` - a Boolean, if `true` resets all props (even those not specified in the config) when this config is selected. Defaults to `false`.
+       *
+       * Example of two configs:
+       *
+       * ```
+       *     [
+       *       {
+       *         configName: "Basic",
+       *         preventRangeSelection: true,
+       *         displayMode: 'year',
+       *         blockDatesBefore: '2016-10-10T00:00:00.000Z'
+       *       },
+       *       {
+       *         configName: "Advanced",
+       *         preventRangeSelection: false,
+       *         displayMode: 'day',
+       *         blockDatesBefore: '2010-10-10T00:00:00.000Z'
+       *       }
+       *     ]
+       * ```
+       *
+       * @property demoProps
+       * @type {Array}
+       */
+      configs: {
+        type: Array,
+        value: function(){
+          return [
+            { configName: "Default",
+              configReset: true }
+          ]
+        }
+      }
+    },
+
+    /**
+     * A reference for `this.props`. Read the documentation there.
+     */
+    demoProps: {
+      unit: {
+        type: Number,
+        defaultValue: 'Metric ton/day',
+        inputType: 'text'
+      },
+      width: {
+        type: Number,
+        defaultValue: 970,
+        inputType: 'text'
+      },
+      height: {
+        type: Number,
+        defaultValue: 300,
+        inputType: 'text'
+      },
+      legendLabels: {
+        type: Array,
+        defaultValue: ["Actual", "Target", "Forecast", "Design"],
+        inputType: 'code:JSON'
+      },
+      labels: {
+        type: Array,
+        defaultValue: ["All", "Train 1", "Train 2"],
+        inputType: 'code:JSON'
+      },
+      dateRange: {
+        type: Object,
+        defaultValue: {"from":"2016-04-03T03:37:25.000Z","to":"2018-05-26T03:37:25.000Z"},
+        inputType: 'code:JSON'
+      },
+      datePicker: {
+        type: String,
+        //defaultValue: "2016-04-03T03:37:25.000Z",
+        inputType: 'text'
+      },
+      chartTypes: {
+        type: Array,
+        defaultValue: ["area", "area", "line"],
+        inputType: 'code:JSON'
+      },
+			margin: {
+				type: Object,
+				defaultValue: {top: 20, right: 20, bottom: 30, left: 50},
+        inputType: 'code:JSON'
+			},
+      axisConfigs: {
+        type: Array,
+        defaultValue: [{
+						"x": {
+							"tickFormat": "",
+							"inputTimeFormat": "%Y-%m-%dT%H:%M:%S.%LZ",
+							"tickTimeFormat": function(d) {
+								if(d.getMonth() === 0) {
+									return Px.d3.timeFormat("%b %y")(d);
+								} else {
+									return Px.d3.timeFormat("%b")(d);
+								}
+              },
+              "ticksMedium": 3,
+              "ticksSmall": 2,
+              "ticks": 6,
+              "forecastLabel": "Forecast after applying Scenario 3",
+              "hideGrid": true
+						},
+						"y": {
+							"tickFormat": ".3s",
+							"hideGrid": false,
+              "dotRadius": 0,
+              "gridColor": "steelblue",
+              "start": 660,
+              "ticksMedium": 2,
+              "ticksSmall": 1,
+              "ticks": 6,
+              "series": {
+								"design": {
+									"color": "rgba(237, 221, 70, 0.7)",
+                  "dashArray": "5,5"
+								},
+								"actual": {
+									"color": "rgba(95, 188, 248, 0.6)",
+                  "historicalHighlightColor": "transparent"
+								},
+								"target": {
+									"color": "#f05c56"
+								},
+								"forecast": {
+									"color": "rgba(164, 117, 237, 0.8)"
+								}
+							}
+						}
+					}, {
+            "x": {
+              "inputTimeFormat": "%Y-%m-%dT%H:%M:%S.%LZ",
+              "ticks": 8
+            }
+          }, {}],
+        inputType: 'code:JSON'
+      },
+      data: {
+        type: Array,
+        defaultValue: [[{"actual":761.53,"design":770,"target":761,"forecast":0,"date":"2017-07-18T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-07-19T00:00:00.000Z"},{"actual":762.44,"design":770,"target":761,"forecast":0,"date":"2017-07-20T00:00:00.000Z"},{"actual":755.25,"design":770,"target":761,"forecast":0,"date":"2017-07-21T00:00:00.000Z"},{"actual":755.25,"design":770,"target":761,"forecast":0,"date":"2017-07-22T00:00:00.000Z"},{"actual":762.64,"design":770,"target":761,"forecast":0,"date":"2017-07-23T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-07-24T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-07-25T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-07-26T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-07-27T00:00:00.000Z"},{"actual":762,"design":770,"target":761,"forecast":0,"date":"2017-07-28T00:00:00.000Z"},{"actual":754.94,"design":770,"target":761,"forecast":0,"date":"2017-07-29T00:00:00.000Z"},{"actual":761.5,"design":770,"target":761,"forecast":0,"date":"2017-07-30T00:00:00.000Z"},{"actual":754.58,"design":770,"target":761,"forecast":0,"date":"2017-07-31T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-1T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-2T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-3T00:00:00.000Z"},{"actual":762.21,"design":770,"target":761,"forecast":0,"date":"2017-08-4T00:00:00.000Z"},{"actual":756.29,"design":770,"target":761,"forecast":0,"date":"2017-08-5T00:00:00.000Z"},{"actual":737.28,"design":770,"target":761,"forecast":0,"date":"2017-08-6T00:00:00.000Z"},{"actual":756.33,"design":770,"target":761,"forecast":0,"date":"2017-08-7T00:00:00.000Z"},{"actual":756.33,"design":770,"target":761,"forecast":0,"date":"2017-08-8T00:00:00.000Z"},{"actual":738.21,"design":770,"target":761,"forecast":0,"date":"2017-08-9T00:00:00.000Z"},{"actual":761.42,"design":770,"target":761,"forecast":0,"date":"2017-08-10T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-11T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-12T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-13T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-14T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-15T00:00:00.000Z"},{"actual":762.69,"design":770,"target":761,"forecast":0,"date":"2017-08-16T00:00:00.000Z"},{"actual":762.69,"design":770,"target":761,"forecast":0,"date":"2017-08-17T00:00:00.000Z"},{"actual":761.51,"design":770,"target":761,"forecast":0,"date":"2017-08-18T00:00:00.000Z"},{"actual":750.28,"design":770,"target":761,"forecast":0,"date":"2017-08-19T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-20T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-21T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-22T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-23T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-24T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-25T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-26T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-08-27T00:00:00.000Z"},{"actual":761.27,"design":770,"target":761,"forecast":0,"date":"2017-08-28T00:00:00.000Z"},{"actual":755.3,"design":770,"target":761,"forecast":0,"date":"2017-08-29T00:00:00.000Z"},{"actual":749.11,"design":770,"target":761,"forecast":0,"date":"2017-08-30T00:00:00.000Z"},{"actual":738.85,"design":770,"target":761,"forecast":0,"date":"2017-08-31T00:00:00.000Z"},{"actual":756.08,"design":770,"target":761,"forecast":0,"date":"2017-09-1T00:00:00.000Z"},{"actual":756.9,"design":770,"target":761,"forecast":0,"date":"2017-09-2T00:00:00.000Z"},{"actual":738.49,"design":770,"target":761,"forecast":0,"date":"2017-09-3T00:00:00.000Z"},{"actual":732.26,"design":770,"target":761,"forecast":0,"date":"2017-09-4T00:00:00.000Z"},{"actual":761.4,"design":770,"target":761,"forecast":0,"date":"2017-09-5T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-09-6T00:00:00.000Z"},{"actual":762.02,"design":770,"target":761,"forecast":0,"date":"2017-09-7T00:00:00.000Z"},{"actual":762.02,"design":770,"target":761,"forecast":0,"date":"2017-09-8T00:00:00.000Z"},{"actual":762.83,"design":770,"target":761,"forecast":0,"date":"2017-09-9T00:00:00.000Z"},{"actual":755.56,"design":770,"target":761,"forecast":0,"date":"2017-09-10T00:00:00.000Z"},{"actual":755.56,"design":770,"target":761,"forecast":0,"date":"2017-09-11T00:00:00.000Z"},{"actual":755.74,"design":770,"target":761,"forecast":0,"date":"2017-09-12T00:00:00.000Z"},{"actual":768.65,"design":770,"target":761,"forecast":0,"date":"2017-09-13T00:00:00.000Z"},{"actual":762.44,"design":770,"target":761,"forecast":0,"date":"2017-09-14T00:00:00.000Z"},{"actual":762.44,"design":770,"target":740,"forecast":0,"date":"2017-09-15T00:00:00.000Z"},{"actual":755.1,"design":770,"target":740,"forecast":0,"date":"2017-09-16T00:00:00.000Z"},{"actual":762.37,"design":770,"target":740,"forecast":0,"date":"2017-09-17T00:00:00.000Z"},{"actual":749.64,"design":770,"target":740,"forecast":0,"date":"2017-09-18T00:00:00.000Z"},{"actual":724.05,"design":770,"target":740,"forecast":0,"date":"2017-09-19T00:00:00.000Z"},{"actual":738.06,"design":770,"target":740,"forecast":0,"date":"2017-09-20T00:00:00.000Z"},{"actual":738.06,"design":770,"target":740,"forecast":0,"date":"2017-09-21T00:00:00.000Z"},{"actual":755.07,"design":770,"target":740,"forecast":0,"date":"2017-09-22T00:00:00.000Z"},{"actual":755.07,"design":770,"target":740,"forecast":0,"date":"2017-09-23T00:00:00.000Z"},{"actual":755.07,"design":770,"target":740,"forecast":0,"date":"2017-09-24T00:00:00.000Z"},{"actual":761.88,"design":770,"target":740,"forecast":0,"date":"2017-09-25T00:00:00.000Z"},{"actual":749.51,"design":770,"target":740,"forecast":0,"date":"2017-09-26T00:00:00.000Z"},{"actual":730.24,"design":770,"target":740,"forecast":0,"date":"2017-09-27T00:00:00.000Z"},{"actual":718.27,"design":770,"target":740,"forecast":0,"date":"2017-09-28T00:00:00.000Z"},{"actual":719.08,"design":770,"target":740,"forecast":0,"date":"2017-09-29T00:00:00.000Z"},{"actual":738.16,"design":770,"target":740,"forecast":0,"date":"2017-09-30T00:00:00.000Z"},{"actual":731.6,"design":770,"target":740,"forecast":0,"date":"2017-10-1T00:00:00.000Z"},{"actual":719.31,"design":770,"target":740,"forecast":0,"date":"2017-10-2T00:00:00.000Z"},{"actual":731.49,"design":770,"target":740,"forecast":0,"date":"2017-10-3T00:00:00.000Z"},{"actual":712.28,"design":770,"target":740,"forecast":0,"date":"2017-10-4T00:00:00.000Z"},{"actual":720.41,"design":770,"target":740,"forecast":0,"date":"2017-10-5T00:00:00.000Z"},{"actual":750.48,"design":770,"target":740,"forecast":0,"date":"2017-10-6T00:00:00.000Z"},{"actual":755.67,"design":770,"target":740,"forecast":0,"date":"2017-10-7T00:00:00.000Z"},{"actual":738.69,"design":770,"target":740,"forecast":0,"date":"2017-10-8T00:00:00.000Z"},{"actual":738.69,"design":770,"target":740,"forecast":0,"date":"2017-10-9T00:00:00.000Z"},{"actual":738.69,"design":770,"target":740,"forecast":0,"date":"2017-10-10T00:00:00.000Z"},{"actual":738.69,"design":770,"target":740,"forecast":0,"date":"2017-10-11T00:00:00.000Z"},{"actual":738.69,"design":770,"target":740,"forecast":0,"date":"2017-10-12T00:00:00.000Z"},{"actual":731.54,"design":770,"target":740,"forecast":0,"date":"2017-10-13T00:00:00.000Z"},{"actual":718.89,"design":770,"target":740,"forecast":0,"date":"2017-10-14T00:00:00.000Z"},{"actual":725.54,"design":770,"target":740,"forecast":725.54,"date":"2017-10-15T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":706.7240146,"date":"2017-10-16T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":706.7240146,"date":"2017-10-17T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":706.7240146,"date":"2017-10-18T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":706.7240146,"date":"2017-10-19T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":706.7240146,"date":"2017-10-20T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":706.7240146,"date":"2017-10-21T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":706.7240146,"date":"2017-10-22T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":706.7240146,"date":"2017-10-23T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.8139188,"date":"2017-10-24T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.8139188,"date":"2017-10-25T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.8139188,"date":"2017-10-26T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.8139188,"date":"2017-10-27T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.8139188,"date":"2017-10-28T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.8139188,"date":"2017-10-29T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.8139188,"date":"2017-10-30T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.1451951,"date":"2017-10-31T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.1451951,"date":"2017-11-1T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.1451951,"date":"2017-11-2T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.1451951,"date":"2017-11-3T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":705.1451951,"date":"2017-11-4T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":704.5770467,"date":"2017-11-5T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":704.5770467,"date":"2017-11-6T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":704.5770467,"date":"2017-11-7T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":704.5770467,"date":"2017-11-8T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":704.5770467,"date":"2017-11-9T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":703.9832999,"date":"2017-11-10T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":703.9832999,"date":"2017-11-11T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":703.9832999,"date":"2017-11-12T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":703.9832999,"date":"2017-11-13T00:00:00.000Z"},{"actual":0,"design":704,"target":705.71,"forecast":703.9832999,"date":"2017-11-14T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":665.4409952,"date":"2017-11-15T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":665.4409952,"date":"2017-11-16T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":664.7576632,"date":"2017-11-17T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":664.7576632,"date":"2017-11-18T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":664.7576632,"date":"2017-11-19T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":664.7576632,"date":"2017-11-20T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":664.7576632,"date":"2017-11-21T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":664.1315985,"date":"2017-11-22T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":664.1315985,"date":"2017-11-23T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":664.1315985,"date":"2017-11-24T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":661.0131882,"date":"2017-11-25T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":661.0131882,"date":"2017-11-26T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":661.0131882,"date":"2017-11-27T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":661.0131882,"date":"2017-11-28T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":661.0131882,"date":"2017-11-29T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.9979799,"date":"2017-11-30T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.9979799,"date":"2017-12-1T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.9979799,"date":"2017-12-2T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.9979799,"date":"2017-12-3T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.9979799,"date":"2017-12-4T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.9979799,"date":"2017-12-5T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.9979799,"date":"2017-12-6T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.9979799,"date":"2017-12-7T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.9979799,"date":"2017-12-8T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.9979799,"date":"2017-12-9T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.3083831,"date":"2017-12-10T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.3083831,"date":"2017-12-11T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.3083831,"date":"2017-12-12T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.3083831,"date":"2017-12-13T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.3083831,"date":"2017-12-14T00:00:00.000Z"},{"actual":0,"design":704,"target":668.36,"forecast":659.3083831,"date":"2017-12-15T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":679.3213864,"date":"2017-12-16T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":679.3213864,"date":"2017-12-17T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":678.6144213,"date":"2017-12-18T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":678.6144213,"date":"2017-12-19T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":678.6144213,"date":"2017-12-20T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":678.6144213,"date":"2017-12-21T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":678.6144213,"date":"2017-12-22T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.992834,"date":"2017-12-23T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.992834,"date":"2017-12-24T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.992834,"date":"2017-12-25T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.992834,"date":"2017-12-26T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.992834,"date":"2017-12-27T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.992834,"date":"2017-12-28T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.4015762,"date":"2017-12-29T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.4015762,"date":"2017-12-30T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.4015762,"date":"2017-12-31T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.4015762,"date":"2018-01-1T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.4015762,"date":"2018-01-2T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.4015762,"date":"2018-01-3T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-4T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-5T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-6T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-7T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-8T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-9T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-10T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-11T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-12T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-13T00:00:00.000Z"},{"actual":0,"design":704,"target":690.95,"forecast":677.0642504,"date":"2018-01-14T00:00:00.000Z"}],[
+						{"date":"2017-04-25T00:00:00.000Z","actual":"12960","target":"12950","forecast":"0","design":"13960"},
+						{"date":"2017-04-26T00:00:00.000Z","actual":"12889","target":"11938","forecast":"0","design":"13960"},
+						{"date":"2017-04-27T00:00:00.000Z","actual":"11897","target":"12959","forecast":"0","design":"13960"},
+						{"date":"2017-04-28T00:00:00.000Z","actual":"13905","target":"11906","forecast":"0","design":"13960"},
+						{"date":"2017-04-29T00:00:00.000Z","actual":"13882","target":"11950","forecast":"0","design":"13960"},
+						{"date":"2017-04-30T00:00:00.000Z","actual":"13944","target":"13906","forecast":"13944","design":"13960"},
+						{"date":"2017-05-01T00:00:00.000Z","actual":"13954","target":"12913","forecast":"12950","design":"13960"},
+						{"date":"2017-05-02T00:00:00.000Z","actual":"12928","target":"12454","forecast":"11950","design":"13960"}
+					],[
+						{"date":"2017-04-25T00:00:00.000Z","actual":"11960","target":"12950","forecast":"0","design":"13960"},
+						{"date":"2017-04-26T00:00:00.000Z","actual":"11889","target":"12938","forecast":"0","design":"13960"},
+						{"date":"2017-04-27T00:00:00.000Z","actual":"11897","target":"12959","forecast":"0","design":"13960"},
+						{"date":"2017-04-28T00:00:00.000Z","actual":"10905","target":"11906","forecast":"0","design":"13960"},
+						{"date":"2017-04-29T00:00:00.000Z","actual":"12882","target":"10950","forecast":"0","design":"13960"},
+						{"date":"2017-04-30T00:00:00.000Z","actual":"12944","target":"12906","forecast":"12944","design":"13960"},
+						{"date":"2017-05-01T00:00:00.000Z","actual":"10954","target":"12913","forecast":"12950","design":"13960"},
+						{"date":"2017-05-02T00:00:00.000Z","actual":"9928","target":"12954","forecast":"12950","design":"13960"}
+					]],
+        inputType: 'code:JSON'
+      }
+    }
+  });
+</script>

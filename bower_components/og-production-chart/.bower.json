@@ -1,0 +1,55 @@
+{
+  "name": "og-production-chart",
+  "version": "1.7.4",
+  "main": [
+    "og-production-chart.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "gulpfile.js",
+    "sass",
+    "test",
+    "OSS_Notice.pdf",
+    "scripts",
+    ".github",
+    "og-production-chart.png",
+    "LICENSE.md",
+    "CONTRIBUTING.md",
+    "HISTORY.md",
+    "README.md",
+    ".jshintrc",
+    ".editorconfig",
+    "*.enc"
+  ],
+  "dependencies": {
+    "polymer": "^1.9.0",
+    "px-d3-imports": "^2.0.0",
+    "px-rangepicker": "^2.1.1",
+    "px-tabs": "^2.0.3",
+    "px-datetime-picker": "^1.0.4"
+  },
+  "devDependencies": {
+    "px-starter-kit-design": "^1.0.0",
+    "px-demo": "^2.0.0",
+    "px-theme": "^3.0.0",
+    "px-spacing-design": "^1.0.2",
+    "px-helpers-design": "^1.0.7",
+    "px-headings-design": "^1.0.3",
+    "iron-media-query": "^2.0.0"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^0.7.0"
+  },
+  "homepage": "https://github.com/OGDx-merlions/og-production-chart",
+  "_release": "1.7.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.7.4",
+    "commit": "93f2d21390210a07f0095556f8630ef6efc45121"
+  },
+  "_source": "https://github.com/OGDx-merlions/og-production-chart.git",
+  "_target": "^1.7.4",
+  "_originalSource": "og-production-chart",
+  "_direct": true
+}

@@ -1,0 +1,47 @@
+{
+  "name": "og-gauge",
+  "version": "0.1.1",
+  "main": [
+    "og-gauge.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "gulpfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test",
+    "OSS_Notice.pdf",
+    "scripts",
+    ".github",
+    "og-gauge.png",
+    "LICENSE.md",
+    "CONTRIBUTING.md",
+    "HISTORY.md",
+    "README.md",
+    ".jshintrc",
+    ".editorconfig",
+    "*.enc"
+  ],
+  "dependencies": {
+    "polymer": "^1.9.0",
+    "px-d3-imports": "^2.0.0"
+  },
+  "devDependencies": {
+    "px-starter-kit-design": "^1.0.0",
+    "px-demo": "^2.0.0",
+    "px-theme": "^3.0.0"
+  },
+  "homepage": "https://github.com/OGDx-merlions/og-gauge",
+  "_release": "0.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.1",
+    "commit": "7d201adcb8eae2d3567579e83bb9a3b31f88c2b1"
+  },
+  "_source": "https://github.com/OGDx-merlions/og-gauge.git",
+  "_target": "^0.1.1",
+  "_originalSource": "og-gauge",
+  "_direct": true
+}

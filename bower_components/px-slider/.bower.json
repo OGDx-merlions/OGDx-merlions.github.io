@@ -1,0 +1,63 @@
+{
+  "name": "px-slider",
+  "version": "2.1.0",
+  "main": [
+    "px-slider.html"
+  ],
+  "ignore": [
+    "*.enc",
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "sass",
+    "*.md",
+    "scripts",
+    ".github",
+    "gulpfile.js",
+    "wct.conf.json",
+    "test",
+    "OSS_Notice.pdf",
+    "*.png"
+  ],
+  "dependencies": {
+    "polymer": "#1.9 - 2",
+    "px-d3-imports": "^2.0.0",
+    "iron-resizable-behavior": "^2.0.0",
+    "px-number-formatter": "^4.0.0",
+    "iron-a11y-keys": "^2.0.0"
+  },
+  "devDependencies": {
+    "px-theme": "^3.0.0",
+    "px-starter-kit-design": "^1.0.0",
+    "px-demo": "^3.0.0",
+    "px-helpers-design": "^1.0.0",
+    "px-forms-design": "^2.0.0",
+    "web-component-tester": "^6.0.0"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^1.0.00"
+  },
+  "variants": {
+    "1.x": {
+      "dependencies": {
+        "polymer": "^1.9.0"
+      },
+      "devDependencies": {
+        "web-component-tester": "^5.0.0"
+      },
+      "resolutions": {
+        "webcomponentsjs": "^0.7.0"
+      }
+    }
+  },
+  "homepage": "https://github.com/PredixDev/px-slider",
+  "_release": "2.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.1.0",
+    "commit": "c23d64935598a168d5ea145310925dc8e5132c9b"
+  },
+  "_source": "https://github.com/PredixDev/px-slider.git",
+  "_target": "^2.0.4",
+  "_originalSource": "px-slider"
+}
