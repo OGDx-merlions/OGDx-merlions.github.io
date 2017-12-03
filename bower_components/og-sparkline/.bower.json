@@ -1,0 +1,50 @@
+{
+  "name": "og-sparkline",
+  "version": "0.1.0",
+  "main": [
+    "og-sparkline.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "gulpfile.js",
+    "sass",
+    "test",
+    "OSS_Notice.pdf",
+    "scripts",
+    ".github",
+    "og-sparkline.png",
+    "LICENSE.md",
+    "CONTRIBUTING.md",
+    "HISTORY.md",
+    "README.md",
+    ".jshintrc",
+    ".editorconfig",
+    "*.enc"
+  ],
+  "dependencies": {
+    "polymer": "^1.9.0",
+    "px-d3-imports": "^2.1.0",
+    "px-dark-theme": "^2.1.0"
+  },
+  "devDependencies": {
+    "px-headings-design": "^1.0.0",
+    "px-layout-design": "^1.0.0",
+    "px-starter-kit-design": "^1.0.0",
+    "px-demo": "^2.0.0",
+    "px-theme": "^3.0.0"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^0.7.0"
+  },
+  "homepage": "https://github.com/OGDx-merlions/og-sparkline",
+  "_release": "0.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.0",
+    "commit": "cfaed68999076d52c0cc3154b7153e8355950846"
+  },
+  "_source": "https://github.com/OGDx-merlions/og-sparkline.git",
+  "_target": "^0.1.0",
+  "_originalSource": "og-sparkline"
+}

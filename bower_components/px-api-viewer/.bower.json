@@ -1,6 +1,6 @@
 {
   "name": "px-api-viewer",
-  "version": "2.1.1",
+  "version": "1.0.1",
   "main": [
     "px-api-viewer.html"
   ],
@@ -18,44 +18,29 @@
     ".github"
   ],
   "dependencies": {
-    "iron-doc-viewer": "^3.0.0",
-    "polymer": "#1.9 - 2",
-    "px-icon-set": "^2.1.0",
-    "px-theme": "^3.0.0",
-    "iron-ajax": "^2.0.4",
-    "iron-location": "^2.0.1"
+    "hydrolysis": "~1.24.1",
+    "iron-doc-viewer": "^2.0.0",
+    "polymer": "^1.9.0",
+    "px-icon-set": "^2.0.0",
+    "px-theme": "^3.0.0"
   },
   "devDependencies": {
     "px-box-sizing-design": "^1.0.0",
     "px-colors-design": "^1.0.0",
     "px-defaults-design": "^2.0.0",
-    "px-normalize-design": "^1.0.0",
-    "web-component-tester": "^6.0.0"
+    "px-normalize-design": "^1.0.0"
   },
   "resolutions": {
-    "webcomponentsjs": "^1.0.0"
-  },
-  "variants": {
-    "1.x": {
-      "dependencies": {
-        "polymer": "^1.9.0"
-      },
-      "devDependencies": {
-        "web-component-tester": "^4.0.0"
-      },
-      "resolutions": {
-        "webcomponentsjs": "^0.7.0"
-      }
-    }
+    "webcomponentsjs": "^0.7.24"
   },
   "homepage": "https://github.com/PredixDev/px-api-viewer",
-  "_release": "2.1.1",
+  "_release": "1.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "v2.1.1",
-    "commit": "96afb46b1545a2ab974b3be0a3464b6a137892d7"
+    "tag": "v1.0.1",
+    "commit": "12a66658b70af84c3639e6bd56fa3b818e4e4f5c"
   },
   "_source": "https://github.com/PredixDev/px-api-viewer.git",
-  "_target": "^2.0.0",
+  "_target": "^1.0.0",
   "_originalSource": "px-api-viewer"
 }

@@ -1,0 +1,106 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with
+    'gulp serve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+<link rel="import" href="../px-d3-imports/px-d3-imports.html"/>
+
+
+<link rel="import" href="css/og-waterfall-chart-styles.html">
+<!--
+This is simple Waterfall chart that uses D3 js ver.4
+
+### Usage
+
+    <og-waterfall-chart data="[[chartData]]" on-bar-click="handleBarClick"></og-waterfall-chart>
+
+@element og-waterfall-chart
+@blurb This is simple Waterfall chart that uses D3 js ver.4
+@homepage index.html
+@demo index.html
+-->
+
+<dom-module id="og-waterfall-chart">
+  <template>
+    <style include="og-waterfall-chart-styles">
+      svg{ background-color: white; }
+
+      .bar rect.no-color, .legend rect {
+        fill: #5fbcf8;
+      }
+
+      .bar rect{
+        cursor: pointer;
+      }
+
+      .bar.total rect.no-color {
+        fill: #5fbcf8;
+      }
+
+      .bar.increase rect.no-color {
+        fill: #d43875;
+      }
+      .bar.decrease rect.no-color {
+        fill: #e2913b;
+      }
+
+      .bar line.connector {
+        stroke: grey;
+        stroke-dasharray: 3;
+      }
+
+      .bar text {
+        fill: #677e8c;
+        font: .7rem "GE Inspira Sans";
+        text-anchor: middle;
+      }
+
+      .axis text, text {
+        line-height: 1.25;
+        fill: #677e8c;
+        font: .7rem "GE Inspira Sans";
+        opacity: 1;
+      }
+
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+
+      .tick line, .grid path{
+        stroke: #b3b3b3;
+      }
+
+      .axis.x .domain, .axis.y .domain{
+        visibility: hidden;
+      }
+
+      #legendWrap{
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .legend-wrap .leg-text{
+        display: inline-block;
+        padding-left: 5px;
+        margin-left: 10px;
+        color: #677e8c;
+        padding-right: var(--legend-text-padding-right, 2em);
+      }
+      .grid {
+        opacity: 0.3;
+      }
+    </style>
+    <div id="chart">
+      <div id="legendWrap">
+
+      </div>
+      <svg id="waterSVG"></svg>
+    </div>
+  </template>
+</dom-module>
+<script src="dist/og-waterfall-chart.js"></script>

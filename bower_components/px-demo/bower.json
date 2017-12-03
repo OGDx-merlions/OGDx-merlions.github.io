@@ -1,6 +1,6 @@
 {
   "name": "px-demo",
-  "version": "3.0.6",
+  "version": "2.4.0",
   "main": [
     "px-demo.html"
   ],
@@ -23,16 +23,16 @@
     "wct.conf.json"
   ],
   "dependencies": {
-    "polymer": "1.9 - 2",
+    "polymer": "^1.9.0",
     "px-theme": "^3.0.0",
     "px-dropdown": "^4.0.0",
     "px-demo-snippet": "^1.0.0",
-    "px-api-viewer": "^2.0.0",
+    "px-api-viewer": "^1.0.0",
     "px-tabs": "^2.0.0",
     "px-demo-design": "^2.0.0",
     "px-overlay": "^1.0.0",
     "iron-a11y-keys": "^2.0.0",
-    "px-code-editor": "^3.0.0",
+    "px-code-editor": "^2.0.0",
     "px-view-header": "^1.0.0",
     "px-deck-selector": "^2.0.0",
     "px-typeahead": "^2.0.0",
@@ -49,24 +49,11 @@
     "px-code-design": "^2.0.0",
     "px-meta-lists-design": "^1.0.0",
     "px-starter-kit-design": "^1.0.0",
+    "px-calendar-picker": "^1.0.0",
     "iron-demo-helpers": "^2.0.0",
-    "px-buttons-design": "^2.0.0",
-    "web-component-tester": "^6.3.0"
+    "px-buttons-design": "^2.0.0"
   },
   "resolutions": {
-    "webcomponentsjs": "^1.0.0"
-  },
-  "variants": {
-    "1.x": {
-      "dependencies": {
-        "polymer": "^1.9.0"
-      },
-      "devDependencies": {
-        "web-component-tester": "^5.0.0"
-      },
-      "resolutions": {
-        "webcomponentsjs": "^0.7.0"
-      }
-    }
+    "webcomponentsjs": "^0.7.24"
   }
 }

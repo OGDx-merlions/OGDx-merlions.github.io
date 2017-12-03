@@ -42,6 +42,7 @@
               content="{{props.content.value}}"
               language="{{props.language.value}}"
               disable-linter="{{props.disableLinter.value}}"
+              enable-beautify="{{props.enableBeautify.value}}"
               enable-save-to-update="{{props.enableSaveToUpdate.value}}"
               reset-button-label="{{props.resetButtonLabel.value}}"
               save-button-label="{{props.saveButtonLabel.value}}"
@@ -110,6 +111,12 @@
       disableLinter: {
         type: Boolean,
         defaultValue: false,
+        inputType: 'toggle'
+      },
+
+      enableBeautify: {
+        type: Boolean,
+        defaultValue: true,
         inputType: 'toggle'
       },
 

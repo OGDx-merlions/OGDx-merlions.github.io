@@ -85,17 +85,15 @@
       <!-- Logo -->
       <div class="logo">
         <picture class="logo__picture">
-          <source srcset="../../img/px-dev-logo.webp" class="logo__image" type="image/webp">
-          <source srcset="../../img/px-dev-logo.png" class="logo__image" type="image/png">
-          <img src="../../img/px-dev-logo.png" class="logo__image" alt="Predix Developer Network">
-          <span class="logo__text">Predix Design System</span>
+          <img src="../../img/bhge1.png" class="logo__image" alt="">
+          <span class="logo__text">BHGE Merlions Design System</span>
         </picture>
       </div>
       <!-- Theme toggle -->
-      <div class="theme-toggle">
+      <!-- <div class="theme-toggle">
         <span class="theme-toggle__text">Dark Theme</span>
         <px-toggle size="small" checked="{{darkTheme}}" role="button" aria-pressed="false"></px-toggle>
-      </div>
+      </div> -->
     </div>
     <!-- CATALOG PAGE -->
     <px-catalog-page-viewer class="catalog-page" active-module="[[activeModule]]" anchor-path="[[_anchorPath]]" dark-theme="[[darkTheme]]" spinner-active="[[spinnerActive]]"></px-catalog-page-viewer>
@@ -167,12 +165,8 @@
         this._loadedRoutes = []
       },
       attached: function() {
-        this._swUpdatedHandler = this._swUpdated.bind(this),
-        window.addEventListener('service-worker-changes-available', this._swUpdatedHandler, !1),
-        '' === window.location.hash && (this.path = '/home')
       },
       detached: function() {
-        window.removeEventListener('service-worker-changes-available', this._swUpdatedHandler, !1)
       },
       _swUpdated: function() {
         this.updateAvailable = !0
@@ -192,8 +186,8 @@
           var e = b.routes[c];
           if (!e)
             return this._404path = a,
-            void (this.path = '/home');
-          if (this._404path && '/home' !== a && '/home/' !== a && (this._404path = null),
+            void (this.path = '/elements/og-gauge');
+          if (this._404path && '/elements/og-gauge' !== a && '/elements/og-gauge/' !== a && (this._404path = null),
           this.spinnerActive = !0,
           -1 === this._loadedRoutes.indexOf(e.entrypoint)) {
             var f = this.resolveUrl(e.entrypoint);
@@ -211,7 +205,8 @@
       },
       _updateTitle: function() {
         this.debounce('update-title', function() {
-          document.title = this.activeName ? 'Predix Design System | ' + this.activeName : 'Predix Design System'
+          document.title = this.activeName ? 'BHGE Merlions Design System | ' +
+             this.activeName : 'BHGE Merlions Design System'
         }, 100)
       },
       _handleNewModuleSelected: function() {
@@ -239,7 +234,7 @@
         })
       },
       _get404Message: function(a) {
-        return 'The page at https://www.predix-ui.com/#' + a + ' could not be found. Try searching in the sidebar.'
+        return 'The page at https://ogdx-merlions.github.io/#' + a + ' could not be found. Try searching in the sidebar.'
       },
       _handle404MessageHidden: function() {
         this._404path = null

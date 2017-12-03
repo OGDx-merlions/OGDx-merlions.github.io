@@ -6,7 +6,7 @@
       "pages": [
         {
           "path": "og-gauge",
-          "label": "A Custom Gauge Widget created using D3 V4",
+          "label": "Gauge",
           "module": "og-gauge-demo",
           "entrypoint": "/bower_components/og-gauge/demo/og-gauge-demo.html",
           "redirects": [
@@ -27,7 +27,7 @@
         },
         {
           "path": "og-slider",
-          "label": "Slider update and customs from px-slider component",
+          "label": "Slider",
           "module": "og-slider-demo",
           "entrypoint": "/bower_components/og-slider/demo/og-slider-demo.html",
           "redirects": [
@@ -47,9 +47,49 @@
           "_keywords": "og-slider slider"
         },
         {
+          "path": "og-spine",
+          "label": "Spine",
+          "module": "og-spine-demo",
+          "entrypoint": "/bower_components/og-spine/demo/og-spine-demo.html",
+          "redirects": [
+            "/components/og-spine",
+            "/modules/og-spine",
+            "/elements/og-spine"
+          ],
+          "keywords": [
+            "og-spine",
+            "spine"
+          ],
+          "tags": [
+            "spine chart"
+          ],
+          "_route": "/elements/og-spine",
+          "_keywords": "og-sparkline spine"
+        },
+        {
           "path": "Charts",
           "label": "Charts",
           "pages": [
+            {
+              "path": "og-bar-chart",
+              "label": "Bar Chart",
+              "module": "og-bar-chart-demo",
+              "entrypoint": "/bower_components/og-bar-chart/demo/og-bar-chart-demo.html",
+              "redirects": [
+                "/components/og-bar-chart",
+                "/modules/og-bar-chart",
+                "/elements/og-bar-chart"
+              ],
+              "keywords": [
+                "og-bar-chart",
+                "bar-chart"
+              ],
+              "tags": [
+                "bar chart"
+              ],
+              "_route": "/elements/og-bar-chart",
+              "_keywords": "og-bar-chart bar"
+            },
             {
               "path": "og-production-chart",
               "label": "Production Chart",
@@ -86,6 +126,46 @@
               ],
               "_route": "/elements/og-scatter-plot",
               "_keywords": "og-scatter-plot scatter plot"
+            },
+            {
+              "path": "og-sparkline",
+              "label": "Sparkline",
+              "module": "og-sparkline-demo",
+              "entrypoint": "/bower_components/og-sparkline/demo/og-sparkline-demo.html",
+              "redirects": [
+                "/components/og-sparkline",
+                "/modules/og-sparkline",
+                "/elements/og-sparkline"
+              ],
+              "keywords": [
+                "og-sparkline",
+                "sparkline"
+              ],
+              "tags": [
+                "sparkline chart"
+              ],
+              "_route": "/elements/og-sparkline",
+              "_keywords": "og-sparkline sparkline"
+            },
+            {
+              "path": "og-waterfall-chart",
+              "label": "Waterfall chart",
+              "module": "og-waterfall-chart-demo",
+              "entrypoint": "/bower_components/og-waterfall-chart/demo/og-waterfall-chart-demo.html",
+              "redirects": [
+                "/components/og-waterfall-chart",
+                "/modules/og-waterfall-chart",
+                "/elements/og-waterfall-chart"
+              ],
+              "keywords": [
+                "og-waterfall-chart",
+                "waterfall-chart"
+              ],
+              "tags": [
+                "waterfall-chart chart"
+              ],
+              "_route": "/elements/og-waterfall-chart",
+              "_keywords": "og-waterfall-chart sparkline"
             }
           ],
           "_route": "/elements/og-scatter-plot"
@@ -99,10 +179,18 @@
     "/modules/og-gauge": "/elements/og-gauge",
     "/components/og-slider": "/elements/og-slider",
     "/modules/og-slider": "/elements/og-slider",
+    "/components/og-spine": "/elements/og-spine",
+    "/modules/og-spine": "/elements/og-spine",
+    "/components/og-bar-chart": "/elements/og-bar-chart",
+    "/modules/og-bar-chart": "/elements/og-bar-chart",
     "/components/og-production-chart": "/elements/og-production-chart",
     "/modules/og-production-chart": "/elements/og-production-chart",
     "/components/og-scatter-plot": "/elements/og-scatter-plot",
-    "/modules/og-scatter-plot": "/elements/og-scatter-plot"
+    "/modules/og-scatter-plot": "/elements/og-scatter-plot",
+    "/components/og-sparkline": "/elements/og-sparkline",
+    "/modules/og-sparkline": "/elements/og-sparkline",
+    "/components/og-waterfall-chart": "/elements/og-waterfall-chart",
+    "/modules/og-waterfall-chart": "/elements/og-waterfall-chart"
   },
   "routes": {
     "/elements": {
@@ -152,9 +240,49 @@
           "_keywords": "og-slider slider"
         },
         {
+          "path": "og-spine",
+          "label": "Spine",
+          "module": "og-spine-demo",
+          "entrypoint": "/bower_components/og-spine/demo/og-spine-demo.html",
+          "redirects": [
+            "/components/og-spine",
+            "/modules/og-spine",
+            "/elements/og-spine"
+          ],
+          "keywords": [
+            "og-spine",
+            "spine"
+          ],
+          "tags": [
+            "spine chart"
+          ],
+          "_route": "/elements/og-spine",
+          "_keywords": "og-sparkline spine"
+        },
+        {
           "path": "Charts",
           "label": "Charts",
           "pages": [
+            {
+              "path": "og-bar-chart",
+              "label": "Bar Chart",
+              "module": "og-bar-chart-demo",
+              "entrypoint": "/bower_components/og-bar-chart/demo/og-bar-chart-demo.html",
+              "redirects": [
+                "/components/og-bar-chart",
+                "/modules/og-bar-chart",
+                "/elements/og-bar-chart"
+              ],
+              "keywords": [
+                "og-bar-chart",
+                "bar-chart"
+              ],
+              "tags": [
+                "bar chart"
+              ],
+              "_route": "/elements/og-bar-chart",
+              "_keywords": "og-bar-chart bar"
+            },
             {
               "path": "og-production-chart",
               "label": "Production Chart",
@@ -191,11 +319,209 @@
               ],
               "_route": "/elements/og-scatter-plot",
               "_keywords": "og-scatter-plot scatter plot"
+            },
+            {
+              "path": "og-sparkline",
+              "label": "Sparkline",
+              "module": "og-sparkline-demo",
+              "entrypoint": "/bower_components/og-sparkline/demo/og-sparkline-demo.html",
+              "redirects": [
+                "/components/og-sparkline",
+                "/modules/og-sparkline",
+                "/elements/og-sparkline"
+              ],
+              "keywords": [
+                "og-sparkline",
+                "sparkline"
+              ],
+              "tags": [
+                "sparkline chart"
+              ],
+              "_route": "/elements/og-sparkline",
+              "_keywords": "og-sparkline sparkline"
+            },
+            {
+              "path": "og-waterfall-chart",
+              "label": "Waterfall chart",
+              "module": "og-waterfall-chart-demo",
+              "entrypoint": "/bower_components/og-waterfall-chart/demo/og-waterfall-chart-demo.html",
+              "redirects": [
+                "/components/og-waterfall-chart",
+                "/modules/og-waterfall-chart",
+                "/elements/og-waterfall-chart"
+              ],
+              "keywords": [
+                "og-waterfall-chart",
+                "waterfall-chart"
+              ],
+              "tags": [
+                "waterfall-chart chart"
+              ],
+              "_route": "/elements/og-waterfall-chart",
+              "_keywords": "og-waterfall-chart sparkline"
             }
           ],
           "_route": "/elements/og-scatter-plot"
         }
       ]
+    },
+    "/elements/og-gauge" : {
+      "path": "og-gauge",
+      "label": "Gauge",
+      "module": "og-gauge-demo",
+      "entrypoint": "/bower_components/og-gauge/demo/og-gauge-demo.html",
+      "redirects": [
+        "/components/og-gauge",
+        "/modules/og-gauge"
+      ],
+      "keywords": [
+        "og-gauge",
+        "gauge"
+      ],
+      "tags": [
+        "mobile",
+        "gauge"
+      ],
+      "_route": "/elements/og-gauge",
+      "_keywords": "og-gauge gauge"
+    },
+    "/elements/og-slider" : {
+      "path": "og-slider",
+      "label": "Slider",
+      "module": "og-slider-demo",
+      "entrypoint": "/bower_components/og-slider/demo/og-slider-demo.html",
+      "redirects": [
+        "/components/og-slider",
+        "/modules/og-slider",
+        "/elements/og-slider"
+      ],
+      "keywords": [
+        "og-slider",
+        "slider"
+      ],
+      "tags": [
+        "mobile",
+        "slider"
+      ],
+      "_route": "/elements/og-slider",
+      "_keywords": "og-slider slider"
+    },
+    "/elements/og-spine": {
+      "path": "og-spine",
+      "label": "Spine",
+      "module": "og-spine-demo",
+      "entrypoint": "/bower_components/og-spine/demo/og-spine-demo.html",
+      "redirects": [
+        "/components/og-spine",
+        "/modules/og-spine",
+        "/elements/og-spine"
+      ],
+      "keywords": [
+        "og-spine",
+        "spine"
+      ],
+      "tags": [
+        "spine chart"
+      ],
+      "_route": "/elements/og-spine",
+      "_keywords": "og-sparkline spine"
+    },
+    "/elements/og-bar-chart": {
+      "path": "og-bar-chart",
+      "label": "Bar Chart",
+      "module": "og-bar-chart-demo",
+      "entrypoint": "/bower_components/og-bar-chart/demo/og-bar-chart-demo.html",
+      "redirects": [
+        "/components/og-bar-chart",
+        "/modules/og-bar-chart",
+        "/elements/og-bar-chart"
+      ],
+      "keywords": [
+        "og-bar-chart",
+        "bar-chart"
+      ],
+      "tags": [
+        "bar chart"
+      ],
+      "_route": "/elements/og-bar-chart",
+      "_keywords": "og-bar-chart bar"
+    },
+    "/elements/og-production-chart" :  {
+      "path": "og-production-chart",
+      "label": "Production Chart",
+      "module": "og-production-chart-demo",
+      "entrypoint": "/bower_components/og-production-chart/demo/og-production-chart-demo.html",
+      "redirects": [
+        "/components/og-production-chart",
+        "/modules/og-production-chart",
+        "/elements/og-production-chart"
+      ],
+      "keywords": [
+        "og-production-chart",
+        "production-chart"
+      ],
+      "tags": [
+        "production chart"
+      ],
+      "_route": "/elements/og-production-chart",
+      "_keywords": "og-production-chart production"
+    },
+    "/elements/og-scatter-plot" : {
+      "path": "og-scatter-plot",
+      "label": "Scatter Plot",
+      "module": "og-scatter-plot-demo",
+      "entrypoint": "/bower_components/og-scatter-plot/demo/og-scatter-plot-demo.html",
+      "redirects": [
+        "/components/og-scatter-plot",
+        "/modules/og-scatter-plot",
+        "/elements/og-scatter-plot"
+      ],
+      "keywords": [
+        "og-scatter-plot",
+        "scatter plot"
+      ],
+      "_route": "/elements/og-scatter-plot",
+      "_keywords": "og-scatter-plot scatter plot"
+    },
+    "/elements/og-sparkline": {
+      "path": "og-sparkline",
+      "label": "Sparkline",
+      "module": "og-sparkline-demo",
+      "entrypoint": "/bower_components/og-sparkline/demo/og-sparkline-demo.html",
+      "redirects": [
+        "/components/og-sparkline",
+        "/modules/og-sparkline",
+        "/elements/og-sparkline"
+      ],
+      "keywords": [
+        "og-sparkline",
+        "sparkline"
+      ],
+      "tags": [
+        "sparkline chart"
+      ],
+      "_route": "/elements/og-sparkline",
+      "_keywords": "og-sparkline sparkline"
+    },
+    "/elements/og-waterfall-chart": {
+      "path": "og-waterfall-chart",
+      "label": "Waterfall chart",
+      "module": "og-waterfall-chart-demo",
+      "entrypoint": "/bower_components/og-waterfall-chart/demo/og-waterfall-chart-demo.html",
+      "redirects": [
+        "/components/og-waterfall-chart",
+        "/modules/og-waterfall-chart",
+        "/elements/og-waterfall-chart"
+      ],
+      "keywords": [
+        "og-waterfall-chart",
+        "waterfall-chart"
+      ],
+      "tags": [
+        "waterfall-chart chart"
+      ],
+      "_route": "/elements/og-waterfall-chart",
+      "_keywords": "og-waterfall-chart sparkline"
     }
   }
 }

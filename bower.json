@@ -23,16 +23,25 @@
   ],
   "dependencies": {
     "polymer": "^1.9.0",
-    "px-demo": "^3.0.6",
+    "px-demo": "^2.0.0",
     "iron-pages": "^2.0.1",
     "px-theme": "^3.1.4",
     "og-gauge": "^0.1.1",
     "og-slider": "^1.0.8",
-    "og-production-chart": "^1.7.4",
-    "og-scatter-plot": "^1.1.7"
+    "og-production-chart": "^1.7.5",
+    "og-scatter-plot": "^1.1.8",
+    "app-route": "PolymerElements/app-route#^2.0.3",
+    "og-bar-chart": "^0.0.5",
+    "og-sparkline": "^0.1.0",
+    "og-spine": "*",
+    "og-waterfall-chart": "^1.2.4"
   },
   "devDependencies": {},
   "resolutions": {
-    "webcomponentsjs": "^0.7.24"
+    "webcomponentsjs": "^0.7.24",
+    "px-api-viewer": "^1.0.0",
+    "iron-doc-viewer": "^2.0.0",
+    "px-code-editor": "^2.0.0",
+    "px-demo": "^2.0.0"
   }
 }

@@ -1,31 +1,3 @@
-v2.1.1
-===================
-* update dependencies
-
-v2.1.0
-===================
-* Polymer 1.x/2.x hybrid support.
-
-v2.0.4
-===================
-* attempt to style dark demo theme a bit better
-
-v2.0.3
-===================
-* Slim down iron-doc-viewer just to used parts and control routing ourselves
-
-v2.0.2
-===================
-* Remove debug statement
-
-v2.0.1
-===================
-* Fix up path finding for component api json file
-
-v2.0.0
-===================
-* Switch to using `polymer analyze` static generated output.
-
 v1.0.1
 ===================
 * Fix comment for analyzer

@@ -1,0 +1,145 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with
+    'gulp serve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+<link rel="import" href="../og-sparkline/og-sparkline.html">
+
+<link rel="import" href="css/og-spine-styles.html">
+
+<!--
+REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
+
+### Usage
+
+    <og-spine
+      logo="./demo/bhge2.png"
+      avatar="./demo/avatar.png"
+      alerts-and-cases='[{"type":"high","label":"ESP Alert","subtitle":"Midland Well 2F"},{"type":"medium","label":"Pump Alert","subtitle":"Goose Creek Well 3B"}]'
+      items='[]'
+      data='[{"value":"280"},{"value":"289,488","trend":{"value":"15,009","direction":"up","color":"#7fae1b"},"sparkline":{"value":[[1,1],[2,2],[3,4],[4,2],[5,5]],"cursorPosition":[2,2]}},{"value":"144,344","trend":{"value":"3,229","direction":"down","color":"#d67577"}},{"value":"280"},{"value":"280"},{"value":"10/76"},{"value":"75/98"}]'>
+    </og-spine> 
+
+@element og-spine
+@blurb REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
+@homepage index.html
+@demo index.html
+-->
+
+<dom-module id="og-spine">
+  <template>
+    <style include="og-spine-styles"></style>
+    
+    <div class="component">
+      <!-- <div class="flex flex--row flex--left delta">[[dashboardName]]<div> -->
+      <div>
+        <div class="flex flex--wrap u-1/1 col-2">
+          <div class="flex flex--row tenth u-1/1-portable">
+            <div on-tap="fireLogoTap">
+              <img class="logo" src$="{{logo}}">
+            </div>
+          </div>
+
+          <template is="dom-repeat" items="[[items]]" index-as="idx">
+            <template is="dom-if" if="{{item.show}}">
+              <div class$="flex flex--row tenth kpi kpi-item-{{idx}} u-1/1-portable" on-tap="handleKpiTap">
+                <div class="flex flex--col">
+                  <div class="flex flex--row flex__item flex__item--top">
+                    <div class="caps">[[item.label]]</div>
+                    <template is="dom-if" if="[[data[idx].trend]]">
+                      <div>
+                        <div class="weight--bold trend" hidden$="[[item.toggleSparkline]]">
+                          <px-icon icon="px-nav:[[item.data.trend.direction]]" 
+                            class="rate-icon" style$="color: [[item.data.trend.color]];"></px-icon>
+                          <span>[[item.data.trend.value]]</span>
+                        </div>
+                        <div hidden$="[[!item.toggleSparkline]]" class="flex flex--right">
+                          <span class="weight--bold">&nbsp;[[item.data.value]]</span>
+                          <span class="zeta flex__item--middle"> [[item.unit]]</span>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                  <div class="flex flex--row">
+                    <template is="dom-if" if="[[item.sparklineConfig]]">
+                      <div class="chart" hidden$="[[!item.toggleSparkline]]">
+                        <og-sparkline chart-data="[[item.data.sparkline.value]]" 
+                          line-width="[[item.sparklineConfig.lineWidth]]" 
+                          line-color="[[item.sparklineConfig.lineColor]]"
+                          width="[[item.sparklineConfig.width]]" 
+                          height="[[item.sparklineConfig.height]]" 
+                          axis-color="[[item.sparklineConfig.axisColor]]"
+                          axis-width="[[item.sparklineConfig.axisWidth]]" 
+                          cur-position="[[item.data.sparkline.cursorPosition]]">
+                        </og-sparkline>
+                      </div>
+                      <div class="flex flex--left" hidden$="[[item.toggleSparkline]]">
+                        <span class="delta-epsilon">[[item.data.value]]</span>
+                        <span class="zeta flex__item--middle"> [[item.unit]]</span>
+                      </div>
+                    </template>
+                    <template is="dom-if" if="[[!item.sparklineConfig]]">
+                      <div class="flex flex--left flex--bottom">
+                        <span class="delta-epsilon u-1/2-portable">[[item.data.value]]</span>
+                        <span class="zeta flex__item--middle u-1/2-portable"> [[item.unit]]</span>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </template>
+
+          <div class="flex flex--row two-tenth  u-1/1-portable user-profile" 
+            on-tap="fireAlertAvatarTapEvent" style="border-right: 0rem;">
+            <template is="dom-if" if="{{_hasData(alertsAndCases)}}">
+              <div class="flex flex--col u-4/6 static-info">
+                <template is="dom-repeat" items="{{alertsAndCases}}">
+                  <div class="flex flex--wrap flex--left my-ac-row">
+                    <div class="u-1/6">
+                      <template is="dom-if" if="{{_isHighProrityAlert(item.type)}}">
+                        <svg width="2.2rem" height="1.5rem" class="imp-svg">
+                          <polygon id="polygon" points="15.5,3 32,30 1,30" fill="#f34336"></polygon>
+                        </svg>
+                      </template>
+                      <template is="dom-if" if="{{_isMediumProrityAlert(item.type)}}">
+                        <svg width="1.5rem" height="1.5rem">
+                          <polygon id="polygon" points="3,3 3,30 30,30 30,3" fill="#9d7200"></polygon>
+                        </svg>
+                      </template>
+                      <template is="dom-if" if="{{_isCase(item.type)}}">
+                        <div class="chat-icon"><px-icon icon="px-fea:cases"></px-icon></div>
+                      </template>
+                    </div>
+                    <div class="u-4/6">
+                      <div class="weight--bold">{{item.label}}</div>
+                      <div class="muted">{{item.subtitle}}</div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </template>
+            <div class="flex flex--col u-2/6 avatar-div">
+              <div class="flex flex--row flex--right flex--bottom right-nav">
+                <div class="flex flex--col u-1/2">
+                  <div class="chat-icon">
+                    <px-icon icon="px-com:chat"></px-icon>
+                  </div>
+                </div>
+                <div class="flex flex--col u-1/2">
+                  <div class="avatar">
+                    <img src$="{{avatar}}">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </template>
+</dom-module>
+<script src="dist/og-spine.js"></script>
