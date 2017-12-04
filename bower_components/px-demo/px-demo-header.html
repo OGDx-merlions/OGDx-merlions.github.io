@@ -40,13 +40,13 @@ Creates a header for Predix UI demo pages.
             </div>
             <template is="dom-if" if="{{!hideShields}}">
               <div class="flex u-mb">
-                <img class="u-mr--" src="{{_getShieldUrl(_shieldName,'Travis')}}" alt="Travis Status" onerror="this.style.display='none'" />
+                <!-- <img class="u-mr--" src="{{_getShieldUrl(_shieldName,'Travis')}}" alt="Travis Status" onerror="this.style.display='none'" /> -->
                 <img class="u-mr--" src="{{_getShieldUrl(_shieldName,'Bower')}}" alt="Bower Version" onerror="this.style.display='none'" />
                 <img class="u-mr--" src="{{_getShieldUrl(_shieldName,'GitHub')}}" alt="GitHub Issues Count" onerror="this.style.display='none'" />
               </div>
             </template>
             <div class="flex flex--row">
-              <div class="flex flex--col flex--middle u-mr++">
+              <!-- <div class="flex flex--col flex--middle u-mr++">
                 <template is="dom-if" if="{{mobile}}">
                   <span class="caps u-mb--">Mobile</span>
                   <px-icon title="Recommended for mobile" class="device-icon u-mr--" icon="px-utl:phone"></px-icon>
@@ -55,7 +55,7 @@ Creates a header for Predix UI demo pages.
                   <span class="caps u-mb-- muted">Mobile</span>
                   <px-icon title="Not recommended for mobile" class="device-icon u-mr-- muted" icon="px-utl:phone"></px-icon>
                 </template>
-              </div>
+              </div> -->
               <div class="flex flex--col flex--middle u-mr++">
                 <template is="dom-if" if="{{tablet}}">
                   <span class="caps u-mb--">Tablet</span>
@@ -198,14 +198,15 @@ Creates a header for Predix UI demo pages.
     },
     _getShieldUrl: function (shield, service) {
       if (typeof shield === 'string') {
-        if (service === 'Travis') {
-          return 'https://img.shields.io/travis/PredixDev/' + shield + '/master.svg?style=flat-square';
-        }
-        else if (service === 'Bower') {
+        // if (service === 'Travis') {
+        //   return 'https://img.shields.io/travis/PredixDev/' + shield + '/master.svg?style=flat-square';
+        // }
+        // else 
+        if (service === 'Bower') {
           return 'https://img.shields.io/bower/v/' + shield + '.svg?style=flat-square';
         }
         else if (service === 'GitHub') {
-          return 'https://img.shields.io/github/issues-raw/PredixDev/' + shield + '.svg?style=flat-square';
+          return 'https://img.shields.io/github/issues-raw/OGDx-merlions/' + shield + '.svg?style=flat-square';
         }
       }
     }
