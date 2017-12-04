@@ -370,7 +370,7 @@ Custom property | Description
     attached: function() {
       var hyd = require('hydrolysis');
       //have hydrolysis analyze the requested component
-      hyd.Analyzer.analyze(this.source + ".html")
+      hyd.Analyzer.analyze("/bower_components/"+this.source+"/"+this.source + ".html")
         .then(function(analyzer) {
           this.set('_analyzer', analyzer);
 
