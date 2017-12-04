@@ -41,7 +41,6 @@
     "commit": "7d201adcb8eae2d3567579e83bb9a3b31f88c2b1"
   },
   "_source": "https://github.com/OGDx-merlions/og-gauge.git",
-  "_target": "^0.1.1",
-  "_originalSource": "og-gauge",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "og-gauge"
 }

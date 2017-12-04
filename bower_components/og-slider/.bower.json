@@ -42,7 +42,6 @@
     "commit": "eabe393ca31541ee8665585175534c456a074010"
   },
   "_source": "https://github.com/OGDx-merlions/og-slider.git",
-  "_target": "^1.0.8",
-  "_originalSource": "og-slider",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "og-slider"
 }

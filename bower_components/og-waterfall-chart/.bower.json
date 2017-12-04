@@ -42,7 +42,6 @@
     "commit": "ae6e7ef9282c38d04dd4ca92744c7fcf54c2a16a"
   },
   "_source": "https://github.com/OGDx-merlions/og-waterfall-chart.git",
-  "_target": "^1.2.4",
-  "_originalSource": "og-waterfall-chart",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "og-waterfall-chart"
 }
