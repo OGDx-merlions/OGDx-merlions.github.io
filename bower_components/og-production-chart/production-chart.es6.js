@@ -154,6 +154,18 @@
 				},
 				observer: '_setLegendLabels'
       },
+      actualUnit: {
+        type: String
+      },
+      targetUnit: {
+        type: String
+      },
+      forecastUnit: {
+        type: String
+      },
+      designUnit: {
+        type: String
+      },
 			unit: {
 				type: String,
 				value: "Metric Ton/day"
@@ -190,7 +202,8 @@
 				notify: true,
 				value() {
 					return {top: 20, right: 20, bottom: 30, left: 50};
-				}
+				},
+				observer: '_redraw'
 			},
 			wide: {
 				type: Boolean,
@@ -298,7 +311,7 @@
 				this.set("actualLegendLabel", labels[0]);
 				this.set("targetLegendLabel", labels[1]);
 				this.set("forecastLegendLabel", labels[2]);
-				this.set("designCapacityLegendLabel", labels[3]);
+        this.set("designCapacityLegendLabel", labels[3]);
 			}
 		},
     _compute: function(prop) {
@@ -395,6 +408,11 @@
 			this.tooltipConfig.target = this.tooltipConfig.target || {};
 			this.tooltipConfig.forecast = this.tooltipConfig.forecast || {};
 
+      this.set("designUnit", this.unit);
+      this.set("actualUnit", this.unit);
+      this.set("targetUnit", this.unit);
+      this.set("forecastUnit", this.unit);
+      
 			this.customStyle['--x-grid-color'] = this.axisConfig.x.gridColor || this.axisConfig.x.axisColor;
 			this.customStyle['--y-grid-color'] = this.axisConfig.y.gridColor || this.axisConfig.y.axisColor;
 			this.customStyle['--font-size'] = "11px";
@@ -512,21 +530,23 @@
 			["actual", "target", "forecast", "design"].forEach((key) => {
 				me.y[key] = me.y;
 				if(me.axisConfig.y.series[key] && 
-						!me.axisConfig.y.series[key].axis) {
-					let yMax = d3.max(data, function(d) {
+						me.axisConfig.y.series[key].axis) {
+          me.y[key] =  d3.scaleLinear().range([this.adjustedHeight, 0]).clamp(true);
+					let _yMax = d3.max(data, function(d) {
 						return d[key];
 					});
-					let yMin = me.axisConfig.y.series[key].start;
-					if(!yMin) {
-						if(yMin != 0) {
-							yMin = yMax/2;
+          let _yMin = +me.axisConfig.y.series[key].axis.start;
+					if(!_yMin) {
+						if(_yMin != 0) {
+							_yMin = _yMax/2;
 						}
 					}
-					yMin = +yMin;
-					me.y[key].domain([yMin, yMax]).nice(6);
+					_yMin = +_yMin;
+					me.y[key].domain([_yMin, _yMax]).nice(6);
+          me.set(key+"Unit", me.axisConfig.y.series[key].axis.unit);
 				} else {
 					me.y[key].domain([yMin, yMax]).nice(6);
-				}	
+        }
 			});
 		},
 		_setLegendDefaults() {
@@ -724,20 +744,23 @@
       ["actual", "design", "target", "forecast"].forEach((key) => {
 				let _axis = me.axisConfig.y.series[key].axis || {};
 				let axisDir =  _axis.position ? _axis.position.toLowerCase() : "left";
-				let padding = _axis.padding ? _axis.padding : 0;
+        let padding = _axis.padding ? _axis.padding : 0;
+        y = me.y[key] || y;
 				if(axesDirDrawn.indexOf(axisDir) === -1) {
 					me.yAxis = axisDir === 'left' ? d3.axisLeft(y) : d3.axisRight(y);
 					let _yAxis = me.yAxis;
 					if(me.axisConfig.y.ticks) {
 						_yAxis.ticks(me.axisConfig.y.ticks);
-					}
-					if(me.axisConfig.y.tickFormat) {
-						_yAxis.tickFormat(d3.format(me.axisConfig.y.tickFormat));
+          }
+          let tickFormat = _axis.tickFormat || me.axisConfig.y.tickFormat;
+					if(tickFormat) {
+						_yAxis.tickFormat(d3.format(tickFormat));
 					}
 					if(axisDir === 'right') {
+            let _transformX = me.adjustedWidth;
 						me.svg.append("g")
 							.attr("class", "y-axis")
-							.attr("transform", "translate( " + me.adjustedWidth + ", 0 )")
+							.attr("transform", "translate( " + _transformX + ", 0 )")
 							.style("padding", padding)
 							.call(_yAxis);
 						me.svg.append("text")
@@ -746,12 +769,14 @@
 							.attr("y", me.adjustedWidth + me.margin.left/2)
 							.attr("dy", "1em")
 							.attr("class", "yaxis-label")
-							.text(_axis.unit || me.unit);
+              .text(_axis.unit || me.unit);
+            axesDirDrawn.push('right');
 					} else {
 						me.svg.append("g")
 							.attr("class", "y-axis")
 							.style("padding", padding)
 							.call(_yAxis);
+            axesDirDrawn.push('left');
 					}
 				}
 			});
@@ -927,6 +952,7 @@
 			let x= this.x, y=this.y, me = scope, d3 = Px.d3, radius = 5;
 			this.svg.selectAll(".tooltip-circle").remove();
 			if(this.designData.length) {
+        y=this.y.design || this.y;
 				this.svg.selectAll(".dot")
 					.data([data])
 					.enter()
@@ -939,6 +965,7 @@
 			}
 
 			if(!this.hideTarget && this.targetData.length) {
+        y=this.y.target || this.y;
 				this.svg.selectAll(".dot")
 					.data([data])
 					.enter()
@@ -951,6 +978,7 @@
 			}
 
 			if(!this.hideActual && this.actualData.length) {
+        y=this.y.actual || this.y;
 				this.svg.selectAll(".dot")
 					.data([data])
 					.enter()
@@ -963,6 +991,7 @@
 			}
 
 			if(!this.hideForecast && this.forecastData.length > 0) {
+        y=this.y.forecast || this.y;
 				this.svg.selectAll(".dot")
 					.data([data])
 					.enter()
