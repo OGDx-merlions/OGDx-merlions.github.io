@@ -1,0 +1,53 @@
+{
+  "name": "og-gdp-chart",
+  "version": "0.1.4",
+  "main": [
+    "og-gdp-chart.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "gulpfile.js",
+    "sass",
+    "test",
+    "OSS_Notice.pdf",
+    "scripts",
+    ".github",
+    "og-gdp-chart.png",
+    "LICENSE.md",
+    "CONTRIBUTING.md",
+    "HISTORY.md",
+    "README.md",
+    ".jshintrc",
+    ".editorconfig",
+    "*.enc"
+  ],
+  "dependencies": {
+    "polymer": "^1.9.0",
+    "px-d3-imports": "^2.1.0"
+  },
+  "devDependencies": {
+    "px-headings-design": "^1.0.0",
+    "px-layout-design": "^1.0.0",
+    "px-toggle-design": "^2.0.0",
+    "px-starter-kit-design": "^1.0.0",
+    "px-demo": "^2.0.0",
+    "px-theme": "^3.0.0",
+    "px-dark-theme": "^2.2.1",
+    "px-spacing-design": "^1.0.3"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^0.7.0"
+  },
+  "homepage": "https://github.com/OGDx-merlions/og-gdp-chart",
+  "_release": "0.1.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.4",
+    "commit": "c0727d45c1e073d92c38e966934be99bbe78e0e3"
+  },
+  "_source": "https://github.com/OGDx-merlions/og-gdp-chart.git",
+  "_target": "^0.1.4",
+  "_originalSource": "og-gdp-chart",
+  "_direct": true
+}

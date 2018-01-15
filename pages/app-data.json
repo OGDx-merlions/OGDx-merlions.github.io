@@ -91,6 +91,46 @@
               "_keywords": "og-bar-chart bar"
             },
             {
+              "path": "og-gdp-chart",
+              "label": "Gamma, Density & Porosity Chart",
+              "module": "og-gdp-chart-demo",
+              "entrypoint": "/bower_components/og-gdp-chart/demo/og-gdp-chart-demo.html",
+              "redirects": [
+                "/components/og-gdp-chart",
+                "/modules/og-gdp-chart",
+                "/elements/og-gdp-chart"
+              ],
+              "keywords": [
+                "og-gdp-chart",
+                "gdp-chart"
+              ],
+              "tags": [
+                "gdp chart"
+              ],
+              "_route": "/elements/og-gdp-chart",
+              "_keywords": "og-gdp-chart gdp"
+            },
+            {
+              "path": "og-optimised-rop-chart",
+              "label": "Optimised Rate of Penetration Chart",
+              "module": "og-optimised-rop-chart-demo",
+              "entrypoint": "/bower_components/og-optimised-rop-chart/demo/og-optimised-rop-chart-demo.html",
+              "redirects": [
+                "/components/og-optimised-rop-chart",
+                "/modules/og-optimised-rop-chart",
+                "/elements/og-optimised-rop-chart"
+              ],
+              "keywords": [
+                "og-optimised-rop-chart",
+                "optimised-rop-chart"
+              ],
+              "tags": [
+                "optimised-rop chart"
+              ],
+              "_route": "/elements/og-optimised-rop-chart",
+              "_keywords": "og-optimised-rop-chart optimised-rop"
+            },
+            {
               "path": "og-production-chart",
               "label": "Production Chart",
               "module": "og-production-chart-demo",
@@ -183,6 +223,10 @@
     "/modules/og-spine": "/elements/og-spine",
     "/components/og-bar-chart": "/elements/og-bar-chart",
     "/modules/og-bar-chart": "/elements/og-bar-chart",
+    "/components/og-gdp-chart": "/elements/og-gdp-chart",
+    "/modules/og-gdp-chart": "/elements/og-gdp-chart",
+    "/components/og-optimised-rop-chart": "/elements/og-optimised-rop-chart",
+    "/modules/og-optimised-rop-chart": "/elements/og-optimised-rop-chart",
     "/components/og-production-chart": "/elements/og-production-chart",
     "/modules/og-production-chart": "/elements/og-production-chart",
     "/components/og-scatter-plot": "/elements/og-scatter-plot",
@@ -282,6 +326,46 @@
               ],
               "_route": "/elements/og-bar-chart",
               "_keywords": "og-bar-chart bar"
+            },
+            {
+              "path": "og-gdp-chart",
+              "label": "Gamma, Density & Porosity Chart",
+              "module": "og-gdp-chart-demo",
+              "entrypoint": "/bower_components/og-gdp-chart/demo/og-gdp-chart-demo.html",
+              "redirects": [
+                "/components/og-gdp-chart",
+                "/modules/og-gdp-chart",
+                "/elements/og-gdp-chart"
+              ],
+              "keywords": [
+                "og-gdp-chart",
+                "gdp-chart"
+              ],
+              "tags": [
+                "gdp chart"
+              ],
+              "_route": "/elements/og-gdp-chart",
+              "_keywords": "og-gdp-chart gdp"
+            },
+            {
+              "path": "og-optimised-rop-chart",
+              "label": "Optimised rate of Penetration Chart",
+              "module": "og-optimised-rop-chart-demo",
+              "entrypoint": "/bower_components/og-optimised-rop-chart/demo/og-optimised-rop-chart-demo.html",
+              "redirects": [
+                "/components/og-optimised-rop-chart",
+                "/modules/og-optimised-rop-chart",
+                "/elements/og-optimised-rop-chart"
+              ],
+              "keywords": [
+                "og-optimised-rop-chart",
+                "optimised-rop-chart"
+              ],
+              "tags": [
+                "optimised-rop chart"
+              ],
+              "_route": "/elements/og-optimised-rop-chart",
+              "_keywords": "og-optimised-rop-chart optimised-rop"
             },
             {
               "path": "og-production-chart",
@@ -445,6 +529,46 @@
       ],
       "_route": "/elements/og-bar-chart",
       "_keywords": "og-bar-chart bar"
+    },
+    "/elements/og-gdp-chart" :  {
+      "path": "og-gdp-chart",
+      "label": "Gamma, Density & Porosity Chart",
+      "module": "og-gdp-chart-demo",
+      "entrypoint": "/bower_components/og-gdp-chart/demo/og-gdp-chart-demo.html",
+      "redirects": [
+        "/components/og-gdp-chart",
+        "/modules/og-gdp-chart",
+        "/elements/og-gdp-chart"
+      ],
+      "keywords": [
+        "og-gdp-chart",
+        "gdp-chart"
+      ],
+      "tags": [
+        "gdp chart"
+      ],
+      "_route": "/elements/og-gdp-chart",
+      "_keywords": "og-gdp-chart gdp"
+    },
+    "/elements/og-optimised-rop-chart" :  {
+      "path": "og-optimised-rop-chart",
+      "label": "Optimised Rate of Penetration Chart",
+      "module": "og-optimised-rop-chart-demo",
+      "entrypoint": "/bower_components/og-optimised-rop-chart/demo/og-optimised-rop-chart-demo.html",
+      "redirects": [
+        "/components/og-optimised-rop-chart",
+        "/modules/og-optimised-rop-chart",
+        "/elements/og-optimised-rop-chart"
+      ],
+      "keywords": [
+        "og-optimised-rop-chart",
+        "optimised-rop-chart"
+      ],
+      "tags": [
+        "optimised-rop chart"
+      ],
+      "_route": "/elements/og-optimised-rop-chart",
+      "_keywords": "og-optimised-rop-chart optimised-rop"
     },
     "/elements/og-production-chart" :  {
       "path": "og-production-chart",
