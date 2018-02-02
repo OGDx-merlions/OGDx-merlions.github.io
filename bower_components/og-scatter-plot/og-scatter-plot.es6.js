@@ -23,6 +23,20 @@
 				value: 300
       },
       /**
+      * Chart Margin.
+        Default: {top: 30, right: 20, bottom: 40, left: 50}
+      *
+      * @property margin
+      */
+			margin: {
+				type: Object,
+				notify: true,
+				value() {
+					return {top: 30, right: 20, bottom: 40, left: 50};
+				},
+				observer: '_redraw'
+			},
+      /**
       * Chart Data
       * Format: [{x: Number, y: [y0, y1, y2, y3...]}]
       * @property data
@@ -144,7 +158,7 @@
 
     attached() {
       this._setupDefaults();
-      if(this.data && this.data.length) {
+      if(this.data && this.data.length && this.axisData) {
         this.draw();
       }
     },
@@ -203,7 +217,7 @@
     _prepareChartingArea() {
       let d3 = Px.d3;
       // set the dimensions and margins of the graph
-      this.margin = {top: 30, right: 20, bottom: 40, left: 50},
+      this.margin = this.margin || {top: 30, right: 20, bottom: 40, left: 50},
       this.adjustedWidth = this.width - this.margin.left - this.margin.right,
       this.adjustedHeight = this.height - this.margin.top - this.margin.bottom;
 
@@ -235,7 +249,6 @@
       this.y = d3.scaleLinear().range([this.adjustedHeight, 0]).clamp(true);
 
       let x = this.x, y = this.y;
-
       this.todayAsDate = this.today ? this.parseTime(this.today) : null;
 
       let yMax = d3.max(data, function(d) {
@@ -246,7 +259,9 @@
       let yMin = this.axisData.y.start > 0 ? this.axisData.y.start : 0;
 
       x.domain(d3.extent(data, function(d) { return d.x; }));
-      if(this.parseTime) {
+      if(this.axisData.x.d3NiceType instanceof Function) {
+        x.nice(this.axisData.x.d3NiceType());
+      } else if(this.parseTime) {
         x.nice(d3[this.axisData.x.d3NiceType || "timeDay"]);
       } else if(this.axisData.x.niceTicks) {
         x.nice(this.axisData.x.niceTicks);
@@ -265,7 +280,7 @@
         this.svg.append("g")
           .attr("class", "grid x-grid")
           .call(d3.axisBottom(x)
-              .ticks(this.axisData.x.totalGridLines || 5)
+              // .ticks(this.axisData.x.totalGridLines || 10)
               .tickSize(this.adjustedHeight)
               .tickFormat(""));
       }
@@ -391,6 +406,9 @@
         _xAxis.tickFormat(d3.timeFormat(this.axisData.x.tickTimeFormat));
       } else if(this.axisData.x.tickFormat) {
         _xAxis.tickFormat(d3.format(this.axisData.x.tickFormat));
+      }
+      if(this.axisData.x.niceTicks) {
+        _xAxis.ticks(this.axisData.x.niceTicks);
       }
       this.svg.append("g")
           .attr("transform", "translate(0," + this.adjustedHeight + ")")

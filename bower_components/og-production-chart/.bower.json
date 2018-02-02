@@ -1,6 +1,6 @@
 {
   "name": "og-production-chart",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "main": [
     "og-production-chart.html"
   ],
@@ -42,11 +42,11 @@
     "webcomponentsjs": "^0.7.0"
   },
   "homepage": "https://github.com/OGDx-merlions/og-production-chart",
-  "_release": "1.8.2",
+  "_release": "1.8.3",
   "_resolution": {
     "type": "version",
-    "tag": "v1.8.2",
-    "commit": "815d4d3e6d6ecd707a2dab1adb4720f0915c9890"
+    "tag": "v1.8.3",
+    "commit": "646be3d94bc509f722091b8342bd9a2d3df271fe"
   },
   "_source": "https://github.com/OGDx-merlions/og-production-chart.git",
   "_target": "*",

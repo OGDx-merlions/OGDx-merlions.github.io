@@ -1,5 +1,6 @@
 {
   "name": "og-spine",
+  "version": "0.2.0",
   "main": [
     "og-spine.html"
   ],
@@ -45,14 +46,13 @@
     "webcomponentsjs": "^0.7.0"
   },
   "homepage": "https://github.com/OGDx-merlions/og-spine",
-  "_release": "77a56c07f3",
+  "_release": "0.2.0",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "77a56c07f3ed5b434fe940d48b2d35d23ebe0664"
+    "type": "version",
+    "tag": "v0.2.0",
+    "commit": "3d5c5663850bcf3c60ed11cd5a6d953f2f2e9ca7"
   },
   "_source": "https://github.com/OGDx-merlions/og-spine.git",
   "_target": "*",
-  "_originalSource": "og-spine",
-  "_direct": true
+  "_originalSource": "og-spine"
 }
