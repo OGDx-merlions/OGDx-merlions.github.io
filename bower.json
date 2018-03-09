@@ -36,7 +36,8 @@
     "og-spine": "*",
     "og-waterfall-chart": "*",
     "og-gdp-chart": "*",
-    "og-optimised-rop-chart": "*"
+    "og-optimised-rop-chart": "*",
+    "og-line-chart": "*"
   },
   "devDependencies": {},
   "resolutions": {

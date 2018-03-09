@@ -111,6 +111,26 @@
               "_keywords": "og-gdp-chart gdp"
             },
             {
+              "path": "og-line-chart",
+              "label": "Line Chart",
+              "module": "og-line-chart-demo",
+              "entrypoint": "/bower_components/og-line-chart/demo/og-line-chart-demo.html",
+              "redirects": [
+                "/components/og-line-chart",
+                "/modules/og-line-chart",
+                "/elements/og-line-chart"
+              ],
+              "keywords": [
+                "og-line-chart",
+                "line-chart"
+              ],
+              "tags": [
+                "line chart"
+              ],
+              "_route": "/elements/og-line-chart",
+              "_keywords": "og-line-chart line"
+            },
+            {
               "path": "og-optimised-rop-chart",
               "label": "Optimised Rate of Penetration Chart",
               "module": "og-optimised-rop-chart-demo",
@@ -225,6 +245,8 @@
     "/modules/og-bar-chart": "/elements/og-bar-chart",
     "/components/og-gdp-chart": "/elements/og-gdp-chart",
     "/modules/og-gdp-chart": "/elements/og-gdp-chart",
+    "/components/og-line-chart": "/elements/og-line-chart",
+    "/modules/og-line-chart": "/elements/og-line-chart",
     "/components/og-optimised-rop-chart": "/elements/og-optimised-rop-chart",
     "/modules/og-optimised-rop-chart": "/elements/og-optimised-rop-chart",
     "/components/og-production-chart": "/elements/og-production-chart",
@@ -346,6 +368,26 @@
               ],
               "_route": "/elements/og-gdp-chart",
               "_keywords": "og-gdp-chart gdp"
+            },
+            {
+              "path": "og-line-chart",
+              "label": "Line Chart",
+              "module": "og-line-chart-demo",
+              "entrypoint": "/bower_components/og-line-chart/demo/og-line-chart-demo.html",
+              "redirects": [
+                "/components/og-line-chart",
+                "/modules/og-line-chart",
+                "/elements/og-line-chart"
+              ],
+              "keywords": [
+                "og-line-chart",
+                "line-chart"
+              ],
+              "tags": [
+                "line chart"
+              ],
+              "_route": "/elements/og-line-chart",
+              "_keywords": "og-line-chart line"
             },
             {
               "path": "og-optimised-rop-chart",
@@ -529,6 +571,26 @@
       ],
       "_route": "/elements/og-bar-chart",
       "_keywords": "og-bar-chart bar"
+    },
+    "/elements/og-line-chart": {
+      "path": "og-line-chart",
+      "label": "Line Chart",
+      "module": "og-line-chart-demo",
+      "entrypoint": "/bower_components/og-line-chart/demo/og-line-chart-demo.html",
+      "redirects": [
+        "/components/og-line-chart",
+        "/modules/og-line-chart",
+        "/elements/og-line-chart"
+      ],
+      "keywords": [
+        "og-line-chart",
+        "line-chart"
+      ],
+      "tags": [
+        "line chart"
+      ],
+      "_route": "/elements/og-line-chart",
+      "_keywords": "og-line-chart line"
     },
     "/elements/og-gdp-chart" :  {
       "path": "og-gdp-chart",
