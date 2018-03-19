@@ -1,6 +1,6 @@
 {
   "name": "og-line-chart",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "main": [
     "og-line-chart.html"
   ],
@@ -24,7 +24,8 @@
     "polymer": "^1.9.0",
     "px-d3-imports": "^2.1.0",
     "px-rangepicker": "^2.1.1",
-    "px-datetime-range-field": "^1.0.0"
+    "px-datetime-range-field": "^1.0.0",
+    "px-spinner": "^2.2.2"
   },
   "devDependencies": {
     "px-meta-lists-design": "^1.0.0",
@@ -58,13 +59,14 @@
     }
   },
   "homepage": "https://github.com/OGDx-merlions/og-line-chart",
-  "_release": "0.1.4",
+  "_release": "0.1.6",
   "_resolution": {
     "type": "version",
-    "tag": "v0.1.4",
-    "commit": "a1dad44e9a3c289d69e6802c4d1c80dcc4d676f0"
+    "tag": "v0.1.6",
+    "commit": "54d2bfd019f7839355a699ce01abde70536da860"
   },
   "_source": "https://github.com/OGDx-merlions/og-line-chart.git",
-  "_target": "*",
-  "_originalSource": "og-line-chart"
+  "_target": "^0.1.6",
+  "_originalSource": "og-line-chart",
+  "_direct": true
 }

@@ -48,6 +48,7 @@
     "commit": "d8d8d7008391cea493e765064483e326f01a6360"
   },
   "_source": "https://github.com/OGDx-merlions/og-bar-chart.git",
-  "_target": "*",
-  "_originalSource": "og-bar-chart"
+  "_target": "^0.0.5",
+  "_originalSource": "og-bar-chart",
+  "_direct": true
 }

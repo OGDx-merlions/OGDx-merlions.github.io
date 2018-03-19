@@ -91,6 +91,26 @@
               "_keywords": "og-bar-chart bar"
             },
             {
+              "path": "og-fouling-forecast",
+              "label": "Fouling Forecast Chart",
+              "module": "og-fouling-forecast-demo",
+              "entrypoint": "/bower_components/og-fouling-forecast/demo/og-fouling-forecast-demo.html",
+              "redirects": [
+                "/components/og-fouling-forecast",
+                "/modules/og-fouling-forecast",
+                "/elements/og-fouling-forecast"
+              ],
+              "keywords": [
+                "og-fouling-forecast",
+                "fouling-forecast"
+              ],
+              "tags": [
+                "fouling forecast chart"
+              ],
+              "_route": "/elements/og-fouling-forecast",
+              "_keywords": "og-fouling-forecast fouling forecast"
+            },
+            {
               "path": "og-gdp-chart",
               "label": "Gamma, Density & Porosity Chart",
               "module": "og-gdp-chart-demo",
@@ -243,6 +263,8 @@
     "/modules/og-spine": "/elements/og-spine",
     "/components/og-bar-chart": "/elements/og-bar-chart",
     "/modules/og-bar-chart": "/elements/og-bar-chart",
+    "/components/og-fouling-forecast": "/elements/og-fouling-forecast",
+    "/modules/og-fouling-forecast": "/elements/og-fouling-forecast",
     "/components/og-gdp-chart": "/elements/og-gdp-chart",
     "/modules/og-gdp-chart": "/elements/og-gdp-chart",
     "/components/og-line-chart": "/elements/og-line-chart",
@@ -348,6 +370,26 @@
               ],
               "_route": "/elements/og-bar-chart",
               "_keywords": "og-bar-chart bar"
+            },
+            {
+              "path": "og-fouling-forecast",
+              "label": "Fouling Forecast Chart",
+              "module": "og-fouling-forecast-demo",
+              "entrypoint": "/bower_components/og-fouling-forecast/demo/og-fouling-forecast-demo.html",
+              "redirects": [
+                "/components/og-fouling-forecast",
+                "/modules/og-fouling-forecast",
+                "/elements/og-fouling-forecast"
+              ],
+              "keywords": [
+                "og-fouling-forecast",
+                "fouling-forecast"
+              ],
+              "tags": [
+                "fouling forecast chart"
+              ],
+              "_route": "/elements/og-fouling-forecast",
+              "_keywords": "og-fouling-forecast fouling forecast"
             },
             {
               "path": "og-gdp-chart",
@@ -571,6 +613,26 @@
       ],
       "_route": "/elements/og-bar-chart",
       "_keywords": "og-bar-chart bar"
+    },
+    "/elements/og-fouling-forecast": {
+      "path": "og-fouling-forecast",
+      "label": "Fouling Forecast Chart",
+      "module": "og-fouling-forecast-demo",
+      "entrypoint": "/bower_components/og-fouling-forecast/demo/og-fouling-forecast-demo.html",
+      "redirects": [
+        "/components/og-fouling-forecast",
+        "/modules/og-fouling-forecast",
+        "/elements/og-fouling-forecast"
+      ],
+      "keywords": [
+        "og-fouling-forecast",
+        "fouling-forecast"
+      ],
+      "tags": [
+        "fouling forecast chart"
+      ],
+      "_route": "/elements/og-fouling-forecast",
+      "_keywords": "og-fouling-forecast fouling forecast"
     },
     "/elements/og-line-chart": {
       "path": "og-line-chart",

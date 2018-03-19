@@ -48,6 +48,7 @@
     "commit": "f7de369b5081b571a1e0890007d27e2a9c6870d6"
   },
   "_source": "https://github.com/OGDx-merlions/og-gdp-chart.git",
-  "_target": "*",
-  "_originalSource": "og-gdp-chart"
+  "_target": "^0.3.3",
+  "_originalSource": "og-gdp-chart",
+  "_direct": true
 }

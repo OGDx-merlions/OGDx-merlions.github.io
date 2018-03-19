@@ -53,6 +53,7 @@
     "commit": "3d5c5663850bcf3c60ed11cd5a6d953f2f2e9ca7"
   },
   "_source": "https://github.com/OGDx-merlions/og-spine.git",
-  "_target": "*",
-  "_originalSource": "og-spine"
+  "_target": "^0.2.0",
+  "_originalSource": "og-spine",
+  "_direct": true
 }

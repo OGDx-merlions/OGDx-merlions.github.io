@@ -1,29 +1,28 @@
 {
   "name": "px-spinner",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "main": [
     "px-spinner.html"
   ],
   "ignore": [
     "*.enc",
     ".*",
-    "node_modules",
-    "bower_components",
+    "npm-debug.log",
+    "gulpfile.js",
     "sass",
-    "HISTORY.md",
-    "CONTRIBUTING.md",
+    "bower_components",
+    "node_modules",
+    "test",
     "OSS_Notice.pdf",
     "scripts",
     ".github",
-    ".editorconfig",
-    ".jshintrc",
-    ".gitignore",
+    "px-toggle.png",
     "LICENSE.md",
-    "gulpfile.js",
-    "monogram-wdmk.png",
+    "CONTRIBUTING.md",
+    "HISTORY.md",
     "README.md",
-    "wct.conf.json",
-    "px-spinner.png"
+    ".jshintrc",
+    ".editorconfig"
   ],
   "dependencies": {
     "polymer": "#1.9 - 2",
@@ -46,22 +45,21 @@
         "polymer": "^1.9.0"
       },
       "devDependencies": {
-        "web-component-tester": "^4.0.0"
+        "web-component-tester": "^5.0.0"
       },
       "resolutions": {
         "webcomponentsjs": "^0.7.0"
       }
     }
   },
-  "homepage": "https://github.com/PredixDev/px-spinner",
-  "_release": "2.2.0",
+  "homepage": "https://github.com/predixdesignsystem/px-spinner",
+  "_release": "2.2.2",
   "_resolution": {
     "type": "version",
-    "tag": "v2.2.0",
-    "commit": "fbb44616c14e7a26b7b373f2a0e7d4988661cdde"
+    "tag": "v2.2.2",
+    "commit": "3453c6e8be0efc608d88f226f3d6e8d150bbfd0f"
   },
-  "_source": "https://github.com/PredixDev/px-spinner.git",
-  "_target": "^2.2.0",
-  "_originalSource": "px-spinner",
-  "_direct": true
+  "_source": "https://github.com/predixdesignsystem/px-spinner.git",
+  "_target": "^2.2.2",
+  "_originalSource": "px-spinner"
 }

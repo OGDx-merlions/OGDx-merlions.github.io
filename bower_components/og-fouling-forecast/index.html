@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Predix UI</title>
+
     <!--
       Fast bootstrapping of the webcomponents-lite library. Only loads the library
       if the browser doesn't natively support web components.
@@ -47,12 +48,6 @@
       Load theme files, apply default theme.
     -->
     <link rel="import" href="../px-theme/px-theme-styles.html">
-    <custom-style>
-      <style include="px-theme-styles" is="custom-style"></style>
-    </custom-style>
-
- 
- 
 
     <!--
       Asynchronously import the px-catalog element, which is the entrypoint
@@ -62,7 +57,7 @@
         async
         id="main-element-import"
         rel="import"
-        href="demo/px-spinner-demo.html">
+        href="demo/og-fouling-forecast-demo.html">
 
     <!--
       Load the app icon and manifest for Android devices.
@@ -72,17 +67,19 @@
     <!--
       Basic page styles.
     -->
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+    <custom-style>
+      <style include="px-theme-styles" is="custom-style">
+        html, body {
+          margin: 0;
+          padding: 0;
+        }
+      </style>
+    </custom-style>
   </head>
 
   <body>
     <!-- Elements wait on the page and are upgraded after demo/index.html is loaded. -->
-    <px-spinner-demo></px-spinner-demo>
+    <og-fouling-forecast-demo></og-fouling-forecast-demo>
 
   </body>
 </html>

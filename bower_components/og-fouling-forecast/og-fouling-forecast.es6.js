@@ -1,7 +1,12 @@
 (function() {
   Polymer({
 
-    is: 'og-line-chart',
+    is: 'og-fouling-forecast',
+
+    listeners: {
+      'exchangersCombo.px-dropdown-selection-changed': '_notifyConsumer',
+      'forecastCombo.px-dropdown-selection-changed': '_setForecastDate'
+    },
 
     observers: [
       '_redraw(margin, data, cfgXAxis, cfgYAxis, cfgSeries)'
@@ -193,6 +198,50 @@
         type: String,
         value: "UTC"
       },
+      /**
+       * Heat Exchanger Label
+       * Eg: HX Case
+       *
+       * @property exchangersLabel
+       */
+      exchangersLabel: {
+        type: String,
+        value: "HX CASE"
+      },
+      /**
+      * List of Exchangers
+      * Eg: [{"key":"1","val":"HX001", "selected": true},{"key":"2","val":"HX002"}]
+      *
+      * @property exchangersLabel
+      */
+      exchangers: {
+        type: Array,
+        value() {
+          return [];
+        }
+      },
+      /**
+       * Days to Forecast Dropdown Label
+       * Eg: Days to Forecast
+       *
+       * @property forecastDaysLabel
+       */
+      forecastDaysLabel: {
+        type: String,
+        value: "Days to Forecast"
+      },
+      /**
+      * List of forecastDays
+      * Eg: [{"key":"1","val":30, "selected": true},{"key":"2","val":60}]
+      *
+      * @property forecastDays
+      */
+      forecastDays: {
+        type: Array,
+        value() {
+          return [];
+        }
+      },
       dateRange: {
         type: String,
         notify: true
@@ -245,7 +294,7 @@
 
     draw() {
       this._setupDefaults();
-      let d3 = Px.d3, data = this.data;
+      let d3 = Px.d3, data = this.data, me = this;
       if(!data || data.length === 0 || !this.cfgSeries || !this.cfgSeries.length) {return;}
       data = this._massageData(data);
       this._prepareChartingArea();
@@ -254,6 +303,7 @@
       this._drawTimelineSeparators(data);
       this._drawAxes(data);
       this._drawChart(data);
+      this._addClipPath();
 
       this.fire("chart-drawn", {});
       this.$.spinner.finished = true;
@@ -265,6 +315,19 @@
       this.minimap = this.minimap || {};
       Object.assign(this.axisData.x, this._defaultCfgXAxis, this.cfgXAxis);
       Object.assign(this.axisData.y, this._defaultCfgYAxis, this.cfgYAxis);
+
+      if(this.cfgSeries) {
+        this.cfgSeries.forEach((_series) => {
+          if(_series.boundary) {
+            _series.upperBoundaryLabel = _series.upperBoundaryLabel || "Forecast Data (UB)";
+            _series.lowerBoundaryLabel = _series.upperBoundarylowerBoundaryLabelLabel || "Forecast Data (LB)";
+            _series.upperBoundaryColor = _series.upperBoundaryColor || "gray";
+            _series.lowerBoundaryColor = _series.lowerBoundaryColor || "gray";
+            _series.upperBoundaryDashArray = _series.upperBoundaryDashArray || "2,2";
+            _series.lowerBoundaryDashArray = _series.lowerBoundaryDashArray || "2,2";
+          }
+        });
+      }
 
       const updateStyle = (key, val) => {
         if(this.customStyle) {
@@ -287,6 +350,7 @@
       if(this.axisData.y.tickColor) {
         updateStyle('--y-tick-color', this.axisData.y.tickColor);
       }
+      this.clipPathId = "fouling-forecast-clip-" + new Date().getTime();
     },
 
     _massageData(data) {
@@ -307,6 +371,7 @@
         }
       });
       this.setDateRange(data[0].x, data[data.length-1].x);
+      this.massagedData = data;
       return data;
     },
     _prepareChartingArea() {
@@ -331,7 +396,7 @@
         .attr("preserveAspectRatio", "xMidYMid meet");
 
       this.containerSvg.append("defs").append("clipPath")
-        .attr("id", "clip")
+        .attr("id", `${this.clipPathId}`)
       .append("rect")
         .attr("width", this.adjustedWidth)
         .attr("height", this.height)
@@ -527,58 +592,50 @@
       }
     },
 
+    _getFilteredData(_series, data) {
+      let x = this.x, y = this.y;
+      return data.filter((_datum) => {
+        if(!_series.xStart && !_series.xEnd) {
+          return true;
+        }
+        let result = true;
+        if(_series.xStart) {
+          let scaledXStart = this.parseTime ? this.parseTime(_series.xStart) : +_series.xStart;
+          result = x(_datum.x) >= x(scaledXStart);
+        }
+        if(result && _series.xEnd) {
+          let scaledXEnd = this.parseTime ? this.parseTime(_series.xEnd) : +_series.xEnd;
+          return x(_datum.x) <= x(scaledXEnd);
+        }
+        return result;
+      });
+    },
+
     _drawChart(data) {
       let x = this.x, y = this.y, d3 = Px.d3;
 
       this.cfgSeries.forEach((_series, idx) => {
         
-        let filteredData = data.filter((_datum) => {
-          if(!_series.xStart && !_series.xEnd) {
-            return true;
-          }
-          let result = true;
-          if(_series.xStart) {
-            let scaledXStart = this.parseTime ? this.parseTime(_series.xStart) : +_series.xStart;
-            result = x(_datum.x) >= x(scaledXStart);
-          }
-          if(result && _series.xEnd) {
-            let scaledXEnd = this.parseTime ? this.parseTime(_series.xEnd) : +_series.xEnd;
-            return x(_datum.x) <= x(scaledXEnd);
-          }
-          return result;
-        });
-
+        let filteredData = this._getFilteredData(_series, data);
 
         if(this.cfgSeries[idx].radius !== 0) {
           _series.radius = this.cfgSeries[idx].radius || 2;
         }
         const isLineChart = this.cfgSeries[idx].type === "line";
 
-        this._drawLineChart(_series, filteredData, idx);
-        //TODO: Move dots along zoom
-        // this.svg.selectAll(".dot")
-        //   .data(filteredData)
-        //   .enter()
-        //     .append("circle")
-        //     .attr("r", _series.radius)
-        //     .attr("cx", (d, i) => x(d.x))
-        //     .attr("cy", (d) => y(d.y[idx]))
-        //     .attr("fill", _series.color || "steelblue")
-        //     .attr("class", "series-circle-"+idx)
-        //     .on('mouseover', (d, i) => {
-        //       d3.select(this)
-        //         .attr('r', _series.radius + 2);
-        //       let prefix = _series.label ? _series.label + ": " : "";
-        //       d.msg = prefix + d.y[idx];
-        //       this.toolTip.show(d);
-        //     })
-        //     .on('mouseout', (d) => {
-        //       d3.select(this)
-        //         .attr('r', _series.radius);
-        //       this.toolTip.hide(d);
-        //     });
+        if(isLineChart) {
+          this._drawLineChart(_series, filteredData, idx);
+        } else {
+          this._drawDots(_series, filteredData, idx)
+        }
       });
       this._drawBrushAndZoomForMinimap();
+    },
+
+    _addClipPath() {
+      let d3 = Px.d3;
+      d3.selectAll(".series-line")
+        .attr('clip-path', (d) => {return `url(#${this.clipPathId}`});
     },
 
     _drawLineChart(_series, filteredData, idx) {
@@ -593,7 +650,8 @@
         .y(function(d) { return minimapY(d.y[idx]); });
 
       this.lines = this.lines || [];
-      this.lines.push(line);
+      let _lineSet = [line]
+      this.lines.push(_lineSet);
       
       if(this.cfgSeries[idx].interpolation) {
         line.curve(d3[this.cfgSeries[idx].interpolation]);
@@ -602,12 +660,17 @@
 
       this.svg.append("path")
         .data([filteredData])
-        .attr("class", `series-line series-line-${idx} series-circle-${idx}`)
+        .attr("class", `series-line series-${idx} series-line-${idx}-0`)
         .style("stroke", _series.color || "steelblue")
         .style("stroke-dasharray", _series.dashArray || "0,0")
         .attr("fill", "transparent")
         .attr("d", line)
         .style("pointer-events", "none");
+
+      if(_series.boundary) {
+        this._drawUpperBoundary(_series, filteredData, idx, _lineSet);
+        this._drawLowerBoundary(_series, filteredData, idx, _lineSet);
+      }
 
       this.minimapSvg.append("path")
         .data([filteredData])
@@ -619,6 +682,102 @@
         .style("pointer-events", "none");
     },
 
+    _drawUpperBoundary(_series, filteredData, idx, _lineSet) {
+      let x = this.x, y = this.y, d3 = Px.d3, 
+        _upperLimit = 1+_series.boundary;
+      let line = d3.line()
+        .x(function(d) { return x(d.x); })
+        .y(function(d) { return y(d.y[idx]) * _upperLimit; });
+
+      _lineSet.push(line);
+      
+      if(this.cfgSeries[idx].interpolation) {
+        line.curve(d3[this.cfgSeries[idx].interpolation]);
+      }
+
+      this.svg.append("path")
+        .data([filteredData])
+        .attr("class", `series-line boundary series-${idx} series-line-${idx}-1`)
+        .style("stroke", 
+          _series.upperBoundaryColor)
+        .style("stroke-dasharray", 
+          _series.upperBoundaryDashArray)
+        .attr("fill", "transparent")
+        .attr("d", line)
+        .style("pointer-events", "none");
+    },
+
+    _drawLowerBoundary(_series, filteredData, idx, _lineSet) {
+      let x = this.x, y = this.y, d3 = Px.d3, 
+        _lowerLimit = 1.00 - (+_series.boundary);
+      let line = d3.line()
+        .x(function(d) { return x(d.x); })
+        .y(function(d) { return y(d.y[idx]) * _lowerLimit; });
+
+      _lineSet.push(line);
+      
+      if(this.cfgSeries[idx].interpolation) {
+        line.curve(d3[this.cfgSeries[idx].interpolation]);
+      }
+
+      this.svg.append("path")
+        .data([filteredData])
+        .attr("class", `series-line boundary series-${idx} series-line-${idx}-2`)
+        .style("stroke", 
+          _series.lowerBoundaryColor)
+        .style("stroke-dasharray", 
+          _series.lowerBoundaryDashArray)
+        .attr("fill", "transparent")
+        .attr("d", line)
+        .style("pointer-events", "none");
+    },
+
+    _drawDots(_series, filteredData, idx) {
+      let x = this.x, y = this.y, d3 = Px.d3,
+          minimapX = this.minimap.x, minimapY = this.minimap.y;
+
+      this.lines = this.lines || [];
+      this.lines.push(null);
+      this.svg.selectAll(".dot")
+        .data(filteredData)
+        .enter()
+          .append("circle")
+          .attr("r", _series.radius)
+          .attr("cx", (d, i) => x(d.x))
+          .attr("cy", (d) => y(d.y[idx]))
+          .attr("fill", _series.color || "steelblue")
+          .attr("class", `main-chart-series-circle-${idx} series-${idx}`);
+
+      this.minimapSvg.selectAll(".dot")
+        .data(filteredData)
+        .enter()
+          .append("circle")
+          .attr("r", _series.radius/3)
+          .attr("cx", (d, i) => minimapX(d.x))
+          .attr("cy", (d) => minimapY(d.y[idx]))
+          .attr("fill", _series.color || "steelblue")
+          .attr("class", `minimap-series-circle-${idx}`);
+    },
+
+    _redrawDots(idx) {
+      Px.d3.select(this.$.chart)
+        .selectAll(`.main-chart-series-circle-${idx}`).remove();
+      let _series = this.cfgSeries[idx];
+      if(_series && this.massagedData) {
+        let filteredData = this._getFilteredData(_series, this.massagedData);
+        let x = this.x, y = this.y, d3 = Px.d3
+        this.svg.selectAll(".dot")
+          .data(filteredData)
+          .enter()
+            .append("circle")
+            .attr("r", _series.radius)
+            .attr("cx", (d, i) => x(d.x))
+            .attr("cy", (d) => y(d.y[idx]))
+            .attr("fill", _series.color || "steelblue")
+            .attr("class", `main-chart-series-circle-${idx}`);
+      }
+    },
+
     _drawBrushAndZoomForMinimap() {
       let x = this.x, y = this.y, d3 = Px.d3, me = this;
 
@@ -626,9 +785,14 @@
         if(d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
         let s = d3.event.selection || me.minimap.x.range();
         x.domain(s.map(me.minimap.x.invert, me.minimap.x));
-        me.lines && me.lines.forEach((_line, idx) => {
-          me.svg.select(`.series-line-${idx}`).attr("d", _line);
-          me.svg.select(`.series-circle-${idx}`).attr("d", _line);
+        me.lines && me.lines.forEach((_lineSet, idx) => {
+          if(_lineSet) {
+            _lineSet.forEach((_line, _subIdx) => {
+              me.svg.select(`.series-line-${idx}-${_subIdx}`).attr("d", _line);
+            });
+          } else {
+            me._redrawDots(idx);
+          } 
         });
         me.svg.select(".x-axis").call(me.xAxis);
         me.svg.select(".zoom").call(me.zoom.transform, 
@@ -643,9 +807,14 @@
         if(d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
         let t = d3.event.transform;
         x.domain(t.rescaleX(me.minimap.x).domain());
-        me.lines && me.lines.forEach((_line, idx) => {
-          me.svg.select(`.series-line-${idx}`).attr("d", _line);
-          me.svg.select(`.series-circle-${idx}`).attr("d", _line);
+        me.lines && me.lines.forEach((_lineSet, idx) => {
+          if(_lineSet) {
+            _lineSet.forEach((_line, _subIdx) => {
+              me.svg.select(`.series-line-${idx}-${_subIdx}`).attr("d", _line);
+            });
+          } else {
+            me._redrawDots(idx);
+          }
         })
         me.svg.select(".x-axis").call(me.xAxis);
         me.minimapSvg.select(".brush")
@@ -691,6 +860,10 @@
           [x(range.momentObjs.from.toDate()), x(range.momentObjs.to.toDate())]);
     },
 
+    _hasBoundary(item) {
+      return item.boundary ? true : false;
+    },
+
     _redraw(margin, data, cfgXAxis, cfgYAxis, cfgSeries) {
       if(!data || !data.length) {
         return;
@@ -711,7 +884,7 @@
     },
 
     _toggleSeries(event) {
-      const label = "series-line-" + event.model.get("idx");
+      const label = "series-" + event.model.get("idx");
 
       this[label] = !this[label];
 			if(this[label]) {
@@ -723,6 +896,37 @@
 					elt.style.display = "block";
 				});
 			}
+    },
+
+    /**
+    * @event hx-changed
+    *
+    * Event fired when any given element is selected or deselected in the exchanger dropdown.
+    * `evt.detail` contains:
+    * ```
+    * { val: "text of the changed element",
+    *   key: "key of the changed element",
+    *   selected: true }
+    * ```
+    */
+    _notifyConsumer(event) {
+      if(event.detail.selected) {
+        this.fire("hx-changed", event.detail);
+      }
+    },
+
+   _setForecastDate(event) {
+    if(event.detail.selected && event.detail.val 
+        && this.fromMoment && this.toMoment) {
+      this.todayAsDate = this.todayAsDate || new Date();
+      let newUpperLimit = Px.moment(this.todayAsDate.getTime(), 'x');
+      this.toMoment = newUpperLimit.add(+event.detail.val, 'days');
+      let range = {
+        "from": this.fromMoment.format('YYYY-MM-DDThh:mm:ss'),
+        "to": this.toMoment.format('YYYY-MM-DDThh:mm:ss')
+      }
+      this.set("dateRange", range);
     }
+  }
   });
 })();

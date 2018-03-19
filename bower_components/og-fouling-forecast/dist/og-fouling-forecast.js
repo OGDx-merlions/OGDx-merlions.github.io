@@ -1,9 +1,12 @@
-'use strict';
-
 (function () {
   Polymer({
 
-    is: 'og-line-chart',
+    is: 'og-fouling-forecast',
+
+    listeners: {
+      'exchangersCombo.px-dropdown-selection-changed': '_notifyConsumer',
+      'forecastCombo.px-dropdown-selection-changed': '_setForecastDate'
+    },
 
     observers: ['_redraw(margin, data, cfgXAxis, cfgYAxis, cfgSeries)'],
 
@@ -35,7 +38,7 @@
       margin: {
         type: Object,
         notify: true,
-        value: function value() {
+        value() {
           return { top: 30, right: 20, bottom: 40, left: 50 };
         }
       },
@@ -46,7 +49,7 @@
       */
       data: {
         type: Array,
-        value: function value() {
+        value() {
           return [];
         }
       },
@@ -149,7 +152,7 @@
        */
       cfgSeries: {
         type: Array,
-        value: function value() {
+        value() {
           return [];
         }
       },
@@ -193,6 +196,50 @@
         type: String,
         value: "UTC"
       },
+      /**
+       * Heat Exchanger Label
+       * Eg: HX Case
+       *
+       * @property exchangersLabel
+       */
+      exchangersLabel: {
+        type: String,
+        value: "HX CASE"
+      },
+      /**
+      * List of Exchangers
+      * Eg: [{"key":"1","val":"HX001", "selected": true},{"key":"2","val":"HX002"}]
+      *
+      * @property exchangersLabel
+      */
+      exchangers: {
+        type: Array,
+        value() {
+          return [];
+        }
+      },
+      /**
+       * Days to Forecast Dropdown Label
+       * Eg: Days to Forecast
+       *
+       * @property forecastDaysLabel
+       */
+      forecastDaysLabel: {
+        type: String,
+        value: "Days to Forecast"
+      },
+      /**
+      * List of forecastDays
+      * Eg: [{"key":"1","val":30, "selected": true},{"key":"2","val":60}]
+      *
+      * @property forecastDays
+      */
+      forecastDays: {
+        type: Array,
+        value() {
+          return [];
+        }
+      },
       dateRange: {
         type: String,
         notify: true
@@ -235,16 +282,19 @@
       "start": 0
     },
 
-    ready: function ready() {
+    ready() {
       this.scopeSubtree(this.$.chart, true);
     },
-    attached: function attached() {
+
+    attached() {
       this._setupDefaults();
     },
-    draw: function draw() {
+
+    draw() {
       this._setupDefaults();
-      var d3 = Px.d3,
-          data = this.data;
+      let d3 = Px.d3,
+          data = this.data,
+          me = this;
       if (!data || data.length === 0 || !this.cfgSeries || !this.cfgSeries.length) {
         return;
       }
@@ -255,25 +305,38 @@
       this._drawTimelineSeparators(data);
       this._drawAxes(data);
       this._drawChart(data);
+      this._addClipPath();
 
       this.fire("chart-drawn", {});
       this.$.spinner.finished = true;
       this.loadInProgress = false;
     },
-    _setupDefaults: function _setupDefaults() {
-      var _this = this;
 
+    _setupDefaults() {
       this.axisData = { x: {}, y: {} };
       this.minimap = this.minimap || {};
       Object.assign(this.axisData.x, this._defaultCfgXAxis, this.cfgXAxis);
       Object.assign(this.axisData.y, this._defaultCfgYAxis, this.cfgYAxis);
 
-      var updateStyle = function updateStyle(key, val) {
-        if (_this.customStyle) {
-          _this.customStyle['--x-axis-color'] = _this.axisData.x.axisColor;
-          _this.updateStyles();
+      if (this.cfgSeries) {
+        this.cfgSeries.forEach(_series => {
+          if (_series.boundary) {
+            _series.upperBoundaryLabel = _series.upperBoundaryLabel || "Forecast Data (UB)";
+            _series.lowerBoundaryLabel = _series.upperBoundarylowerBoundaryLabelLabel || "Forecast Data (LB)";
+            _series.upperBoundaryColor = _series.upperBoundaryColor || "gray";
+            _series.lowerBoundaryColor = _series.lowerBoundaryColor || "gray";
+            _series.upperBoundaryDashArray = _series.upperBoundaryDashArray || "2,2";
+            _series.lowerBoundaryDashArray = _series.lowerBoundaryDashArray || "2,2";
+          }
+        });
+      }
+
+      const updateStyle = (key, val) => {
+        if (this.customStyle) {
+          this.customStyle['--x-axis-color'] = this.axisData.x.axisColor;
+          this.updateStyles();
         } else {
-          _this.updateStyles({ "`${key}`": val });
+          this.updateStyles({ "`${key}`": val });
         }
       };
 
@@ -289,30 +352,31 @@
       if (this.axisData.y.tickColor) {
         updateStyle('--y-tick-color', this.axisData.y.tickColor);
       }
+      this.clipPathId = "fouling-forecast-clip-" + new Date().getTime();
     },
-    _massageData: function _massageData(data) {
-      var _this2 = this;
 
-      var d3 = Px.d3;
+    _massageData(data) {
+      let d3 = Px.d3;
       // parse the date / time
       this.parseTime = this.axisData.x.inputDateFormat ? d3.timeParse(this.axisData.x.inputDateFormat) : null;
 
-      data.forEach(function (d) {
-        if (_this2.parseTime) {
-          d.x = d.timeStamp.getTime ? d.x : _this2.parseTime(d.timeStamp);
+      data.forEach(d => {
+        if (this.parseTime) {
+          d.x = d.timeStamp.getTime ? d.x : this.parseTime(d.timeStamp);
         }
         d.y = [];
-        for (var i = 0; i < _this2.cfgSeries.length; i++) {
-          var key = 'y' + i;
+        for (let i = 0; i < this.cfgSeries.length; i++) {
+          let key = `y${i}`;
           d[key] = d[key] ? +d[key] : 0;
           d.y.push(+d[key]);
         }
       });
       this.setDateRange(data[0].x, data[data.length - 1].x);
+      this.massagedData = data;
       return data;
     },
-    _prepareChartingArea: function _prepareChartingArea() {
-      var d3 = Px.d3;
+    _prepareChartingArea() {
+      let d3 = Px.d3;
       // set the dimensions and margins of the graph
       this.margin = this.margin || { top: 30, right: 20, bottom: 40, left: 50 }, this.adjustedWidth = this.width - this.margin.left - this.margin.right, this.adjustedHeight = this.height - this.margin.top - this.margin.bottom - 80;
 
@@ -328,7 +392,7 @@
       d3.select(this.$.chart).select("svg").remove();
       this.containerSvg = d3.select(this.$.chart).append("svg").attr("viewBox", "0 0 " + this.width + " " + this.height).attr("preserveAspectRatio", "xMidYMid meet");
 
-      this.containerSvg.append("defs").append("clipPath").attr("id", "clip").append("rect").attr("width", this.adjustedWidth).attr("height", this.height).attr("x", 0).attr("y", 0);
+      this.containerSvg.append("defs").append("clipPath").attr("id", `${this.clipPathId}`).append("rect").attr("width", this.adjustedWidth).attr("height", this.height).attr("x", 0).attr("y", 0);
 
       this.svg = this.containerSvg.append("g").attr("class", "focus").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
@@ -340,9 +404,9 @@
 
       this.containerSvg.call(this.toolTip);
     },
-    _prepareAxes: function _prepareAxes(data) {
+    _prepareAxes(data) {
       // set the ranges
-      var d3 = Px.d3;
+      let d3 = Px.d3;
       if (this.parseTime) {
         this.x = d3.scaleTime().range([0, this.adjustedWidth]);
         this.minimap.x = d3.scaleTime().range([0, this.adjustedWidth]);
@@ -353,17 +417,17 @@
       this.y = d3.scaleLinear().range([this.adjustedHeight, 0]).clamp(true);
       this.minimap.y = d3.scaleLinear().range([this.minimap.adjustedHeight, 0]).clamp(true);
 
-      var x = this.x,
+      let x = this.x,
           y = this.y;
       this.todayAsDate = this.today && this.parseTime ? this.parseTime(this.today) : null;
 
-      var yMax = d3.max(data, function (d) {
-        return d.y.reduce(function (a, b) {
+      let yMax = d3.max(data, function (d) {
+        return d.y.reduce((a, b) => {
           return Math.max(a, b);
         });
       });
-      var yMin = d3.min(data, function (d) {
-        return d.y.reduce(function (a, b) {
+      let yMin = d3.min(data, function (d) {
+        return d.y.reduce((a, b) => {
           return Math.min(a, b);
         });
       });
@@ -393,11 +457,11 @@
         this.minimap.y.nice(this.axisData.y.niceTicks);
       }
     },
-    _drawGridLines: function _drawGridLines(data) {
-      var x = this.x,
+    _drawGridLines(data) {
+      let x = this.x,
           y = this.y,
           d3 = Px.d3;
-      var yScaledMin = y(y.domain()[0]);
+      let yScaledMin = y(y.domain()[0]);
       if (!this.axisData.x.hideGrid) {
         this.svg.append("g").attr("class", "grid x-grid").call(d3.axisBottom(x)
         // .ticks(this.axisData.x.totalGridLines || 10)
@@ -408,8 +472,8 @@
         this.svg.append("g").attr("class", "grid y-grid").call(d3.axisLeft(y).ticks(this.axisData.y.totalGridLines || 5).tickSize(-this.adjustedWidth).tickFormat(""));
       }
     },
-    _drawTimelineSeparators: function _drawTimelineSeparators(data) {
-      var x = this.x,
+    _drawTimelineSeparators(data) {
+      let x = this.x,
           y = this.y,
           d3 = Px.d3;
       this.svg.selectAll(".line-sep").remove();
@@ -429,16 +493,17 @@
         }
       }
     },
-    _drawAxes: function _drawAxes(data) {
-      var x = this.x,
+
+    _drawAxes(data) {
+      let x = this.x,
           y = this.y,
           d3 = Px.d3;
 
       // Add the X Axis
-      var _xAxis = d3.axisBottom(x);
+      let _xAxis = d3.axisBottom(x);
       this.xAxis = _xAxis;
 
-      var _minimapXAxis = d3.axisBottom(this.minimap.x);
+      let _minimapXAxis = d3.axisBottom(this.minimap.x);
 
       if (this.parseTime && this.axisData.x.tickTimeFormat) {
         _xAxis.tickFormat(d3.timeFormat(this.axisData.x.tickTimeFormat));
@@ -456,7 +521,7 @@
       this.minimapSvg.append("g").attr("class", "x-axis minimap-x-axis").attr("transform", "translate(0," + this.minimap.adjustedHeight + ")").call(_minimapXAxis);
 
       // Add the Y Axis
-      var _yAxis = d3.axisLeft(y).ticks(this.axisData.y.niceTicks || 6);
+      let _yAxis = d3.axisLeft(y).ticks(this.axisData.y.niceTicks || 6);
       if (this.axisData.y.tickFormat) {
         _yAxis.tickFormat(d3.format(this.axisData.y.tickFormat));
       }
@@ -470,105 +535,178 @@
         this.svg.append("text").attr("dy", "1em").attr("class", "x-axis-label").attr("text-anchor", "middle").attr("transform", "translate(" + this.adjustedWidth / 2 + "," + (this.adjustedHeight + this.margin.top) + ")").text(this.axisData.x.axisLabel);
       }
     },
-    _drawChart: function _drawChart(data) {
-      var _this3 = this;
 
-      var x = this.x,
+    _getFilteredData(_series, data) {
+      let x = this.x,
+          y = this.y;
+      return data.filter(_datum => {
+        if (!_series.xStart && !_series.xEnd) {
+          return true;
+        }
+        let result = true;
+        if (_series.xStart) {
+          let scaledXStart = this.parseTime ? this.parseTime(_series.xStart) : +_series.xStart;
+          result = x(_datum.x) >= x(scaledXStart);
+        }
+        if (result && _series.xEnd) {
+          let scaledXEnd = this.parseTime ? this.parseTime(_series.xEnd) : +_series.xEnd;
+          return x(_datum.x) <= x(scaledXEnd);
+        }
+        return result;
+      });
+    },
+
+    _drawChart(data) {
+      let x = this.x,
           y = this.y,
           d3 = Px.d3;
 
-      this.cfgSeries.forEach(function (_series, idx) {
+      this.cfgSeries.forEach((_series, idx) => {
 
-        var filteredData = data.filter(function (_datum) {
-          if (!_series.xStart && !_series.xEnd) {
-            return true;
-          }
-          var result = true;
-          if (_series.xStart) {
-            var scaledXStart = _this3.parseTime ? _this3.parseTime(_series.xStart) : +_series.xStart;
-            result = x(_datum.x) >= x(scaledXStart);
-          }
-          if (result && _series.xEnd) {
-            var scaledXEnd = _this3.parseTime ? _this3.parseTime(_series.xEnd) : +_series.xEnd;
-            return x(_datum.x) <= x(scaledXEnd);
-          }
-          return result;
-        });
+        let filteredData = this._getFilteredData(_series, data);
 
-        if (_this3.cfgSeries[idx].radius !== 0) {
-          _series.radius = _this3.cfgSeries[idx].radius || 2;
+        if (this.cfgSeries[idx].radius !== 0) {
+          _series.radius = this.cfgSeries[idx].radius || 2;
         }
-        var isLineChart = _this3.cfgSeries[idx].type === "line";
+        const isLineChart = this.cfgSeries[idx].type === "line";
 
-        _this3._drawLineChart(_series, filteredData, idx);
-        //TODO: Move dots along zoom
-        // this.svg.selectAll(".dot")
-        //   .data(filteredData)
-        //   .enter()
-        //     .append("circle")
-        //     .attr("r", _series.radius)
-        //     .attr("cx", (d, i) => x(d.x))
-        //     .attr("cy", (d) => y(d.y[idx]))
-        //     .attr("fill", _series.color || "steelblue")
-        //     .attr("class", "series-circle-"+idx)
-        //     .on('mouseover', (d, i) => {
-        //       d3.select(this)
-        //         .attr('r', _series.radius + 2);
-        //       let prefix = _series.label ? _series.label + ": " : "";
-        //       d.msg = prefix + d.y[idx];
-        //       this.toolTip.show(d);
-        //     })
-        //     .on('mouseout', (d) => {
-        //       d3.select(this)
-        //         .attr('r', _series.radius);
-        //       this.toolTip.hide(d);
-        //     });
+        if (isLineChart) {
+          this._drawLineChart(_series, filteredData, idx);
+        } else {
+          this._drawDots(_series, filteredData, idx);
+        }
       });
       this._drawBrushAndZoomForMinimap();
     },
-    _drawLineChart: function _drawLineChart(_series, filteredData, idx) {
-      var x = this.x,
+
+    _addClipPath() {
+      let d3 = Px.d3;
+      d3.selectAll(".series-line").attr('clip-path', d => {
+        return `url(#${this.clipPathId}`;
+      });
+    },
+
+    _drawLineChart(_series, filteredData, idx) {
+      let x = this.x,
           y = this.y,
           d3 = Px.d3,
           minimapX = this.minimap.x,
           minimapY = this.minimap.y;
-      var line = d3.line().x(function (d) {
+      let line = d3.line().x(function (d) {
         return x(d.x);
       }).y(function (d) {
         return y(d.y[idx]);
       });
 
-      var minimapLine = d3.line().x(function (d) {
+      let minimapLine = d3.line().x(function (d) {
         return minimapX(d.x);
       }).y(function (d) {
         return minimapY(d.y[idx]);
       });
 
       this.lines = this.lines || [];
-      this.lines.push(line);
+      let _lineSet = [line];
+      this.lines.push(_lineSet);
 
       if (this.cfgSeries[idx].interpolation) {
         line.curve(d3[this.cfgSeries[idx].interpolation]);
         minimapLine.curve(d3[this.cfgSeries[idx].interpolation]);
       }
 
-      this.svg.append("path").data([filteredData]).attr("class", 'series-line series-line-' + idx + ' series-circle-' + idx).style("stroke", _series.color || "steelblue").style("stroke-dasharray", _series.dashArray || "0,0").attr("fill", "transparent").attr("d", line).style("pointer-events", "none");
+      this.svg.append("path").data([filteredData]).attr("class", `series-line series-${idx} series-line-${idx}-0`).style("stroke", _series.color || "steelblue").style("stroke-dasharray", _series.dashArray || "0,0").attr("fill", "transparent").attr("d", line).style("pointer-events", "none");
 
-      this.minimapSvg.append("path").data([filteredData]).attr("class", 'minimap-line minimap-series-' + idx).style("stroke", _series.color || "steelblue").style("stroke-dasharray", _series.dashArray || "0,0").attr("fill", "transparent").attr("d", minimapLine).style("pointer-events", "none");
+      if (_series.boundary) {
+        this._drawUpperBoundary(_series, filteredData, idx, _lineSet);
+        this._drawLowerBoundary(_series, filteredData, idx, _lineSet);
+      }
+
+      this.minimapSvg.append("path").data([filteredData]).attr("class", `minimap-line minimap-series-${idx}`).style("stroke", _series.color || "steelblue").style("stroke-dasharray", _series.dashArray || "0,0").attr("fill", "transparent").attr("d", minimapLine).style("pointer-events", "none");
     },
-    _drawBrushAndZoomForMinimap: function _drawBrushAndZoomForMinimap() {
-      var x = this.x,
+
+    _drawUpperBoundary(_series, filteredData, idx, _lineSet) {
+      let x = this.x,
+          y = this.y,
+          d3 = Px.d3,
+          _upperLimit = 1 + _series.boundary;
+      let line = d3.line().x(function (d) {
+        return x(d.x);
+      }).y(function (d) {
+        return y(d.y[idx]) * _upperLimit;
+      });
+
+      _lineSet.push(line);
+
+      if (this.cfgSeries[idx].interpolation) {
+        line.curve(d3[this.cfgSeries[idx].interpolation]);
+      }
+
+      this.svg.append("path").data([filteredData]).attr("class", `series-line boundary series-${idx} series-line-${idx}-1`).style("stroke", _series.upperBoundaryColor).style("stroke-dasharray", _series.upperBoundaryDashArray).attr("fill", "transparent").attr("d", line).style("pointer-events", "none");
+    },
+
+    _drawLowerBoundary(_series, filteredData, idx, _lineSet) {
+      let x = this.x,
+          y = this.y,
+          d3 = Px.d3,
+          _lowerLimit = 1.00 - +_series.boundary;
+      let line = d3.line().x(function (d) {
+        return x(d.x);
+      }).y(function (d) {
+        return y(d.y[idx]) * _lowerLimit;
+      });
+
+      _lineSet.push(line);
+
+      if (this.cfgSeries[idx].interpolation) {
+        line.curve(d3[this.cfgSeries[idx].interpolation]);
+      }
+
+      this.svg.append("path").data([filteredData]).attr("class", `series-line boundary series-${idx} series-line-${idx}-2`).style("stroke", _series.lowerBoundaryColor).style("stroke-dasharray", _series.lowerBoundaryDashArray).attr("fill", "transparent").attr("d", line).style("pointer-events", "none");
+    },
+
+    _drawDots(_series, filteredData, idx) {
+      let x = this.x,
+          y = this.y,
+          d3 = Px.d3,
+          minimapX = this.minimap.x,
+          minimapY = this.minimap.y;
+
+      this.lines = this.lines || [];
+      this.lines.push(null);
+      this.svg.selectAll(".dot").data(filteredData).enter().append("circle").attr("r", _series.radius).attr("cx", (d, i) => x(d.x)).attr("cy", d => y(d.y[idx])).attr("fill", _series.color || "steelblue").attr("class", `main-chart-series-circle-${idx} series-${idx}`);
+
+      this.minimapSvg.selectAll(".dot").data(filteredData).enter().append("circle").attr("r", _series.radius / 3).attr("cx", (d, i) => minimapX(d.x)).attr("cy", d => minimapY(d.y[idx])).attr("fill", _series.color || "steelblue").attr("class", `minimap-series-circle-${idx}`);
+    },
+
+    _redrawDots(idx) {
+      Px.d3.select(this.$.chart).selectAll(`.main-chart-series-circle-${idx}`).remove();
+      let _series = this.cfgSeries[idx];
+      if (_series && this.massagedData) {
+        let filteredData = this._getFilteredData(_series, this.massagedData);
+        let x = this.x,
+            y = this.y,
+            d3 = Px.d3;
+        this.svg.selectAll(".dot").data(filteredData).enter().append("circle").attr("r", _series.radius).attr("cx", (d, i) => x(d.x)).attr("cy", d => y(d.y[idx])).attr("fill", _series.color || "steelblue").attr("class", `main-chart-series-circle-${idx}`);
+      }
+    },
+
+    _drawBrushAndZoomForMinimap() {
+      let x = this.x,
           y = this.y,
           d3 = Px.d3,
           me = this;
 
-      this.brushed = function () {
+      this.brushed = () => {
         if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
-        var s = d3.event.selection || me.minimap.x.range();
+        let s = d3.event.selection || me.minimap.x.range();
         x.domain(s.map(me.minimap.x.invert, me.minimap.x));
-        me.lines && me.lines.forEach(function (_line, idx) {
-          me.svg.select('.series-line-' + idx).attr("d", _line);
-          me.svg.select('.series-circle-' + idx).attr("d", _line);
+        me.lines && me.lines.forEach((_lineSet, idx) => {
+          if (_lineSet) {
+            _lineSet.forEach((_line, _subIdx) => {
+              me.svg.select(`.series-line-${idx}-${_subIdx}`).attr("d", _line);
+            });
+          } else {
+            me._redrawDots(idx);
+          }
         });
         me.svg.select(".x-axis").call(me.xAxis);
         me.svg.select(".zoom").call(me.zoom.transform, d3.zoomIdentity.scale(me.adjustedWidth / (s[1] - s[0])).translate(-s[0], 0));
@@ -576,13 +714,18 @@
         me._drawTimelineSeparators();
       };
 
-      this.zoomed = function () {
+      this.zoomed = () => {
         if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
-        var t = d3.event.transform;
+        let t = d3.event.transform;
         x.domain(t.rescaleX(me.minimap.x).domain());
-        me.lines && me.lines.forEach(function (_line, idx) {
-          me.svg.select('.series-line-' + idx).attr("d", _line);
-          me.svg.select('.series-circle-' + idx).attr("d", _line);
+        me.lines && me.lines.forEach((_lineSet, idx) => {
+          if (_lineSet) {
+            _lineSet.forEach((_line, _subIdx) => {
+              me.svg.select(`.series-line-${idx}-${_subIdx}`).attr("d", _line);
+            });
+          } else {
+            me._redrawDots(idx);
+          }
         });
         me.svg.select(".x-axis").call(me.xAxis);
         me.minimapSvg.select(".brush").call(me.brush.move, x.range().map(t.invertX, t));
@@ -598,48 +741,86 @@
 
       this.minimapSvg.append("rect").attr("class", "zoom").attr("width", this.adjustedWidth).attr("height", this.minimap.adjustedHeight).attr("transform", "translate(" + this.margin.left + "," + (this.adjustedHeight + this.minimap.adjustedHeight + 50) + ")").call(this.zoom);
     },
-    _updateBrush: function _updateBrush(event, range) {
+
+    _updateBrush(event, range) {
       if (!range || !this.brush) {
         return;
       }
-      var x = this.x,
+      let x = this.x,
           y = this.y,
           d3 = Px.d3,
           me = this;
-      var s = me.minimap.x.range();
+      let s = me.minimap.x.range();
       x.domain(s.map(me.minimap.x.invert, me.minimap.x));
       this.minimapSvg.select(".brush").call(this.brush.move, [x(range.momentObjs.from.toDate()), x(range.momentObjs.to.toDate())]);
     },
-    _redraw: function _redraw(margin, data, cfgXAxis, cfgYAxis, cfgSeries) {
+
+    _hasBoundary(item) {
+      return item.boundary ? true : false;
+    },
+
+    _redraw(margin, data, cfgXAxis, cfgYAxis, cfgSeries) {
       if (!data || !data.length) {
         return;
       }
       Px.d3.select(this.$.chart).select("svg").remove();
       this.draw();
     },
-    setDateRange: function setDateRange(fromMoment, toMoment) {
+
+    setDateRange(fromMoment, toMoment) {
       this.fromMoment = Px.moment(fromMoment, 'x');
       this.toMoment = Px.moment(toMoment, 'x');
-      var range = {
+      const range = {
         "from": this.fromMoment.format('YYYY-MM-DDThh:mm:ss'),
         "to": this.toMoment.format('YYYY-MM-DDThh:mm:ss')
       };
       this.set("dateRange", range);
     },
-    _toggleSeries: function _toggleSeries(event) {
-      var label = "series-line-" + event.model.get("idx");
+
+    _toggleSeries(event) {
+      const label = "series-" + event.model.get("idx");
 
       this[label] = !this[label];
       if (this[label]) {
-        this.querySelectorAll("." + label).forEach(function (elt) {
+        this.querySelectorAll("." + label).forEach(elt => {
           elt.style.display = "none";
         });
       } else {
-        this.querySelectorAll("." + label).forEach(function (elt) {
+        this.querySelectorAll("." + label).forEach(elt => {
           elt.style.display = "block";
         });
+      }
+    },
+
+    /**
+    * @event hx-changed
+    *
+    * Event fired when any given element is selected or deselected in the exchanger dropdown.
+    * `evt.detail` contains:
+    * ```
+    * { val: "text of the changed element",
+    *   key: "key of the changed element",
+    *   selected: true }
+    * ```
+    */
+    _notifyConsumer(event) {
+      if (event.detail.selected) {
+        this.fire("hx-changed", event.detail);
+      }
+    },
+
+    _setForecastDate(event) {
+      if (event.detail.selected && event.detail.val && this.fromMoment && this.toMoment) {
+        this.todayAsDate = this.todayAsDate || new Date();
+        let newUpperLimit = Px.moment(this.todayAsDate.getTime(), 'x');
+        this.toMoment = newUpperLimit.add(+event.detail.val, 'days');
+        let range = {
+          "from": this.fromMoment.format('YYYY-MM-DDThh:mm:ss'),
+          "to": this.toMoment.format('YYYY-MM-DDThh:mm:ss')
+        };
+        this.set("dateRange", range);
       }
     }
   });
 })();
-//# sourceMappingURL=og-line-chart.js.map
+//# sourceMappingURL=og-fouling-forecast.js.map

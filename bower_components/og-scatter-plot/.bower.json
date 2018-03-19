@@ -46,6 +46,7 @@
     "commit": "aff64a1d606880198bb9cafc8ec04f9612e5d3f7"
   },
   "_source": "https://github.com/OGDx-merlions/og-scatter-plot.git",
-  "_target": "*",
-  "_originalSource": "og-scatter-plot"
+  "_target": "^1.1.15",
+  "_originalSource": "og-scatter-plot",
+  "_direct": true
 }

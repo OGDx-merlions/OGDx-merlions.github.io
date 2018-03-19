@@ -49,6 +49,7 @@
     "commit": "646be3d94bc509f722091b8342bd9a2d3df271fe"
   },
   "_source": "https://github.com/OGDx-merlions/og-production-chart.git",
-  "_target": "*",
-  "_originalSource": "og-production-chart"
+  "_target": "^1.8.3",
+  "_originalSource": "og-production-chart",
+  "_direct": true
 }
