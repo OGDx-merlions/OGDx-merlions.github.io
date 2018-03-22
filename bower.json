@@ -37,7 +37,7 @@
     "og-waterfall-chart": "^1.2.4",
     "og-gdp-chart": "^0.3.3",
     "og-optimised-rop-chart": "^0.1.7",
-    "og-line-chart": "^0.1.6",
+    "og-line-chart": "^0.1.7",
     "og-fouling-forecast": "^0.1.3"
   },
   "devDependencies": {},
