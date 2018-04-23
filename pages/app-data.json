@@ -26,6 +26,27 @@
           "_keywords": "og-gauge gauge"
         },
         {
+          "path": "og-gis-map",
+          "label": "OG GIS Map",
+          "module": "og-gis-map-demo",
+          "entrypoint": "/bower_components/og-gis-map/demo/og-gis-map-demo.html",
+          "redirects": [
+            "/components/og-gis-map",
+            "/modules/og-gis-map",
+            "/elements/og-gis-map"
+          ],
+          "keywords": [
+            "og-gis-map",
+            "gis-map"
+          ],
+          "tags": [
+            "mobile",
+            "gis-map"
+          ],
+          "_route": "/elements/og-gis-map",
+          "_keywords": "og-gis-map gis-map"
+        },
+        {
           "path": "og-slider",
           "label": "Slider",
           "module": "og-slider-demo",
@@ -257,6 +278,8 @@
   "redirects": {
     "/components/og-gauge": "/elements/og-gauge",
     "/modules/og-gauge": "/elements/og-gauge",
+    "/components/og-gis-map": "/elements/og-gis-map",
+    "/modules/og-gis-map": "/elements/og-gis-map",
     "/components/og-slider": "/elements/og-slider",
     "/modules/og-slider": "/elements/og-slider",
     "/components/og-spine": "/elements/og-spine",
@@ -305,6 +328,27 @@
           ],
           "_route": "/elements/og-gauge",
           "_keywords": "og-gauge gauge"
+        },
+        {
+          "path": "og-gis-map",
+          "label": "OG GIS Map",
+          "module": "og-gis-map-demo",
+          "entrypoint": "/bower_components/og-gis-map/demo/og-gis-map-demo.html",
+          "redirects": [
+            "/components/og-gis-map",
+            "/modules/og-gis-map",
+            "/elements/og-gis-map"
+          ],
+          "keywords": [
+            "og-gis-map",
+            "gis-map"
+          ],
+          "tags": [
+            "mobile",
+            "gis-map"
+          ],
+          "_route": "/elements/og-gis-map",
+          "_keywords": "og-gis-map gis-map"
         },
         {
           "path": "og-slider",
@@ -552,6 +596,27 @@
       ],
       "_route": "/elements/og-gauge",
       "_keywords": "og-gauge gauge"
+    },
+    "/elements/og-gis-map": {
+      "path": "og-gis-map",
+      "label": "OG GIS Map",
+      "module": "og-gis-map-demo",
+      "entrypoint": "/bower_components/og-gis-map/demo/og-gis-map-demo.html",
+      "redirects": [
+        "/components/og-gis-map",
+        "/modules/og-gis-map",
+        "/elements/og-gis-map"
+      ],
+      "keywords": [
+        "og-gis-map",
+        "gis-map"
+      ],
+      "tags": [
+        "mobile",
+        "gis-map"
+      ],
+      "_route": "/elements/og-gis-map",
+      "_keywords": "og-gis-map gis-map"
     },
     "/elements/og-slider" : {
       "path": "og-slider",
