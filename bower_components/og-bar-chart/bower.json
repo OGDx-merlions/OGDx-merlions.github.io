@@ -1,6 +1,6 @@
 {
   "name": "og-bar-chart",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": [
     "og-bar-chart.html"
   ],
@@ -38,6 +38,7 @@
     "px-theme": "^3.0.0"
   },
   "resolutions": {
-    "webcomponentsjs": "^0.7.0"
+    "webcomponentsjs": "^0.7.0",
+    "px-overlay": "^1.0.0"
   }
 }
