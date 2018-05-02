@@ -1,6 +1,6 @@
 {
   "name": "og-line-chart",
-  "version": "0.1.8",
+  "version": "0.1.15",
   "main": [
     "og-line-chart.html"
   ],
@@ -59,14 +59,13 @@
     }
   },
   "homepage": "https://github.com/OGDx-merlions/og-line-chart",
-  "_release": "0.1.8",
+  "_release": "0.1.15",
   "_resolution": {
     "type": "version",
-    "tag": "v0.1.8",
-    "commit": "33d1f0e7950677d016cc54ce31a61bb847a8f527"
+    "tag": "v0.1.15",
+    "commit": "6c6248f14a9b999759eff85217097eb816fb3882"
   },
   "_source": "https://github.com/OGDx-merlions/og-line-chart.git",
-  "_target": "^0.1.8",
-  "_originalSource": "og-line-chart",
-  "_direct": true
+  "_target": "^0.1.15",
+  "_originalSource": "og-line-chart"
 }

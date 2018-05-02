@@ -37,9 +37,9 @@
     "og-waterfall-chart": "^1.2.4",
     "og-gdp-chart": "^0.3.3",
     "og-optimised-rop-chart": "^0.1.7",
-    "og-line-chart": "^0.1.8",
+    "og-line-chart": "^0.1.15",
     "og-fouling-forecast": "^0.1.6",
-    "og-gis-map": "^1.0.1"
+    "og-gis-map": "^1.1.4"
   },
   "devDependencies": {},
   "resolutions": {
@@ -47,6 +47,8 @@
     "px-api-viewer": "^1.0.0",
     "iron-doc-viewer": "^2.0.0",
     "px-code-editor": "^2.0.0",
-    "px-demo": "^2.0.0"
+    "px-demo": "^2.0.0",
+    "px-overlay": "^1.0.0",
+    "px-dropdown": "^4.2.1"
   }
 }

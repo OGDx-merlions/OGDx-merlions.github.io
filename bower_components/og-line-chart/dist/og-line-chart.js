@@ -193,6 +193,35 @@
         type: String,
         value: "UTC"
       },
+      /**
+       * Alert 
+       * Eg: {'x': 1, 'text': 'Anomaly text'}
+       *
+       * @property alert
+       */
+      alert: {
+        type: Object
+      },
+      /**
+       * Legend Label style
+       * Eg: "font-size: 1rem;"
+       *
+       * @property labelStyle
+       */
+      labelStyle: {
+        type: String,
+        value: "font-size: 1rem;"
+      },
+      /**
+      * The font size to use within the SVG
+      * Eg: "1rem"
+      *
+      * @property svgFontSize
+      */
+      svgFontSize: {
+        type: String,
+        value: "0.8rem"
+      },
       dateRange: {
         type: String,
         notify: true
@@ -256,6 +285,7 @@
       this._drawAxes(data);
       this._drawChart(data);
       this._addClipPath();
+      this._drawAlertLine();
 
       this.fire("chart-drawn", {});
       this.$.spinner.finished = true;
@@ -271,7 +301,7 @@
 
       var updateStyle = function updateStyle(key, val) {
         if (_this.customStyle) {
-          _this.customStyle['--x-axis-color'] = _this.axisData.x.axisColor;
+          _this.customStyle[key] = val;
           _this.updateStyles();
         } else {
           _this.updateStyles({ "`${key}`": val });
@@ -289,6 +319,9 @@
       }
       if (this.axisData.y.tickColor) {
         updateStyle('--y-tick-color', this.axisData.y.tickColor);
+      }
+      if (this.svgFontSize) {
+        updateStyle('--svg-font-size', this.svgFontSize);
       }
       this.clipPathId = "og-line-chart-clip-" + new Date().getTime();
     },
@@ -336,7 +369,7 @@
 
       this.minimapSvg = this.containerSvg.append("g").attr("class", "minimap").attr("transform", "translate(" + this.margin.left + "," + (this.adjustedHeight + this.minimap.adjustedHeight + 50) + ")");
 
-      this.toolTip = d3.tip(d3.select(this.$.chart)).attr("class", "d3-tip").offset([-8, 0]).html(function (d) {
+      this.toolTip = d3.tip(d3.select(this.$.chart)).attr("class", "d3-tip").offset([-(this.margin.top + this.margin.bottom + 10), 0]).html(function (d) {
         return d.msg;
       });
 
@@ -419,15 +452,15 @@
         this.svg.append("svg:line").attr("class", "line-sep today").attr("x1", x(this.todayAsDate)).attr("y1", this.adjustedHeight + 18).attr("x2", x(this.todayAsDate)).attr("y2", -7);
 
         if (this.historicalLabel) {
-          this.svg.append("text").attr("class", "line-sep today-text").attr("x", x(this.todayAsDate) / 3).attr("y", -9).text(this.historicalLabel);
+          this.svg.append("text").attr("class", "svg-text line-sep today-text").attr("x", x(this.todayAsDate) / 3).attr("y", -9).text(this.historicalLabel);
         }
 
         if (this.todayLabel) {
-          this.svg.append("text").attr("class", "line-sep today-text").attr("x", x(this.todayAsDate) - 10).attr("y", -9).text(this.todayLabel);
+          this.svg.append("text").attr("class", "svg-text line-sep today-text").attr("x", x(this.todayAsDate) - 10).attr("y", -9).text(this.todayLabel);
         }
 
         if (this.forecastLabel) {
-          this.svg.append("text").attr("class", "line-sep today-text").attr("x", x(this.todayAsDate) * 1.1).attr("y", -9).text(this.forecastLabel);
+          this.svg.append("text").attr("class", "svg-text line-sep today-text").attr("x", x(this.todayAsDate) * 1.1).attr("y", -9).text(this.forecastLabel);
         }
       }
     },
@@ -453,23 +486,23 @@
         _xAxis.ticks(this.axisData.x.niceTicks);
         _minimapXAxis.ticks(this.axisData.x.niceTicks);
       }
-      this.svg.append("g").attr("transform", "translate(0," + this.adjustedHeight + ")").attr("class", "x-axis").call(_xAxis);
+      this.svg.append("g").attr("transform", "translate(0," + this.adjustedHeight + ")").attr("class", "svg-text x-axis").call(_xAxis);
 
-      this.minimapSvg.append("g").attr("class", "x-axis minimap-x-axis").attr("transform", "translate(0," + this.minimap.adjustedHeight + ")").call(_minimapXAxis);
+      this.minimapSvg.append("g").attr("class", "svg-text x-axis minimap-x-axis").attr("transform", "translate(0," + this.minimap.adjustedHeight + ")").call(_minimapXAxis);
 
       // Add the Y Axis
       var _yAxis = d3.axisLeft(y).ticks(this.axisData.y.niceTicks || 6);
       if (this.axisData.y.tickFormat) {
         _yAxis.tickFormat(d3.format(this.axisData.y.tickFormat));
       }
-      this.svg.append("g").attr("class", "y-axis").call(_yAxis);
+      this.svg.append("g").attr("class", "svg-text y-axis").call(_yAxis);
 
       if (this.axisData.y.axisLabel) {
-        this.svg.append("text").attr("transform", "rotate(-90)").attr("y", 0 - this.margin.left).attr("x", 0 - this.adjustedHeight / 2).attr("dy", "1em").attr("class", "y-axis-label").text(this.axisData.y.axisLabel);
+        this.svg.append("text").attr("transform", "rotate(-90)").attr("y", 0 - this.margin.left).attr("x", 0 - this.adjustedHeight / 2).attr("dy", "1em").attr("class", "svg-text y-axis-label").text(this.axisData.y.axisLabel);
       }
 
       if (this.axisData.x.axisLabel) {
-        this.svg.append("text").attr("dy", "1em").attr("class", "x-axis-label").attr("text-anchor", "middle").attr("transform", "translate(" + this.adjustedWidth / 2 + "," + (this.adjustedHeight + this.margin.top) + ")").text(this.axisData.x.axisLabel);
+        this.svg.append("text").attr("dy", "1em").attr("class", "svg-text x-axis-label").attr("text-anchor", "middle").attr("transform", "translate(" + this.adjustedWidth / 2 + "," + (this.adjustedHeight + this.margin.top) + ")").text(this.axisData.x.axisLabel);
       }
     },
     _drawChart: function _drawChart(data) {
@@ -532,8 +565,42 @@
       var _this4 = this;
 
       this.svg.selectAll(".series-line").attr('clip-path', function (d) {
-        return 'url(#' + _this4.clipPathId;
+        return 'url(#' + _this4.clipPathId + ')';
       });
+    },
+    _placeAlertSvg: function _placeAlertSvg() {
+      var x = this.x,
+          y = this.y,
+          d3 = Px.d3;
+      if (!this.alert) {
+        return;
+      }
+      d3.select(this.$.chart).select("polygon.alert").remove();
+      var ptX = x(this.parseTime(this.alert.x)),
+          ptY = y(+this.alert.y),
+          pts = ptX * 0.99 + ',' + ptY * 0.65 + ' ' + ptX + ',' + ptY * 0.98 + ' ' + ptX * 0.98 + ',' + ptY * 0.98;
+      this.svg.append("polygon").attr("class", "alert").attr("points", pts).style("fill", this.alert.color || "#f34336");
+    },
+    _drawAlertLine: function _drawAlertLine(data) {
+      var _this5 = this;
+
+      var x = this.x,
+          y = this.y,
+          d3 = Px.d3;
+      this.svg.selectAll(".alert-line").remove();
+      if (this.alert) {
+        var _xAsTime = this.parseTime(this.alert.x);
+        this.svg.append("svg:line").attr("class", "alert-line alert").attr("x1", x(_xAsTime)).attr("y1", this.adjustedHeight + 18).attr("x2", x(_xAsTime)).attr("y2", -7);
+
+        var info = this.svg.append("g").attr("class", "alert-line alert-text").on('mouseover', function (d, i) {
+          _this5.toolTip.show({ "msg": _this5.alert.text });
+        }).on('mouseout', function (d) {
+          _this5.toolTip.hide(d);
+        });
+        info.append("circle").attr("class", "alert-line alert-text ").attr("cx", x(_xAsTime)).attr("cy", -24).attr("r", 5);
+        info.append("circle").attr("class", "alert-line alert-text no-pointer").attr("cx", x(_xAsTime)).attr("cy", -27).attr("r", 0.5);
+        info.append("svg:line").attr("class", "alert-line alert-text no-pointer").attr("x1", x(_xAsTime)).attr("y1", -25).attr("x2", x(_xAsTime)).attr("y2", -21);
+      }
     },
     _drawLineChart: function _drawLineChart(_series, filteredData, idx) {
       var x = this.x,
@@ -583,6 +650,7 @@
         me.svg.select(".zoom").call(me.zoom.transform, d3.zoomIdentity.scale(me.adjustedWidth / (s[1] - s[0])).translate(-s[0], 0));
         me.setDateRange(x.domain()[0], x.domain()[1]);
         me._drawTimelineSeparators();
+        me._drawAlertLine();
       };
 
       this.zoomed = function () {
@@ -597,6 +665,7 @@
         me.minimapSvg.select(".brush").call(me.brush.move, x.range().map(t.invertX, t));
         me.setDateRange(x.domain()[0], x.domain()[1]);
         me._drawTimelineSeparators();
+        me._drawAlertLine();
       };
 
       this.brush = d3.brushX().extent([[0, 0], [this.adjustedWidth, this.minimap.adjustedHeight]]).handleSize(7).on("brush end", this.brushed);
@@ -623,6 +692,7 @@
       if (!data || !data.length) {
         return;
       }
+      this.lines = undefined;
       Px.d3.select(this.$.chart).select("svg").remove();
       this.draw();
     },
