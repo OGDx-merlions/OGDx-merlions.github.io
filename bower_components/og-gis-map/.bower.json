@@ -1,6 +1,6 @@
 {
   "name": "og-gis-map",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "main": [
     "og-gis-map.html"
   ],
@@ -58,13 +58,13 @@
     "px-overlay": "^2.0.0"
   },
   "homepage": "https://github.com/OGDx-merlions/og-gis-map",
-  "_release": "1.1.4",
+  "_release": "1.1.5",
   "_resolution": {
     "type": "version",
-    "tag": "v1.1.4",
-    "commit": "8abce8c3d14bdbe74cb99df046d6a8f5b5808bcd"
+    "tag": "v1.1.5",
+    "commit": "e05e686c2b0dbd9fc6bef280c8a4b3c4a2a9001f"
   },
   "_source": "https://github.com/OGDx-merlions/og-gis-map.git",
-  "_target": "^1.1.4",
+  "_target": "^1.1.5",
   "_originalSource": "og-gis-map"
 }
