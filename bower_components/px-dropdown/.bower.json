@@ -1,6 +1,6 @@
 {
   "name": "px-dropdown",
-  "version": "4.2.1",
+  "version": "4.7.7",
   "main": [
     "px-dropdown.html"
   ],
@@ -29,7 +29,11 @@
     "px-icon-set": "^2.0.0",
     "iron-dropdown": "^2.0.0",
     "iron-a11y-keys": "^2.0.0",
-    "web-animations-js": "^2.2.0"
+    "web-animations-js": "^2.2.0",
+    "app-localize-behavior": "^2.0.0",
+    "iron-media-query": "^2.0.0",
+    "px-overlay": "^2.0.0",
+    "iron-resizable-behavior": "^2.1.0"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",
@@ -62,14 +66,15 @@
       }
     }
   },
-  "homepage": "https://github.com/predixDev/px-dropdown",
-  "_release": "4.2.1",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/predixdesignsystem/px-dropdown",
+  "_release": "4.7.7",
   "_resolution": {
     "type": "version",
-    "tag": "v4.2.1",
-    "commit": "446fb7681d4749c33b53cbbbf2e985434e03b11c"
+    "tag": "v4.7.7",
+    "commit": "b111203778847aee3dc28ad08b75ee931dfce6c6"
   },
-  "_source": "https://github.com/predixDev/px-dropdown.git",
-  "_target": "^4.0.0",
+  "_source": "https://github.com/predixdesignsystem/px-dropdown.git",
+  "_target": "^4.7.6",
   "_originalSource": "px-dropdown"
 }

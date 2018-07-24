@@ -1,3 +1,19 @@
+<!--
+Copyright (c) 2018, General Electric
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
 <!-- Common imports -->
 <link rel="import" href="../../polymer/polymer.html" />
 
@@ -12,12 +28,11 @@
 <link rel="import" href="../../px-demo/px-demo-code-editor.html" />
 
 <!-- Imports for this component -->
-<link rel="import" href="../../px-demo/css/px-demo-styles.html" />
+
 
 <!-- Demo DOM module -->
 <dom-module id="px-dropdown-demo">
   <template>
-    <style include="px-demo-styles" is="custom-style"></style>
     <!-- Header -->
     <px-demo-header
       module-name="px-dropdown"
@@ -45,11 +60,15 @@
           hide-chevron="{{props.hideChevron.value}}"
           allow-outside-scroll="{{props.allowOutsideScroll.value}}"
           disable-clear="{{props.disableClear.value}}"
+          disable-select="{{props.disableSelect.value}}"
           disabled="{{props.disabled.value}}"
           sort-mode="{{props.sortMode.value}}"
           search-mode="{{props.searchMode.value}}"
           button-style="{{props.buttonStyle.value}}"
-          icon="{{props.icon.value}}">
+          icon="{{props.icon.value}}"
+          show-caret="{{props.showCaret.value}}"
+          trigger-height="{{props.triggerHeight.value}}"
+          hoist="[[props.hoist.value]]">
         </px-dropdown>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
@@ -95,7 +114,11 @@
               buttonStyle: "bare--primary",
               multi: true,
               searchMode: true,
-              disableClear: false
+              disableClear: false,
+              disableSelect: false,
+              showCaret: false,
+              triggerHeight: 30,
+              items: [{"key":"1", "val": "iPhone"},{"key":"2", "val": "Android"},{"key":"3", "val": "Blackberry"},{"key":"4", "val": "Windows Phone"},{"key":"5", "val": "Flip Phone", "disabled": true}]
             },
             {
               configName: "Iconic menu",
@@ -104,7 +127,10 @@
               multi: false,
               searchMode: false,
               disableClear: true,
-              items: [{"key":"1", "val": "iPhone", "icon":"px-utl:phone","color":"red"},{"key":"2", "val": "Android", "icon":"px-utl:phone","color":"green"},{"key":"3", "val": "Blackberry", "icon":"px-utl:phone","color":"blue"},{"key":"4", "val": "Windows Phone", "icon":"px-utl:phone","color":"orange"},{"key":"5", "val": "Flip Phone", "disabled": true, "icon":"px-utl:phone","color":"#C5D1D8"}]
+              disableSelect: true,
+              showCaret: true,
+              triggerHeight: 20,
+              items: [{"key":"1", "val": "Edit", "icon":"px-utl:edit","color":"black"},{"key":"2", "val": "Save", "icon":"px-utl:save","color":"green"},{"key":"3", "val": "Delete", "icon":"px-utl:delete","color":"red"}]
             }
           ];
         }
@@ -156,6 +182,11 @@
         defaultValue: true,
         inputType: 'toggle'
       },
+      disableSelect: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
       hideChevron:{
         type: Boolean,
         defaultValue: false,
@@ -175,7 +206,20 @@
         type: Boolean,
         defaultValue: false,
         inputType: 'toggle'
-      }
+      },
+      showCaret: {
+        type: Boolean,
+        defaultValue: false
+      },
+      triggerHeight: {
+        type: Number,
+        defaultValue: 30
+      },
+      hoist: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
     }
   });
 </script>

@@ -3,20 +3,26 @@
 
     is: 'og-gis-map', 
 
+    behaviors: [Polymer.IronResizableBehavior],
+
+    listeners: {'iron-resize': '_onIronResize'},
+
     properties: {
       /**
        * Component width
        */
       width: {
         type: String,
-        value: '75vw'
+        value: '75vw',
+        observer: '_adjustFilterHorizontalMargin'
       },
       /**
       * Component Height
       */
       height: {
         type: String,
-        value: '500px'
+        value: '500px',
+        observer: '_adjustFilterVerticalMargin'
       },
       /**
        * The coordinate reference system to use when projecting geographic points
@@ -184,7 +190,7 @@
         }
       },
       /**
-       * An object formatted as a GeoJSON FeatureCollection with one or many Features.
+       * An array of objects formatted as a GeoJSON FeatureCollection with one or many Features.
        * Each feature should be a point that will be represented as a marker.
        * See the `px-map-marker-group` API documentation page for an in-depth
        * guide that explains how to configure your features.
@@ -207,7 +213,97 @@
        *
        * @type {Object}
        */
-      markerGroup: {
+      upstream: {
+        type: Object,
+        value() {
+          return {};
+        }
+      },
+      /**
+       * An array of objects formatted as a GeoJSON FeatureCollection with one or many Features.
+       * Each feature should be a point that will be represented as a marker.
+       * See the `px-map-marker-group` API documentation page for an in-depth
+       * guide that explains how to configure your features.
+       *
+       * The root feature collection object must have the following keys/values:
+       *
+       * - {String} `type`: Must be 'FeatureCollection'
+       * - {Array}  `features`: An array of feature objects
+       *
+       * Each feature object in the collection must have the following key/values:
+       *
+       * - {String} `type`: Must be 'Feature'
+       * - {Number} `id`: A unique numeric ID. If the feature is changed, it should keep its ID. No other features in the collection should have the same ID.
+       * - {Object} `geometry`
+       * - {String} `geometry.type`: Must be 'Point'
+       * - {Array}  `geometry.coordinates`: a pair of coordinates in `[lng,lat]` order
+       * - {Object} `properties`
+       * - {Object} `properties.marker-icon`: Settings to configure a marker icon
+       * - {Object} `properties.marker-popup`: [OPTIONAL] Settings to configure a marker icon
+       *
+       * @type {Object}
+       */
+      midstream: {
+        type: Object,
+        value() {
+          return {};
+        }
+      },
+      /**
+       * An array of objects formatted as a GeoJSON FeatureCollection with one or many Features.
+       * Each feature should be a point that will be represented as a marker.
+       * See the `px-map-marker-group` API documentation page for an in-depth
+       * guide that explains how to configure your features.
+       *
+       * The root feature collection object must have the following keys/values:
+       *
+       * - {String} `type`: Must be 'FeatureCollection'
+       * - {Array}  `features`: An array of feature objects
+       *
+       * Each feature object in the collection must have the following key/values:
+       *
+       * - {String} `type`: Must be 'Feature'
+       * - {Number} `id`: A unique numeric ID. If the feature is changed, it should keep its ID. No other features in the collection should have the same ID.
+       * - {Object} `geometry`
+       * - {String} `geometry.type`: Must be 'Point'
+       * - {Array}  `geometry.coordinates`: a pair of coordinates in `[lng,lat]` order
+       * - {Object} `properties`
+       * - {Object} `properties.marker-icon`: Settings to configure a marker icon
+       * - {Object} `properties.marker-popup`: [OPTIONAL] Settings to configure a marker icon
+       *
+       * @type {Object}
+       */
+      downstream: {
+        type: Object,
+        value() {
+          return {};
+        }
+      },
+      /**
+       * An array of objects formatted as a GeoJSON FeatureCollection with one or many Features.
+       * Each feature should be a point that will be represented as a marker.
+       * See the `px-map-marker-group` API documentation page for an in-depth
+       * guide that explains how to configure your features.
+       *
+       * The root feature collection object must have the following keys/values:
+       *
+       * - {String} `type`: Must be 'FeatureCollection'
+       * - {Array}  `features`: An array of feature objects
+       *
+       * Each feature object in the collection must have the following key/values:
+       *
+       * - {String} `type`: Must be 'Feature'
+       * - {Number} `id`: A unique numeric ID. If the feature is changed, it should keep its ID. No other features in the collection should have the same ID.
+       * - {Object} `geometry`
+       * - {String} `geometry.type`: Must be 'Point'
+       * - {Array}  `geometry.coordinates`: a pair of coordinates in `[lng,lat]` order
+       * - {Object} `properties`
+       * - {Object} `properties.marker-icon`: Settings to configure a marker icon
+       * - {Object} `properties.marker-popup`: [OPTIONAL] Settings to configure a marker icon
+       *
+       * @type {Object}
+       */
+      predictive: {
         type: Object,
         value() {
           return {};
@@ -272,14 +368,104 @@
         },
         observer: '_selectDefaultRegion'
       },
+      /**
+       * Allows advanced configurations of the cluster behaviors and styles. Note
+       * that the cluster comes pre-configured with settings that will work
+       * for most use cases; the `clusterConfig` allows those settings to be
+       * overriden but may cause unexpected behaviors when conflicting settings
+       * are used. Leave the default configuration (by not setting this attribute)
+       * if you're unsure of how to use it.
+       *
+       * The following settings are available:
+       *
+       * - {Boolean} `showCoverageOnHover`: [default=true] Shows the bounds of a cluster as a polygon when its icon is hovered
+       * - {Boolean} `zoomToBoundsOnClick`: [default=true] Zooms to bounds of a cluster when its icon is clicked
+       * - {Boolean} `spiderfyOnMaxZoom`: [default=true] Spiderfies the markers in a cluster when it is clicked at the max zoom level
+       * - {Boolean} `removeOutsideVisibleBounds`: [default=true] Removes cluster icons and markers when they are too far outside the visible map bounds
+       * - {Boolean} `animate`: [default=true] Animates cluster splitting, joining, zooming, and spiderfying
+       * - {Number} `disableClusteringAtZoom`: [default=undefined] If set, when the user zooms below this level markers will not be clustered (do not combine with `spiderfyOnMaxZoom`)
+       * - {Number} `maxClusterRadius`: [default=150] The maximum radius in pixels a cluster will cover from the central marker. Lower numbers make smaller clusters. Setting below the default may cause cluster icons to overlap.
+       * - {Object} `polygonOptions`: [default=150] Options passed to draw the cluster cover polygon
+       *   - {Boolean} `polygonOptions.stroke`: [default=true] If true the polygon will have a stroke line around the outside
+       *   - {String} `polygonOptions.color`: [default=--px-map-marker-group-cluster-polygon-stroke-color] Sets the stroke color, prefer setting with the style variable
+       *   - {String} `polygonOptions.fillColor`: [default=--px-map-marker-group-cluster-polygon-fill-color] Sets the fill color color, prefer setting with the style variable.
+       *   - {Number} `polygonOptions.fillOpacity`: [default=0.4] Sets the opacity of the polygon fill
+       * - {Object} `spiderLegPolylineOptions`: [default=undefined] Sets the style for the marker spiderfy legs, see [PolylineOptions](http://leafletjs.com/reference.html#polyline-options)
+       *
+       * @type {Object}
+       */
+      clusterConfig: {
+        type: Object,
+        value() {
+          return {}
+        }
+      },
+      contextPaneProportion: {
+        type: Number,
+        value: 0.3
+      },
       hasRegions: {
         type: Boolean,
         computed: '_hasRegions(regions)',
         value() {
           return []
         }
+      },
+      toggleMarginTop: {
+        type: String
+      },
+      toggleMarginLeft: {
+        type: String
       }
     },
+
+    attached() {
+      this.contextPaneOpen = false;
+      //Fixes unrendered regions
+      let me = this;
+      window.setTimeout(() => {
+        const zoomIn = document.querySelector("#map a.leaflet-control-zoom-in");
+        const zoomOut = document.querySelector("#map a.leaflet-control-zoom-out");
+        zoomIn && zoomIn.click();
+        zoomOut && zoomOut.click();
+        me.toggleMarginLeft = 
+          document.querySelector("#map div.leaflet-control-zoom").getBoundingClientRect().left;
+        me._adjustFilterHorizontalMargin();
+        me._adjustMapHeight(
+          document.querySelector("#map").getBoundingClientRect().height);
+      }, 1000);
+    },
+
+    toggleContextPane() {
+      const currHeightNum = this.height.replace(/\D/g, '');
+      const cpMinHeightPercentage = this.contextPaneProportion;
+      const mapHeightPercentage = (1 - cpMinHeightPercentage);
+      const mapOrigHeightPercentage = 1 + (2*cpMinHeightPercentage);
+      if(!this.contextPaneOpen) {
+        const newMapHeight = Math.ceil(currHeightNum * mapHeightPercentage);
+        this.height = this.height.replace(currHeightNum, newMapHeight);
+        this.contextPaneMinHeight = Math.ceil(currHeightNum * cpMinHeightPercentage);
+        this.contextPaneOpen = true;
+        this._adjustMapHeight(
+          document.querySelector('#map').offsetHeight * mapHeightPercentage); 
+      } else {
+        this.height = this.defaultHeight;
+        this.contextPaneMinHeight = 0;
+        this.contextPaneMaxHeight = 0;
+        this.contextPaneOpen = false;
+        this._adjustMapHeight(document.querySelector('#map').offsetHeight);
+      }
+    },
+
+    invalidateSize() {
+      this.$.map.invalidateSize();
+      this._adjustFilterHorizontalMargin();
+    },
+
+    _isValidMarkerGroup(obj) {
+      return obj && obj.type;
+    },
+
     _hasRegions(regions){
       return regions && regions.length;
     },
@@ -289,7 +475,7 @@
         let item = this.regions[eventDetail.key];
         this.lat = item.lat;
         this.lng = item.lng;
-        this.$.map.zoom = this.zoom;
+        this.$.map.zoom = item.zoom || this.zoom;
       }
     },
     _selectDefaultRegion() {
@@ -307,6 +493,104 @@
           this.regionsDropdownData.push(obj);
         });
       }
+    },
+    _removePressed() {
+      this.upstreamPressedCls = undefined;
+      this.midstreamPressedCls = undefined;
+      this.downstreamPressedCls = undefined;
+      this.predictivePressedCls = undefined;
+    },
+    _backup(key) {
+      if(this[key] && this[key].type) {
+        this[`_${key}`] = this[key];
+        this[key] = undefined;
+        document.querySelector(`#${key}`).redraw();
+      }
+    },
+    _restore(key) {
+      const _key = `_${key}`;
+      if(this[_key] && this[_key].type) {
+        this[key] = this[_key];
+        this[_key] = undefined;
+        document.querySelector(`#${key}`).redraw();
+      }
+    },
+    _hideAll() {
+      this._removePressed();
+      this._backup('upstream');
+      this._backup('midstream');
+      this._backup('downstream');
+      this._backup('predictive');
+    },
+    _showAll() {
+      this._removePressed();
+      this._restore('upstream');
+      this._restore('midstream');
+      this._restore('downstream');
+      this._restore('predictive');
+    },
+    _toggleUpstreamOnly() {
+      if(!this.upstreamPressedCls) {
+        this._hideAll();
+        this.upstreamPressedCls = 'pressed';
+        this._restore('upstream');
+      } else {
+        this._showAll();
+      }
+    },
+    _toggleMidstreamOnly() {
+      if(!this.midstreamPressedCls) {
+        this._hideAll();
+        this.midstreamPressedCls = 'pressed';
+        this._restore('midstream');
+      } else {
+        this._showAll();
+      }
+    },
+    _toggleDownstreamOnly() {
+      if(!this.downstreamPressedCls) {
+        this._hideAll();
+        this.downstreamPressedCls = 'pressed';
+        this._restore('downstream');
+      } else {
+        this._showAll();
+      }
+    },
+    _togglePredictiveOnly() {
+      if(!this.predictivePressedCls) {
+        this._hideAll();
+        this.predictivePressedCls = 'pressed';
+        this._restore('predictive');
+      } else {
+        this._showAll();
+      }
+    },
+    _shouldHide(bool) {
+      return bool;
+    },
+    _adjustFilterHorizontalMargin(newWidth, oldWidth) {
+      this.$.map.invalidateSize();
+    },
+    _adjustFilterVerticalMargin(newHeight, oldHeight) {
+      if(!oldHeight) {
+        this.defaultHeight = newHeight;
+      }
+      const comp = document.querySelector("#map");
+      if(comp) {
+        this._adjustMapHeight(comp.getBoundingClientRect().height);
+      }
+    },
+    _adjustMapHeight(heightNum) {
+      if(heightNum) {
+        const toggleMarginTop = (heightNum * 0.25);
+        // this.$.toggles.style.marginTop = `${toggleMarginTop}px`;
+      }
+    },
+    _compute(contextPaneOpen) {
+      return !contextPaneOpen;
+    },
+    _onIronResize() {
+      this.$.map.invalidateSize();
     }
   });
 })();

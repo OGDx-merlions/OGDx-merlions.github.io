@@ -13,12 +13,14 @@
 
 <!-- Imports for this component -->
 <link rel="import" href="../../px-demo/css/px-demo-styles.html" />
+<link rel="import" href="../css/og-gis-map-styles.html">
 <link rel="import" href="../og-gis-map.html" />
 
 <!-- Demo DOM module -->
 <dom-module id="og-gis-map-demo">
   <template>
     <style include="px-demo-styles" is="custom-style"></style>
+    <style include="og-gis-map-styles" is="custom-style"></style>
 
     <!-- Header -->
     <px-demo-header
@@ -42,8 +44,62 @@
           zoom="{{props.zoom.value}}" lat="{{props.lat.value}}"
           lng="{{props.lng.value}}" tile-url="{{props.tileUrl.value}}"
           features="{{props.features.value}}" feature-styles="{{props.featureStyles.value}}"
-          marker-group="{{props.markerGroup.value}}" colors-by-type="{{props.colorsByType.value}}"
-          regions="{{props.regions.value}}" on-px-map-marker-group-marker-tapped="_test">
+          upstream="{{props.upstream.value}}"
+          midstream="{{props.midstream.value}}"
+          downstream="{{props.downstream.value}}"
+          predictive="{{props.predictive.value}}"
+          colors-by-type="{{props.colorsByType.value}}"
+          regions="{{props.regions.value}}" on-px-map-marker-group-marker-tapped="_test"
+          on-px-map-marker-group-cluster-tapped="_test"
+          cluster-config="{{props.clusterConfig.value}}">
+          <div slot="context-pane" class="u-1/1">
+            <div hidden$="[[!hideSvg]]">
+                <svg viewBox="0 0 850 150">
+                    <g id="Bot_Egypt-production">
+                        <g fill="none" fill-rule="evenodd" transform="translate(1)">
+                            <rect width="610" height="150" fill="#FFF"/>
+                            <text fill="#59717F" font-family="GEInspiraSans-Bold, GE Inspira Sans" font-size="14" font-weight="bold">
+                              <tspan x="11" y="50">Total Production</tspan>
+                            </text>
+                            <text fill="#59717F" font-family="GEInspiraSans-Bold, GE Inspira Sans" font-size="14" font-weight="bold">
+                              <tspan x="420" y="50">Watch List</tspan>
+                            </text>
+                            <text fill="#59717F" font-family="GEInspiraSans-Bold, GE Inspira Sans" font-size="14" font-weight="bold">
+                              <tspan x="11" y="90">Market Indicators</tspan>
+                            </text>
+                            <text fill="#59717F" font-family="GEInspiraSans-Regular, GE Inspira Sans" font-size="14">
+                              <tspan x="11" y="65">1,645,058 </tspan> <tspan x="71.746" y="65" font-size="12">BOE/day</tspan>
+                            </text>
+                            <text fill="#59717F" font-family="GEInspiraSans-Regular, GE Inspira Sans" font-size="14">
+                              <tspan x="420" y="66">Western Desert Production </tspan> <tspan x="420" y="80">Decline</tspan>
+                            </text>
+                            <text fill="#59717F" font-family="GEInspiraSans-Regular, GE Inspira Sans" font-size="14">
+                              <tspan x="420" y="99">183 perfect HSE days</tspan>
+                            </text>
+                            <text fill="#59717F" font-family="GEInspiraSans-Regular, GE Inspira Sans" font-size="14">
+                              <tspan x="420" y="121">Delayed LPG shipment due to </tspan> <tspan x="420" y="135">expected storm</tspan>
+                            </text>
+                            <text fill="#59717F" font-family="GEInspiraSans-Regular, GE Inspira Sans" font-size="14">
+                              <tspan x="11" y="105">WTI $68.14</tspan> <tspan x="11" y="122">Brent $77.31</tspan> <tspan x="11" y="139">Gas $2.8</tspan>
+                            </text>
+                            <path stroke="#D8E0E5" stroke-linecap="square" d="M0 29L610 29M407 36L407 146M204 36L204 146"/>
+                            <text fill="#59717F" font-family="GEInspiraSans-Bold, GE Inspira Sans" font-size="18" font-weight="bold">
+                              <tspan x="11" y="22">EGYPT</tspan>
+                            </text>
+                            <g transform="translate(217 37)">
+                              <text fill="#59717F" font-family="GEInspiraSans-Bold, GE Inspira Sans" font-size="14" font-weight="bold">
+                                <tspan x="0" y="13">Production Trend</tspan>
+                              </text>
+                              <text id="futureTrend1" fill="#4A90E2" font-family="GEInspiraSans-Regular, GE Inspira Sans" font-size="16" text-decoration="underline">
+                                <tspan x="93" y="99">Future Trend</tspan>
+                              </text>
+                              <polyline stroke="#526FDA" stroke-width="4" points="38.75 51 68.748 36.882 93.265 77 115.871 34.235 141.75 25"/>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+          </div>
         </og-gis-map>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
@@ -206,7 +262,7 @@
     demoProps: {
       width: {
         type: String,
-        defaultValue: '55vw',
+        defaultValue: '100%',
         inputType: 'text'
       },
       height: {
@@ -226,26 +282,27 @@
       },
       zoom: {
         type: Number,
-        defaultValue: '8',
+        defaultValue: '7.5',
         inputType: 'text'
       },
       tileUrl: {
         type: String,
-        defaultValue: 'http://tile.stamen.com/terrain/{z}/{x}/{y}.png',
+        defaultValue: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
         inputType: 'text'
       },
       regions: {
         type: Array,
         defaultValue: [
-          {label: "Gulf of Suez", lat: 28.979312, lng: 32.900620, default: true}, 
-          {label: "Red Sea", lat: 20.280232, lng: 38.51257299, disabled: true},
-          {label: "Mediterranean", lat: 31.02606446047858, lng: 29.291531856375627},
-          {label: "Western Desert", lat: 23.4162027, lng: 25.6628299},
-          {label: "Upper Egypt", lat: 26.820553, lng: 30.802498},
-          {label: "Nile Delta", lat: 31.20716599, lng: 30.5499489},
-          {label: "Eastern Desert", lat: 28.130434, lng: 32.118404},
-          {label: "Sinai", lat: 29.5, lng: 34}
-        ],
+						{ label: "Egypt", lat: 30.279871, lng: 30.451934, default: true, zoom: 7 },
+						{ label: "Gulf of Suez", lat: 30.679871, lng: 32.451934 },
+						{ label: "Red Sea", lat: 20.280232, lng: 38.51257299 },
+						{ label: "Mediterranean", lat: 31.02606446047858, lng: 29.291531856375627 },
+						{ label: "Western Desert", lat: 29.9962027, lng: 26.6628299, zoom: 8.3 },
+						{ label: "Upper Egypt", lat: 26.820553, lng: 30.802498 },
+						{ label: "Nile Delta", lat: 31.20716599, lng: 30.5499489 },
+						{ label: "Eastern Desert", lat: 28.130434, lng: 32.118404 },
+						{ label: "Sinai", lat: 29.5, lng: 34 }
+					],
         inputType: 'code:JSON'
       },
       features: {
@@ -1528,91 +1585,156 @@
         defaultValue: {"color":"#3E87E8", "fillColor": "#3E87E8"},
         inputType: 'code:JSON'
       },
-      markerGroup: {
+      upstream: {
         type: Object,
         defaultValue: {
-            "type": "FeatureCollection",
-            "features": [{
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": ["32.67445793", "28.24042573"]
-              },
-              "properties": {
-                "title": "Cabrillo National Monument",
-                "marker-icon": {
-                  "icon-base": "static-icon",
-                  "icon-type": "warning"
-                },
-                "marker-popup": {
-                  "popup-base": "info-popup",
-                  "popup-title": "Oil Field",
-                  "popup-description": "Lorem ipsum dolor sit amet, consectetur adipisicing..."
-                }
-              },
-              "id": "10001"
-            }, {
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": ["30.83957829", "27.27618677"]
-              },
-              "properties": {
-                "title": "Pearl St & Draper Av",
-                "marker-icon": {
-                  "icon-base": "static-icon",
-                  "icon-type": "info"
-                },
-                "marker-popup": {
-                  "popup-base": "info-popup",
-                  "popup-title": "Refinery",
-                  "popup-description": "Lorem ipsum dolor sit amet, consectetur adipisicing..."
-                }
-              },
-              "id": "10003"
-            }, {
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": ["32.2738099", "27.84012848"]
-              },
-              "properties": {
-                "title": "Pearl St & Fay Av",
-                "marker-icon": {
-                  "icon-base": "static-icon",
-                  "icon-type": "unknown"
-                },
-                "marker-popup": {
-                  "popup-base": "info-popup",
-                  "popup-title": "Gas pipeline",
-                  "popup-description": "Lorem ipsum dolor sit amet, consectetur adipisicing..."
-                }
-              },
-              "id": "10004"
-            }, {
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": ["31.26867322", "28.8458467"]
-              },
-              "properties": {
-                "title": "Torrey Pines Rd & Exchange Pl",
-                "marker-icon": {
-                  "icon-base": "static-icon",
-                  "icon-type": "important"
-                },
-                "marker-popup": {
-                  "popup-base": "info-popup",
-                  "popup-title": "Field",
-                  "popup-description": "Lorem ipsum dolor sit amet, consectetur adipisicing..."
-                }
-              },
-              "id": "10006"
-            }]
+          "type": "FeatureCollection",
+          "cluster": {
+            "label": "Western Desert",
+            "kpi": "1%",
+            "icon": "upstream"
           },
+          "features": [
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  27.451934,
+                  28.679871
+                ]
+              },
+              "properties": {
+                "marker-icon": {
+                  "icon-base": "custom-icon",
+                  "icon-type": "info",
+                  "icon-icons": ["ship"]
+                },
+                "marker-popup": {
+                  "popup-base": "info-popup"
+                },
+                "kpi": "2%"
+              },
+              "id": 1
+            }
+          ]
+        },
+        inputType: 'code:JSON'
+      },
+      midstream: {
+        type: Object,
+        defaultValue: {
+          "type": "FeatureCollection",
+          "cluster": {
+            "label": "Upper Egypt",
+            "kpi": "5%",
+            "icon": "ship"
+          },
+          "features": [
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  26.291531856375627,
+                  32.02606446047858
+                ]
+              },
+              "properties": {
+                "marker-icon": {
+                  "icon-base": "custom-icon",
+                  "icon-type": "warning",
+                  "icon-icons": ["midstream"]
+                },
+                "marker-popup": {
+                  "popup-base": "info-popup"
+                },
+                "kpi": "2%"
+              },
+              "id": 2
+            }
+          ]
+        },
+        inputType: 'code:JSON'
+      },
+      downstream: {
+        type: Object,
+        defaultValue: {
+          "type": "FeatureCollection",
+          "cluster": {
+            "label": "Suez",
+            "kpi": "50%",
+            "icon": "downstream"
+          },
+          "features": [
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  25.791531856375627,
+                  32.02606446047858
+                ]
+              },
+              "properties": {
+                "marker-icon": {
+                  "icon-base": "custom-icon",
+                  "icon-type": "important",
+                  "icon-icons": ["downstream"]
+                },
+                "marker-popup": {
+                  "popup-base": "info-popup"
+                },
+                "kpi": "2%"
+              },
+              "id": 3
+            }
+          ]
+        },
+        inputType: 'code:JSON'
+      },
+      predictive: {
+        type: Object,
+        defaultValue: {
+          "type": "FeatureCollection",
+          "cluster": {
+            "label": "Western Desert",
+            "kpi": "1%",
+            "icon": "upstream"
+          },
+          "features": [
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  32.451934,
+                  30.679871
+                ]
+              },
+              "properties": {
+                "marker-icon": {
+                  "icon-base": "custom-icon",
+                  "icon-type": "important",
+                  "icon-icons": ["upstream"]
+                },
+                "marker-popup": {
+                  "popup-base": "info-popup"
+                },
+                "kpi": "2%"
+              },
+              "id": 4
+            }
+          ]
+        },
         inputType: 'code:JSON'
       },
       colorsByType: {
+        type: Object,
+        defaultValue: {},
+        inputType: 'code:JSON'
+      },
+      clusterConfig: {
         type: Object,
         defaultValue: {},
         inputType: 'code:JSON'

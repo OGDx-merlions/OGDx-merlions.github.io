@@ -1,6 +1,6 @@
 {
   "name": "px-d3-imports",
-  "version": "2.1.0",
+  "version": "3.0.1",
   "main": [
     "px-d3-imports.html"
   ],
@@ -25,7 +25,7 @@
     ".editorconfig"
   ],
   "dependencies": {
-    "pxd3": "d3#^4.7.0",
+    "pxd3": "d3#^5.0.0",
     "polymer": "#1.9 - 2",
     "iron-ajax": "^2.0.0",
     "promise-polyfill": "polymerlabs/promise-polyfill#^2.0.0"
@@ -40,7 +40,7 @@
   "variants": {
     "1.x": {
       "dependencies": {
-        "pxd3": "d3#^4.7.0",
+        "pxd3": "d3#^5.0.0",
         "polymer": "^1.9.0",
         "iron-ajax": "^2.0.0",
         "promise-polyfill": "polymerlabs/promise-polyfill#^2.0.0"
@@ -55,14 +55,14 @@
       }
     }
   },
-  "homepage": "https://github.com/PredixDev/px-d3-imports",
-  "_release": "2.1.0",
+  "homepage": "https://github.com/predixdesignsystem/px-d3-imports",
+  "_release": "3.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "v2.1.0",
-    "commit": "28a68790b81f1560cc6a3b6a611e6e0c739bc3df"
+    "tag": "v3.0.1",
+    "commit": "7f9b8a46e02d35d9eac69aa6cac1b9f87ce85726"
   },
-  "_source": "https://github.com/PredixDev/px-d3-imports.git",
-  "_target": "^2.0.0",
+  "_source": "https://github.com/predixdesignsystem/px-d3-imports.git",
+  "_target": "^3.0.0",
   "_originalSource": "px-d3-imports"
 }
