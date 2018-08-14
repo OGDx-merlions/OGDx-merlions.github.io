@@ -39,7 +39,8 @@
     "og-optimised-rop-chart": "^0.1.7",
     "og-line-chart": "^0.2.0",
     "og-fouling-forecast": "^0.1.6",
-    "og-gis-map": "^3.0.8"
+    "og-gis-map": "^3.0.8",
+    "og-svg-view": "og-svg-view#86ca2f2"
   },
   "devDependencies": {},
   "resolutions": {

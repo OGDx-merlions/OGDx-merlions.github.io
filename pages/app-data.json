@@ -47,6 +47,27 @@
           "_keywords": "og-gis-map gis-map"
         },
         {
+          "path": "og-svg-view",
+          "label": "OG SVG View",
+          "module": "og-svg-view-demo",
+          "entrypoint": "/bower_components/og-svg-view/demo/og-svg-view-demo.html",
+          "redirects": [
+            "/components/og-svg-view",
+            "/modules/og-svg-view",
+            "/elements/og-svg-view"
+          ],
+          "keywords": [
+            "og-svg-view",
+            "svg-view"
+          ],
+          "tags": [
+            "svg-view",
+            "svg-map"
+          ],
+          "_route": "/elements/og-svg-view",
+          "_keywords": "og-svg-view svg-vview"
+        },
+        {
           "path": "og-slider",
           "label": "Slider",
           "module": "og-slider-demo",
@@ -301,7 +322,9 @@
     "/components/og-sparkline": "/elements/og-sparkline",
     "/modules/og-sparkline": "/elements/og-sparkline",
     "/components/og-waterfall-chart": "/elements/og-waterfall-chart",
-    "/modules/og-waterfall-chart": "/elements/og-waterfall-chart"
+    "/modules/og-waterfall-chart": "/elements/og-waterfall-chart",
+    "/components/og-svg-view": "/elements/og-svg-view",
+    "/modules/og-svg-view": "/elements/og-svg-view"
   },
   "routes": {
     "/elements": {
@@ -349,6 +372,27 @@
           ],
           "_route": "/elements/og-gis-map",
           "_keywords": "og-gis-map gis-map"
+        },        
+        {
+          "path": "og-svg-view",
+          "label": "OG SVG View",
+          "module": "og-svg-view-demo",
+          "entrypoint": "/bower_components/og-svg-view/demo/og-svg-view-demo.html",
+          "redirects": [
+            "/components/og-svg-view",
+            "/modules/og-svg-view",
+            "/elements/og-svg-view"
+          ],
+          "keywords": [
+            "og-svg-view",
+            "og-svg-view"
+          ],
+          "tags": [
+            "mobile",
+            "og-svg-view"
+          ],
+          "_route": "/elements/og-svg-view",
+          "_keywords": "og-svg-view svg-view"
         },
         {
           "path": "og-slider",
@@ -835,6 +879,26 @@
       ],
       "_route": "/elements/og-waterfall-chart",
       "_keywords": "og-waterfall-chart sparkline"
+    },
+    "/elements/og-svg-view": {
+      "path": "og-svg-view",
+      "label": "SVG view",
+      "module": "og-svg-view-demo",
+      "entrypoint": "/bower_components/og-svg-view/demo/og-svg-view-demo.html",
+      "redirects": [
+        "/components/og-svg-view",
+        "/modules/og-svg-view",
+        "/elements/og-svg-view"
+      ],
+      "keywords": [
+        "og-svg-view",
+        "svg-view"
+      ],
+      "tags": [
+        "og-svg-view svg"
+      ],
+      "_route": "/elements/og-svg-view",
+      "_keywords": "og-svg-view svg"
     }
   }
 }
