@@ -1,0 +1,67 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with
+    'gulp serve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../iron-ajax/iron-ajax.html"/>
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html"/>
+<link rel="import" href="css/og-svg-view-styles.html">
+
+<!--
+og-svg-viewer is a container with fixed boundaries for SVGs to maintain aspect ratio with map like behavior. 
+
+### Usage    
+    <og-svg-view
+        svg-src="./test/well-network.svg"
+        active-elements='[{"id":"pad-1-well","class":"active-el"}]'>
+        <div slot="watch-list">
+          <watch-list title="Western Siberia">
+              <div slot="col-1">
+                <div class="content">
+                  <span class="header">Total Production</span>
+                  <span class="well-count">5000</span>
+                </div>
+              </div>
+              <div slot="col-2">
+                <div class="content lr-border">
+                  <span class="header">Market Indicators</span>
+                  <span class="info">WTI Crude - $69.3 </span>
+                  <span class="info">Natural Gas - $2.8</span>
+                </div>
+              </div>
+              <div slot="col-3">
+                <div class="content">
+                  <span class="header">Watch List</span>
+                  <span class="info">183 perfect HSE days </span>
+                  <span class="info">Abnormal variances in crude oil production</span>
+                </div>
+              </div>
+          </watch-list>
+        </div>
+        </og-svg-view>
+
+@element og-svg-view
+@blurb og-svg-viewer is a container with fixed boundaries for SVGs to maintain aspect ratio with map like behavior. 
+@homepage index.html
+@demo index.html
+-->
+
+<dom-module id="og-svg-view">
+  <template>
+    <style include="og-svg-view-styles"></style>        
+    <div class="container">
+      <div id="svg" class="svg-h"></div>      
+      <div id="watch-list-wrapper">
+        <slot name="watch-list"> </slot>  
+      </div>            
+    </div>
+     
+    <iron-ajax    
+    id="svgAjax"    
+    handle-as="text"
+    on-response="_svgAJAXResponse"
+    debounce-duration="300"></iron-ajax>
+  </template>
+</dom-module>
+<script src="./og-svg-view.es6.js"></script>
