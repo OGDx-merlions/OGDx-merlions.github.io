@@ -109,6 +109,27 @@
           "_keywords": "og-sparkline spine"
         },
         {
+          "path": "og-svg-map",
+          "label": "OG SVG Map",
+          "module": "og-svg-map-demo",
+          "entrypoint": "/bower_components/og-svg-map/demo/og-svg-map-demo.html",
+          "redirects": [
+            "/components/og-svg-map",
+            "/modules/og-svg-map",
+            "/elements/og-svg-map"
+          ],
+          "keywords": [
+            "og-svg-map",
+            "svg-map"
+          ],
+          "tags": [
+            "mobile",
+            "svg-map"
+          ],
+          "_route": "/elements/og-svg-map",
+          "_keywords": "og-svg-map svg-map"
+        },
+        {
           "path": "Charts",
           "label": "Charts",
           "pages": [
@@ -305,6 +326,8 @@
     "/modules/og-slider": "/elements/og-slider",
     "/components/og-spine": "/elements/og-spine",
     "/modules/og-spine": "/elements/og-spine",
+    "/components/og-svg-map": "/elements/og-svg-map",
+    "/modules/og-svg-map": "/elements/og-svg-map",
     "/components/og-bar-chart": "/elements/og-bar-chart",
     "/modules/og-bar-chart": "/elements/og-bar-chart",
     "/components/og-fouling-forecast": "/elements/og-fouling-forecast",
@@ -434,6 +457,27 @@
           ],
           "_route": "/elements/og-spine",
           "_keywords": "og-sparkline spine"
+        },
+        {
+          "path": "og-svg-map",
+          "label": "OG SVG Map",
+          "module": "og-svg-map-demo",
+          "entrypoint": "/bower_components/og-svg-map/demo/og-svg-map-demo.html",
+          "redirects": [
+            "/components/og-svg-map",
+            "/modules/og-svg-map",
+            "/elements/og-svg-map"
+          ],
+          "keywords": [
+            "og-svg-map",
+            "svg-map"
+          ],
+          "tags": [
+            "mobile",
+            "svg-map"
+          ],
+          "_route": "/elements/og-svg-map",
+          "_keywords": "og-svg-map svg-map"
         },
         {
           "path": "Charts",
@@ -702,6 +746,27 @@
       ],
       "_route": "/elements/og-spine",
       "_keywords": "og-sparkline spine"
+    },
+    "/elements/og-svg-map": {
+      "path": "og-svg-map",
+      "label": "OG SVG Map",
+      "module": "og-svg-map-demo",
+      "entrypoint": "/bower_components/og-svg-map/demo/og-svg-map-demo.html",
+      "redirects": [
+        "/components/og-svg-map",
+        "/modules/og-svg-map",
+        "/elements/og-svg-map"
+      ],
+      "keywords": [
+        "og-svg-map",
+        "svg-map"
+      ],
+      "tags": [
+        "mobile",
+        "svg-map"
+      ],
+      "_route": "/elements/og-svg-map",
+      "_keywords": "og-svg-map svg-map"
     },
     "/elements/og-bar-chart": {
       "path": "og-bar-chart",
